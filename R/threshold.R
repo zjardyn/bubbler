@@ -1,3 +1,15 @@
+#' Show the top taxa of a rel_abund table
+#'
+#' Finds the top taxa and arranges in descending order. Uses max() to
+#' find the maximum taxon.
+#'
+#' @param rel_abund A rel_abund table in tibble format.
+#'
+#' @return A tibble.
+#' @export
+#'
+#' @examples
+#' show_top_taxa(rel_abund)
 show_top_taxa <- function(rel_abund) {
 
     rel_abund %>%
@@ -6,7 +18,19 @@ show_top_taxa <- function(rel_abund) {
     dplyr::arrange(desc(max))
 }
 
-choose_n_taxa <- function(rel_abund, n_taxa = 3) {
+#' Choose how many taxa to display when plotting
+#'
+#' Generates a numeric vector as the threshold to display n taxa.
+#'
+#' @param rel_abund A rel_abund table in tibble format.
+#' @param n_taxa An integer vector for the number of taxa to display.
+#'
+#' @return A numeric vector.
+#' @export
+#'
+#' @examples
+#' choose_n_taxa(rel_abund, n_taxa = 8)
+choose_n_taxa <- function(rel_abund, n_taxa = 8) {
 
     unique_taxa <- rel_abund %>%
         dplyr::pull(taxon) %>%
@@ -24,6 +48,19 @@ choose_n_taxa <- function(rel_abund, n_taxa = 3) {
         dplyr::pull(max)
 }
 
+#' Helper function 1 to pool taxa below threshold
+#'
+#' Summarise the pooled group as a logical vector, also summarise
+#' the mean rel_abund values to be used for ordering.
+#'
+#' @param rel_abund A rel_abund table in tibble format.
+#' @param threshold A numeric vector for the threshold.
+#'
+#' @return A tibble.
+#' @export
+#'
+#' @examples
+#' .pool_taxon_tresh(rel_abund, threshold)
 .pool_taxon_thresh <- function(rel_abund, threshold = 0.2) {
 
    rel_abund %>%
@@ -33,6 +70,18 @@ choose_n_taxa <- function(rel_abund, n_taxa = 3) {
                          .groups = "drop")
 }
 
+#' Helper function 2 to pool taxa below threshold
+#'
+#' Pool the taxon that are below the threshold
+#'
+#' @param rel_abund_pool A pooled rel_abund table.
+#' @param taxon The taxon column.
+#'
+#' @return A tibble.
+#' @export
+#'
+#' @examples
+#' .set_taxon_threshold(rel_abund_pool, taxon)
 .set_taxon_threshold <- function(rel_abund_pool, taxon) {
 
     rel_abund_pool %>%
@@ -40,7 +89,21 @@ choose_n_taxa <- function(rel_abund, n_taxa = 3) {
                taxon = tidyr::replace_na(taxon, "Unclassified"))
 }
 
-pool_taxon <- function(rel_abund, threshold = 0.2, var = NULL) {
+#' Pool taxa according to threshold
+#'
+#' Applies a threshold and pools any taxa below this treshold, across samples
+#' and optionally, across a variable.
+#'
+#' @param rel_abund A rel_abund table in tibble format.
+#' @param threshold A numeric vector for the threshold.
+#' @param var A variable to pool across.
+#'
+#' @return A tibble.
+#' @export
+#'
+#' @examples
+#' pool_taxa(rel_abund, threshold = 0.2, var = "Location")
+pool_taxa <- function(rel_abund, threshold = 0.2, var = NULL) {
 
     taxon_pool <- .pool_taxon_thresh(rel_abund, threshold)
     pooled <- dplyr::inner_join(rel_abund, taxon_pool, by = "taxon") %>%
