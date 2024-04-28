@@ -2,7 +2,7 @@
 % Please edit documentation in R/asv_rel_abund.R
 \name{rel_abund}
 \alias{rel_abund}
-\title{Generate a relative abundance table from a phyloseq object}
+\title{Generate a relative abundance table from a phyloseq object, summed across samples}
 \usage{
 rel_abund(phy)
 }
@@ -13,8 +13,8 @@ rel_abund(phy)
 A tibble.
 }
 \description{
-Generate a relative abundance table from a phyloseq object
+Generate a relative abundance table from a phyloseq object, summed across samples
 }
 \examples{
-rel_abund(physeq1)
+rel_abund(phy = physeq1)
 }
