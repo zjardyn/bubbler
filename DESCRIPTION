@@ -13,10 +13,14 @@ Depends:
     R (>= 2.10)
 LazyData: true
 Imports: 
+    BiocManager,
     dplyr,
+    ggplot2,
+    glue,
     magrittr,
     phyloseq,
     purrr,
     testthat,
     tibble,
     tidyr
+Config/testthat/edition: 3
