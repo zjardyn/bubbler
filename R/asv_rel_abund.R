@@ -97,6 +97,7 @@ choose_taxa_level <- function(rel_abund, taxon_level = "Phylum") {
    rel_abund %>%
         dplyr::filter(level == taxon_level)
 }
+
 #' Filter a rel_abund table for a selection of samples
 #'
 #' @param rel_abund A rel_abund table in tibble format.
