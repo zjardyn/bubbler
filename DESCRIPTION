@@ -20,6 +20,7 @@ Imports:
     magrittr,
     phyloseq,
     purrr,
+    rlang,
     testthat,
     tibble,
     tidyr
