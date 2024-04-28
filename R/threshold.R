@@ -91,7 +91,7 @@ choose_n_taxa <- function(rel_abund, n_taxa = 8) {
 
 #' Pool taxa according to threshold
 #'
-#' Applies a threshold and pools any taxa below this treshold, across samples
+#' Applies a threshold and pools any taxa below this threshold, across samples
 #' and optionally, across a variable.
 #'
 #' @param rel_abund A rel_abund table in tibble format.

@@ -17,7 +17,7 @@ pool_taxa(rel_abund, threshold = 0.2, var = NULL)
 A tibble.
 }
 \description{
-Applies a threshold and pools any taxa below this treshold, across samples
+Applies a threshold and pools any taxa below this threshold, across samples
 and optionally, across a variable.
 }
 \examples{
