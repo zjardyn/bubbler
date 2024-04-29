@@ -4,7 +4,7 @@
 \alias{.set_taxon_threshold}
 \title{Helper function 2 to pool taxa below threshold}
 \usage{
-.set_taxon_threshold(rel_abund_pool, taxon)
+.set_taxon_threshold(rel_abund_pool, taxon, threshold = 0.2)
 }
 \arguments{
 \item{rel_abund_pool}{A pooled rel_abund table.}

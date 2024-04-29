@@ -28,8 +28,7 @@ Future Features
 - *Italicize* genus and species-level taxonomies.
 - Use brewer and viridis colourschemes
 - Generate global colourschemes, which are consistent between plots.
-- Import multiple file types (raw tables, physeq objects, qiime2
-  artifacts,)
+- Import multiple file types
   - raw tables
   - physeq objects
   - qiime2 artifacts
@@ -56,6 +55,7 @@ threshold of 0.06% is set.
 
 ``` r
 library(bubbler)
+library(ggplot2)
 
 a <- rel_abund(physeq1)
 b <- choose_taxa_level(a, taxon_level = "Genus")
@@ -65,14 +65,36 @@ threshold <- choose_n_taxa(c, 6)
 d <- pool_taxa(c, threshold)
 
 d %>%
-ggplot2::ggplot(ggplot2::aes(x = sample_id, y = rel_abund, fill = taxon)) +
-    ggplot2::geom_bar(position = "fill", stat = "identity")
+ggplot(aes(x = sample_id, y = rel_abund, fill = taxon)) +
+    geom_bar(position = "fill", stat = "identity")
 ```
 
-<img src="man/figures/README-bar-1.png" width="100%" /> A bubbleplot is
-just a variation of a stacked-barplot. We will change some of the
-arguments to display everything from our relative abundance table. We
-inner_join d with our metadata to colour by Location.
+<img src="man/figures/README-barfill-1.png" width="100%" />
+
+The geom_bar uses the position argument of fill, which scales our bars
+to fill the y axis of rel_abund. While this looks good, we are missing
+information on relative abundances between samples. We can use position
+= “stack” to see this information.
+
+``` r
+d %>%
+ggplot(aes(x = sample_id, y = rel_abund, fill = taxon)) +
+    geom_bar(position = "stack", stat = "identity")
+```
+
+<img src="man/figures/README-barstack-1.png" width="100%" />
+
+This clears up a misconception about setting our threshold. The first
+plot is set to 0.06% but the pooled bar appears larger than that on the
+y axis. The second plot shows the true relative abundance between
+samples, where our pooled taxon is smaller.
+
+To pool, internally we are looking at the max value for a given taxon
+and, if that value is less than 0.06, it is pooled.
+
+A bubbleplot is just a variation of a stacked-barplot. We will change
+some of the arguments to display everything from our relative abundance
+table. We inner_join d with our metadata to colour by Location.
 
 ``` r
 a <- rel_abund(physeq1)
