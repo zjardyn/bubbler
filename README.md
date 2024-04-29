@@ -127,18 +127,6 @@ If you have a variable of interest from your metadata which you would
 rather use as the x-axis, you can use rel_abund_var to specify it. You
 must also specify it in pool_taxa.
 
-``` r
-a <- rel_abund_var(physeq1, var = "Location")
-b <- choose_taxa_level(a, taxon_level = "Genus")
-threshold <- choose_n_taxa(b, 6)
-c <- pool_taxa(b, threshold, var = "Location")
-c %>%
-ggplot2::ggplot(ggplot2::aes(x = Location , y = rel_abund, fill = taxon)) +
-    ggplot2::geom_bar(position = "fill", stat = "identity")
-```
-
-<img src="man/figures/README-unnamed-chunk-3-1.png" width="100%" />
-
 You’ll still need to render `README.Rmd` regularly, to keep `README.md`
 up-to-date. `devtools::build_readme()` is handy for this.
 

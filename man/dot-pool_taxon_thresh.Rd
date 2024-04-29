@@ -4,12 +4,12 @@
 \alias{.pool_taxon_thresh}
 \title{Helper function 1 to pool taxa below threshold}
 \usage{
-.pool_taxon_thresh(rel_abund, threshold = 0.2)
+.pool_taxon_thresh(rel_abund_tab, threshold = 0.2)
 }
 \arguments{
-\item{rel_abund}{A rel_abund table in tibble format.}
-
 \item{threshold}{A numeric vector for the threshold.}
+
+\item{rel_abund}{A rel_abund table in tibble format.}
 }
 \value{
 A tibble.

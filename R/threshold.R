@@ -10,9 +10,9 @@
 #'
 #' @examples
 #' show_top_taxa(rel_abund)
-show_top_taxa <- function(rel_abund) {
+show_top_taxa <- function(rel_abund_tab) {
 
-    rel_abund %>%
+    rel_abund_tab %>%
     dplyr::group_by(taxon) %>%
     dplyr::summarise(max = max(rel_abund)) %>%
     dplyr::arrange(desc(max))
@@ -30,17 +30,18 @@ show_top_taxa <- function(rel_abund) {
 #'
 #' @examples
 #' choose_n_taxa(rel_abund, n_taxa = 8)
-choose_n_taxa <- function(rel_abund, n_taxa = 8) {
+choose_n_taxa <- function(rel_abund_tab, n_taxa = 8) {
 
-    unique_taxa <- rel_abund %>%
-        dplyr::pull(taxon) %>%
-        dplyr::n_distinct()
+    unique_taxa <- rel_abund_tab %>%
+        dplyr::summarise(n = dplyr::n_distinct(taxon))
+        # dplyr::pull(taxon) %>%
+        # dplyr::n_distinct()
 
     if(n_taxa > unique_taxa)  {
         n_taxa <- unique_taxa
     }
 
-    rel_abund %>%
+    rel_abund_tab %>%
     dplyr::group_by(taxon) %>%
     dplyr::summarise(max = max(rel_abund)) %>%
     dplyr::arrange(desc(max)) %>%
@@ -61,9 +62,9 @@ choose_n_taxa <- function(rel_abund, n_taxa = 8) {
 #'
 #' @examples
 #' .pool_taxon_tresh(rel_abund, threshold)
-.pool_taxon_thresh <- function(rel_abund, threshold = 0.2) {
+.pool_taxon_thresh <- function(rel_abund_tab, threshold = 0.2) {
 
-   rel_abund %>%
+   rel_abund_tab %>%
         dplyr::group_by(taxon) %>%
         dplyr::summarise(pool = max(rel_abund) < threshold,
                          mean = mean(rel_abund),

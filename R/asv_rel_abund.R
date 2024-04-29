@@ -68,13 +68,13 @@ rel_abund_var <- function(phy, var) {
                             values_to = "count") %>%
         dplyr::inner_join(., metadata, by =  "sample_id") %>%
         dplyr::group_by(!!rlang::sym(var)) %>%
-        dplyr::reframe(rel_abund = count/sum(count),
-                       sample_id = sample_id,
-                       asv = asv) %>%
+        dplyr::mutate(rel_abund = count/sum(count)) %>%
+        dplyr::ungroup() %>%
+        dplyr::select(-count) %>%
         dplyr::inner_join(., taxonomy, by =  "asv")
 
     taxon_lvls <- rel_abund %>%
-        dplyr::select(-asv, -sample_id, -rel_abund, -!!rlang::sym(var)) %>%
+        dplyr::select(7:tidyselect::last_col()) %>%
         colnames()
 
     rel_abund %>%
