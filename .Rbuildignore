@@ -1,3 +1,4 @@
 ^LICENSE\.md$
 ^bubbler\.Rproj$
 ^\.Rproj\.user$
+^README\.Rmd$
