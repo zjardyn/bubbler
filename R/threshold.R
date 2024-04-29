@@ -82,7 +82,7 @@ choose_n_taxa <- function(rel_abund, n_taxa = 8) {
 #'
 #' @examples
 #' .set_taxon_threshold(rel_abund_pool, taxon)
-.set_taxon_threshold <- function(rel_abund_pool, taxon) {
+.set_taxon_threshold <- function(rel_abund_pool, taxon, threshold = 0.2) {
 
     rel_abund_pool %>%
         dplyr::mutate(taxon = dplyr::if_else(pool, glue::glue("< {round(threshold, 2)}%"), taxon),
@@ -107,7 +107,7 @@ pool_taxa <- function(rel_abund, threshold = 0.2, var = NULL) {
 
     taxon_pool <- .pool_taxon_thresh(rel_abund, threshold)
     pooled <- dplyr::inner_join(rel_abund, taxon_pool, by = "taxon") %>%
-        .set_taxon_threshold(taxon)
+        .set_taxon_threshold(taxon, threshold)
     if(is.null(var)){
         pooled %>%
         dplyr::group_by(sample_id, taxon) %>%
