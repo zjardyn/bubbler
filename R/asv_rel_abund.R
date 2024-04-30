@@ -10,23 +10,26 @@
 rel_abund <- function(phy) {
 
     taxonomy <- taxa_data_phy(phy)
+
     rel_abund <- asv_data_phy(phy) %>%
         tidyr::pivot_longer(-sample_id,
                             names_to = "asv",
                             values_to = "count") %>%
-        dplyr::inner_join(., taxonomy, by =  "asv") %>%
-        # what should we group by?
-        dplyr::group_by(sample_id) %>%
+        # dplyr::inner_join(., taxonomy, by =  "asv") %>%
+        # what should we group by? nothing! if you want the stack
+        # geom to show you rel_abund between samples
+        # dplyr::group_by(sample_id) %>%
         dplyr::mutate(rel_abund = count/sum(count)) %>%
         dplyr::ungroup() %>%
-        dplyr::select(-count)
+        dplyr::select(-count) %>%
+        dplyr::inner_join(., taxonomy, by =  "asv")
 
-    taxon_lvls <- rel_abund %>%
-        dplyr::select(-asv, -sample_id, -rel_abund) %>%
+    taxa_lvls <- taxonomy %>%
+        dplyr::select(-asv) %>%
         colnames()
 
     rel_abund %>%
-        tidyr::pivot_longer(taxon_lvls,
+        tidyr::pivot_longer(taxa_lvls,
                             names_to = "level",
                             values_to = "taxon")
 }
@@ -51,18 +54,19 @@ rel_abund_var <- function(phy, var) {
                             names_to = "asv",
                             values_to = "count") %>%
         dplyr::inner_join(., metadata, by =  "sample_id") %>%
+        dplyr::inner_join(., taxonomy, by =  "asv") %>%
         dplyr::group_by(!!rlang::sym(var)) %>%
         dplyr::mutate(rel_abund = count/sum(count)) %>%
         dplyr::ungroup() %>%
-        dplyr::select(-count) %>%
-        dplyr::inner_join(., taxonomy, by =  "asv")
+        dplyr::select(-count)
 
-    taxon_lvls <- rel_abund %>%
-        dplyr::select(8:tidyselect::last_col()) %>%
+
+    taxa_lvls <- taxonomy %>%
+        dplyr::select(-asv) %>%
         colnames()
 
     rel_abund %>%
-        tidyr::pivot_longer(taxon_lvls,
+        tidyr::pivot_longer(taxa_lvls,
                             names_to = "level",
                             values_to = "taxon")
 }

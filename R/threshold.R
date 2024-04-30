@@ -38,7 +38,7 @@ choose_n_taxa <- function(rel_abund_tab, n_taxa = 8) {
         dplyr::n_distinct()
 
     if(n_taxa > unique_taxa)  {
-        n_taxa <- unique_taxa
+        n_taxa = unique_taxa
     }
 
     rel_abund_tab %>%

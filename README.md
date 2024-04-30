@@ -70,8 +70,8 @@ a <- rel_abund(physeq1)
 b <- choose_taxa_level(a, taxon_level = "Genus")
 c <- choose_samples(b, smp_selection = c("Smp1", "Smp2", "Smp3", "Smp4", "Smp5"))
 
-threshold <- choose_n_taxa(c, 6)
-d <- pool_taxa(c, threshold)
+threshold <- choose_n_taxa(b, 6)
+d <- pool_taxa(b, threshold)
 
 d %>%
 ggplot(aes(x = sample_id, y = rel_abund, fill = taxon)) +
@@ -110,7 +110,7 @@ a <- rel_abund(physeq1)
 # change taxon_level to Species, don't subset samples
 b <- choose_taxa_level(a, taxon_level = "Species")
 
-threshold <- choose_n_taxa(b, 12)
+threshold <- choose_n_taxa(b, n_taxa = 12)
 d <- pool_taxa(b, threshold)
 
 d %>%
@@ -125,7 +125,32 @@ ggplot2::ggplot(ggplot2::aes(x = sample_id, y = taxon, size = rel_abund)) +
 
 If you have a variable of interest from your metadata which you would
 rather use as the x-axis, you can use rel_abund_var to specify it. You
-must also specify it in pool_taxa.
+must also specify it in pool_taxa. This is because pooling is computed
+across something, either your samples, or the levels of your variable.
+
+``` r
+a <- rel_abund_var(physeq1, var = "Location")
+b <- choose_taxa_level(a, taxon_level = "Genus")
+threshold <- choose_n_taxa(b, 6)
+c <- pool_taxa(b, threshold, var = "Location")
+c %>%
+ggplot2::ggplot(ggplot2::aes(x = Location , y = rel_abund, fill = taxon)) +
+    ggplot2::geom_bar(position = "fill", stat = "identity")
+```
+
+<img src="man/figures/README-unnamed-chunk-3-1.png" width="100%" />
+
+``` r
+a <- rel_abund_var(physeq1, var = "Location")
+b <- choose_taxa_level(a, taxon_level = "Genus")
+threshold <- choose_n_taxa(b, 6)
+c <- pool_taxa(b, threshold, var = "Location")
+c %>%
+ggplot2::ggplot(ggplot2::aes(x = Location , y = rel_abund, fill = taxon)) +
+    ggplot2::geom_bar(position = "stack", stat = "identity")
+```
+
+<img src="man/figures/README-unnamed-chunk-4-1.png" width="100%" />
 
 You’ll still need to render `README.Rmd` regularly, to keep `README.md`
 up-to-date. `devtools::build_readme()` is handy for this.
