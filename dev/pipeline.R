@@ -1,13 +1,53 @@
 library(tidyverse)
-load("C:/Users/zjard/OneDrive/Desktop/bubbler/data/physeq1.rda")
+library(phyloseq)
+load("data/physeq1.rda")
 
-asv <- choose_samples_asv_phy(physeq1, c("Smp1", "Smp2", "Smp3", "Smp4", "Smp5"))
+# metadat = TRUE var in rel_abund
+# smp_selection <- c("Smp1", "Smp2", "Smp3", "Smp4", "Smp5")
+# a <- phyloseq::prune_samples(smp_selection, physeq1) %>%
+    # rel_abund(taxa_level = "Genus")
+a <- rel_abund(physeq1, taxa_level = "Species")
+
+threshold <- choose_n_taxa(a, 6)
+b <- pool_taxa(a, threshold)
+
+b %>%
+    ggplot(aes(x = sample_id, y = rel_abund, fill = taxon)) +
+    geom_bar(position = "fill", stat = "identity")
+
+b %>%
+    ggplot(aes(x = sample_id, y = rel_abund, fill = taxon)) +
+    geom_bar(position = "stack", stat = "identity")
+
+threshold <- choose_n_taxa(a, 4)
+b <- pool_taxa(a, threshold, var = "Location")
+c <- inner_join(b, meta_data_phy(physeq1))
+
+c %>%
+    ggplot(aes(x = Location, y = rel_abund, fill = taxon)) +
+    geom_bar(position = "fill", stat = "identity")
+
+c %>%
+    ggplot(aes(x = Location, y = rel_abund, fill = taxon)) +
+    geom_bar(position = "stack", stat = "identity")
+
+
+
+
 taxa <- taxa_data_phy(physeq1)
 meta <- meta_data_phy(physeq1)
 
 asv <- list(asv = asv,
      taxa = taxa,
      meta = meta)
+
+choose_samples_asv_phy <- function(phy, smp_selection ){
+
+    asv_data_phy(phy) %>%
+        filter(sample_id == smp_selection)
+}
+
+
 
 # keep counts and recompute rel_abund var
 
