@@ -9,16 +9,8 @@
 #' rel_abund(phy = physeq1)
 rel_abund <- function(phy) {
 
-    taxonomy <- phyloseq::tax_table(phy) %>%
-        as.data.frame() %>%
-        tibble::rownames_to_column(var = "asv") %>%
-        tibble::as_tibble()
-
-    rel_abund <- phyloseq::otu_table(phy) %>%
-        t() %>%
-        as.data.frame() %>%
-        tibble::rownames_to_column(var = "sample_id") %>%
-        tibble::as_tibble() %>%
+    taxonomy <- taxa_data_phy(phy)
+    rel_abund <- asv_data_phy(phy) %>%
         tidyr::pivot_longer(-sample_id,
                             names_to = "asv",
                             values_to = "count") %>%
@@ -51,18 +43,10 @@ rel_abund <- function(phy) {
 #' rel_abund_var(phy = physeq1, var = "Location")
 rel_abund_var <- function(phy, var) {
 
-    taxonomy <- phyloseq::tax_table(phy) %>%
-        as.data.frame() %>%
-        tibble::rownames_to_column(var = "asv") %>%
-        tibble::as_tibble()
-
+    taxonomy <- taxa_data_phy(phy)
     metadata <- meta_data_phy(phy)
 
-    rel_abund <- phyloseq::otu_table(phy) %>%
-        t() %>%
-        as.data.frame() %>%
-        tibble::rownames_to_column(var = "sample_id") %>%
-        tibble::as_tibble() %>%
+    rel_abund <- asv_data_phy(phy) %>%
         tidyr::pivot_longer(-sample_id,
                             names_to = "asv",
                             values_to = "count") %>%
@@ -74,7 +58,7 @@ rel_abund_var <- function(phy, var) {
         dplyr::inner_join(., taxonomy, by =  "asv")
 
     taxon_lvls <- rel_abund %>%
-        dplyr::select(7:tidyselect::last_col()) %>%
+        dplyr::select(8:tidyselect::last_col()) %>%
         colnames()
 
     rel_abund %>%

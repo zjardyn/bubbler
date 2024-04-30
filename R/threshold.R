@@ -33,9 +33,9 @@ show_top_taxa <- function(rel_abund_tab) {
 choose_n_taxa <- function(rel_abund_tab, n_taxa = 8) {
 
     unique_taxa <- rel_abund_tab %>%
-        dplyr::summarise(n = dplyr::n_distinct(taxon))
-        # dplyr::pull(taxon) %>%
-        # dplyr::n_distinct()
+        # dplyr::summarise(n = dplyr::n_distinct(taxon))
+        dplyr::pull(taxon) %>%
+        dplyr::n_distinct()
 
     if(n_taxa > unique_taxa)  {
         n_taxa <- unique_taxa

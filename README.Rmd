@@ -110,7 +110,7 @@ a <- rel_abund(physeq1)
 # change taxon_level to Species, don't subset samples
 b <- choose_taxa_level(a, taxon_level = "Species")
 
-threshold <- choose_n_taxa(b, 12)
+threshold <- choose_n_taxa(rel_abund_tab = b, n_taxa = 12)
 d <- pool_taxa(b, threshold)
 
 d %>%
