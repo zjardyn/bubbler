@@ -27,3 +27,20 @@ choose_samples <- function(rel_abund, smp_selection) {
     rel_abund %>%
         dplyr::filter(sample_id == paste(smp_selection, sep = " || "))
 }
+
+
+#' Select samples prior to calculating rel_abund
+#'
+#' @param phy A phyloseq object .
+#' @param smp_selection A character vector of sample selections.
+#'
+#' @return A tibble.
+#' @export
+#'
+#' @examples
+choose_samples_asv_phy <- function(phy, smp_selection ){
+
+    asv_data_phy(phy) %>%
+        filter(sample_id == smp_selection)
+}
+
