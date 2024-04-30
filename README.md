@@ -91,12 +91,9 @@ ggplot(aes(x = sample_id, y = rel_abund, fill = taxon)) +
     geom_bar(position = "stack", stat = "identity")
 ```
 
-<img src="man/figures/README-barstack-1.png" width="100%" />
-
-This clears up a misconception about setting our threshold. The first
-plot is set to 0.06% but the pooled bar appears larger than that on the
-y axis. The second plot shows the true relative abundance between
-samples, where our pooled taxon is smaller.
+<img src="man/figures/README-barstack-1.png" width="100%" /> Here we can
+see how samples stack up against each other. This can be informative if
+samples have large differences in abundance.
 
 To pool, internally we are looking at the max value for a given taxon
 and, if that value is less than 0.06, it is pooled.
