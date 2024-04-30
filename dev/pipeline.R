@@ -3,10 +3,14 @@ library(phyloseq)
 load("data/physeq1.rda")
 
 # metadat = TRUE var in rel_abund
-# smp_selection <- c("Smp1", "Smp2", "Smp3", "Smp4", "Smp5")
-# a <- phyloseq::prune_samples(smp_selection, physeq1) %>%
-    # rel_abund(taxa_level = "Genus")
-a <- rel_abund(physeq1, taxa_level = "Species")
+
+# can we generate the same plot by subsetting samples before
+# and after generating rel_abund?
+
+
+smp_selection <- c("Smp1", "Smp2", "Smp3", "Smp4", "Smp5")
+a <- phyloseq::prune_samples(smp_selection, physeq1) %>%
+rel_abund(taxa_level = "Genus")
 
 threshold <- choose_n_taxa(a, 6)
 b <- pool_taxa(a, threshold)
@@ -18,6 +22,31 @@ b %>%
 b %>%
     ggplot(aes(x = sample_id, y = rel_abund, fill = taxon)) +
     geom_bar(position = "stack", stat = "identity")
+
+a <- rel_abund(physeq1, taxa_level = "Genus")
+
+smp_selection <- c("Smp1", "Smp2", "Smp3", "Smp4", "Smp5")
+
+b <- a %>%
+    dplyr::filter(sample_id %in% smp_selection) %>%
+    dplyr::mutate(rel_abund = rel_abund/sum(rel_abund))
+
+threshold <- choose_n_taxa(b, 6)
+c <- pool_taxa(b, threshold)
+
+
+c %>%
+    ggplot(aes(x = sample_id, y = rel_abund, fill = taxon)) +
+    geom_bar(position = "fill", stat = "identity")
+
+c %>%
+    ggplot(aes(x = sample_id, y = rel_abund, fill = taxon)) +
+    geom_bar(position = "stack", stat = "identity")
+
+
+
+
+
 
 threshold <- choose_n_taxa(a, 4)
 b <- pool_taxa(a, threshold, var = "Location")

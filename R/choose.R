@@ -25,7 +25,7 @@ choose_taxa_level <- function(rel_abund, taxon_level = "Phylum") {
 #' choose_samples(rel_abund, c("Smp1", "Smp2", "Smp3"))
 choose_samples <- function(rel_abund, smp_selection) {
     rel_abund %>%
-        dplyr::filter(sample_id == paste(smp_selection, sep = " || "))
+        dplyr::filter(sample_id == smp_selection)
 }
 
 
