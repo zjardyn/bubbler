@@ -38,6 +38,7 @@ choose_samples <- function(rel_abund, smp_selection) {
 #' @export
 #'
 #' @examples
+#' choose_samples_asv_phy(physeq1, c(""))
 choose_samples_asv_phy <- function(phy, smp_selection ){
 
     asv_data_phy(phy) %>%
