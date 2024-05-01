@@ -60,7 +60,7 @@ BiocManager::install("phyloseq")
 ``` r
 library(bubbler)
 library(phyloseq)
-library(ggplot2)
+library(tidyverse)
 
 a <- rel_abund(phy = physeq1, taxa_level = "Genus", meta_data = FALSE)
 sample_selection <- c("Smp1", "Smp2", "Smp3", "Smp4", "Smp5")
@@ -69,9 +69,8 @@ b <- choose_samples_rel_abund(a, sample_selection)
 threshold <- choose_n_taxa(b, 6)
 c <- pool_taxa(b, threshold)
 
-c %>%
-    ggplot(aes(x = sample_id, y = rel_abund, fill = taxon)) +
-        geom_bar(position = "fill", stat = "identity")
+ggplot(c, aes(x = sample_id, y = rel_abund, fill = taxon)) +
+    geom_bar(position = "fill", stat = "identity")
 ```
 
 <img src="man/figures/README-barfill-1.png" width="100%" />
@@ -79,14 +78,34 @@ c %>%
 <!-- The geom_bar uses the position argument of fill, which scales our bars to fill the y axis of rel_abund. While this looks good, we are missing information on relative abundances between samples. We can use position = "stack" to see this information.   -->
 
 ``` r
-c %>%
-ggplot(aes(x = sample_id, y = rel_abund, fill = taxon)) +
+ggplot(c, aes(x = sample_id, y = rel_abund, fill = taxon)) +
     geom_bar(position = "stack", stat = "identity")
 ```
 
 <img src="man/figures/README-barstack-1.png" width="100%" />
-<!-- Here we can see how samples stack up against each other. This can be informative if samples have large differences in abundance. -->
 
+``` r
+a <- rel_abund(phy = physeq1, taxa_level = "Genus", meta_data = TRUE)
+threshold <- choose_n_taxa(a, 6)
+b <- pool_taxa(a, threshold)
+
+metadata <- meta_data_phy(physeq1)
+c <- inner_join(b, metadata, by = "sample_id")
+    
+ggplot(c, aes(x = Location, y = rel_abund, fill = taxon)) +
+    geom_bar(position = "fill", stat = "identity")
+```
+
+<img src="man/figures/README-barfill_var-1.png" width="100%" />
+
+``` r
+ggplot(c, aes(x = Location, y = rel_abund, fill = taxon)) +
+    geom_bar(position = "stack", stat = "identity")
+```
+
+<img src="man/figures/README-barstack_var-1.png" width="100%" />
+
+<!-- Here we can see how samples stack up against each other. This can be informative if samples have large differences in abundance. -->
 <!-- To pool, internally we are looking at the max value for a given taxon and, if that value is less than 0.06, it is pooled.  -->
 <!-- A bubbleplot is just a variation of a stacked-barplot. We will change some of the arguments to display everything from our relative abundance table. We inner_join d with some metadata to colour by Location.  -->
 <!-- ```{r bubble} -->

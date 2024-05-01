@@ -69,10 +69,10 @@ load("data/physeq1.rda")
 <!-- Lets start by making a barplot from a toy amplicon dataset. We will generate a relative abundance table, filter it at the taxonomic level of genus and subset some samples of interest (a-c). Next, we will choose how many taxa we want to display, which will set a threshold to pool our taxa by (d). We then plot it with ggplot2. To display 6 taxa, a threshold of 0.06% is set. -->
 
 
-```{r barfill}
+```{r barfill, message=FALSE}
 library(bubbler)
 library(phyloseq)
-library(ggplot2)
+library(tidyverse)
 
 a <- rel_abund(phy = physeq1, taxa_level = "Genus", meta_data = FALSE)
 sample_selection <- c("Smp1", "Smp2", "Smp3", "Smp4", "Smp5")
@@ -81,9 +81,8 @@ b <- choose_samples_rel_abund(a, sample_selection)
 threshold <- choose_n_taxa(b, 6)
 c <- pool_taxa(b, threshold)
 
-c %>%
-    ggplot(aes(x = sample_id, y = rel_abund, fill = taxon)) +
-        geom_bar(position = "fill", stat = "identity")
+ggplot(c, aes(x = sample_id, y = rel_abund, fill = taxon)) +
+    geom_bar(position = "fill", stat = "identity")
 ```
 
 
@@ -91,10 +90,29 @@ c %>%
 
 
 ```{r barstack}
-c %>%
-ggplot(aes(x = sample_id, y = rel_abund, fill = taxon)) +
+ggplot(c, aes(x = sample_id, y = rel_abund, fill = taxon)) +
     geom_bar(position = "stack", stat = "identity")
 ```
+
+```{r barfill_var}
+a <- rel_abund(phy = physeq1, taxa_level = "Genus", meta_data = TRUE)
+threshold <- choose_n_taxa(a, 6)
+b <- pool_taxa(a, threshold)
+
+metadata <- meta_data_phy(physeq1)
+c <- inner_join(b, metadata, by = "sample_id")
+    
+ggplot(c, aes(x = Location, y = rel_abund, fill = taxon)) +
+    geom_bar(position = "fill", stat = "identity")
+```
+
+```{r barstack_var}
+ggplot(c, aes(x = Location, y = rel_abund, fill = taxon)) +
+    geom_bar(position = "stack", stat = "identity")
+```
+
+
+
 <!-- Here we can see how samples stack up against each other. This can be informative if samples have large differences in abundance. -->
 
 <!-- To pool, internally we are looking at the max value for a given taxon and, if that value is less than 0.06, it is pooled.  -->
