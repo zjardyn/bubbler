@@ -9,6 +9,8 @@ smp_selection <- c("Smp1", "Smp2", "Smp3", "Smp4", "Smp5")
 a <- phyloseq::prune_samples(smp_selection, physeq1) %>%
 rel_abund(taxa_level = "Genus", meta_data = FALSE)
 
+show_top_taxa(a)
+
 threshold <- choose_n_taxa(a, 6)
 b <- pool_taxa(a, threshold)
 
