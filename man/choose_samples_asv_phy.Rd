@@ -17,3 +17,6 @@ A tibble.
 \description{
 Select samples prior to calculating rel_abund
 }
+\examples{
+choose_samples_asv_phy(physeq1, c(""))
+}

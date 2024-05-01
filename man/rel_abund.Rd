@@ -4,7 +4,7 @@
 \alias{rel_abund}
 \title{Generate a relative abundance table from a phyloseq object, summed across samples}
 \usage{
-rel_abund(phy)
+rel_abund(phy, taxa_level = "Phylum", meta_data = FALSE)
 }
 \arguments{
 \item{phy}{A phyloseq object containing an otu_table and tax_table.}

@@ -2,15 +2,12 @@ library(tidyverse)
 library(phyloseq)
 load("data/physeq1.rda")
 
-# metadat = TRUE var in rel_abund
-
 # can we generate the same plot by subsetting samples before
 # and after generating rel_abund?
 
-
 smp_selection <- c("Smp1", "Smp2", "Smp3", "Smp4", "Smp5")
 a <- phyloseq::prune_samples(smp_selection, physeq1) %>%
-rel_abund(taxa_level = "Genus")
+rel_abund(taxa_level = "Genus", meta_data = FALSE)
 
 threshold <- choose_n_taxa(a, 6)
 b <- pool_taxa(a, threshold)
