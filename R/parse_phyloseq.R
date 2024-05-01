@@ -46,5 +46,3 @@ asv_data_phy <- function(phy){
         tibble::rownames_to_column(var = "sample_id") %>%
         tibble::as_tibble()
 }
-
-
