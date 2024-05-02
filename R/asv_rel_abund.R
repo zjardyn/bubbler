@@ -1,6 +1,10 @@
-#' Generate a relative abundance table from a phyloseq object, summed across samples
+utils::globalVariables(c("sample_id", "count", ".", "asv", "level"))
+
+#' Generate a relative abundance table from a phyloseq object.
 #'
 #' @param phy A phyloseq object containing an otu_table and tax_table.
+#' @param taxa_level A character value specifying the taxa level from Domain to species.
+#' @param meta_data A logical value specifying if metadata should be included from the phyloseq object.
 #'
 #' @return A tibble.
 #' @export
