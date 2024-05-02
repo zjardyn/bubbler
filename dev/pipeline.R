@@ -5,6 +5,15 @@ load("data/physeq1.rda")
 # can we generate the same plot by subsetting samples before
 # and after generating rel_abund?
 
+rel_abund_tab <- rel_abund(phy = physeq1, meta_data = TRUE)
+use_data(rel_abund_tab, overwrite = TRUE)
+
+threshold <- choose_n_taxa(rel_abund_tab, 8)
+use_data(threshold)
+
+rel_abund_pool <- pool_taxa(rel_abund_tab, threshold)
+use_data(rel_abund_pool)
+
 smp_selection <- c("Smp1", "Smp2", "Smp3", "Smp4", "Smp5")
 a <- phyloseq::prune_samples(smp_selection, physeq1) %>%
 rel_abund(taxa_level = "Genus", meta_data = FALSE)

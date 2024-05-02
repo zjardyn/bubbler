@@ -62,3 +62,46 @@ choose_samples_asv_phy <- function(phy, smp_selection ){
     asv_data_phy(phy) %>%
         filter(sample_id == smp_selection)
 }
+
+#' Helper function 1 to pool taxa below threshold
+#'
+#' Summarise the pooled group as a logical vector, also summarise
+#' the mean rel_abund values to be used for ordering.
+#'
+#' @param rel_abund_tab A rel_abund table in tibble format.
+#' @param threshold A numeric vector for the threshold.
+#'
+#' @return A tibble.
+#' @export
+#'
+#' @examples
+#' pool_taxon_thresh(rel_abund_tab, threshold)
+pool_taxon_thresh <- function(rel_abund_tab, threshold = 0.2) {
+
+    rel_abund_tab %>%
+        dplyr::group_by(taxon) %>%
+        dplyr::summarise(pool = max(rel_abund) < threshold,
+                         mean = mean(rel_abund),
+                         .groups = "drop")
+}
+
+#' Helper function 2 to pool taxa below threshold
+#'
+#' Pool the taxon that are below the threshold
+#'
+#' @param rel_abund_pool A pooled rel_abund table.
+#' @param taxon A taxon column from rel_abund_pool.
+#' @param threshold A numeric vector for the specified threshold.
+#'
+#' @return A tibble.
+#' @export
+#'
+#' @examples
+#' set_taxon_threshold(rel_abund_pool, taxon)
+set_taxon_threshold <- function(rel_abund_pool, taxon, threshold = 0.2) {
+
+    rel_abund_pool %>%
+        dplyr::mutate(taxon = dplyr::if_else(pool, glue::glue("< {round(threshold, 2)}%"), taxon),
+                      taxon = tidyr::replace_na(taxon, "Unclassified"))
+}
+

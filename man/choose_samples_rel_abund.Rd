@@ -19,5 +19,5 @@ Subset samples from a rel_abund tibble and recompute rel_abund
 }
 \examples{
 smp_selection <- c("Smp1", "Smp2", "Smp3", "Smp4", "Smp5")
-choose_samples_rel_abund(physeq1, smp_selection)
+choose_samples_rel_abund(rel_abund_tab, smp_selection)
 }

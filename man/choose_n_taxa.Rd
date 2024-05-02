@@ -7,9 +7,9 @@
 choose_n_taxa(rel_abund_tab, n_taxa = 8)
 }
 \arguments{
-\item{n_taxa}{An integer vector for the number of taxa to display.}
+\item{rel_abund_tab}{A rel_abund table in tibble format.}
 
-\item{rel_abund}{A rel_abund table in tibble format.}
+\item{n_taxa}{An integer vector for the number of taxa to display.}
 }
 \value{
 A numeric vector.
@@ -18,5 +18,5 @@ A numeric vector.
 Generates a numeric vector as the threshold to display n taxa.
 }
 \examples{
-choose_n_taxa(rel_abund, n_taxa = 8)
+choose_n_taxa(rel_abund_tab, n_taxa = 8)
 }
