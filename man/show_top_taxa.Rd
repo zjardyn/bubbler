@@ -7,7 +7,7 @@
 show_top_taxa(rel_abund_tab)
 }
 \arguments{
-\item{rel_abund}{A rel_abund table in tibble format.}
+\item{rel_abund_tab}{A rel_abund table in tibble format.}
 }
 \value{
 A tibble.
@@ -17,5 +17,5 @@ Finds the top taxa and arranges in descending order. Uses max() to
 find the maximum taxon.
 }
 \examples{
-show_top_taxa(rel_abund)
+show_top_taxa(rel_abund_tab)
 }
