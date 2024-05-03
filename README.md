@@ -140,6 +140,7 @@ ggplot(a, aes(x = sample_id, y = taxon, colour = Location)) +
 ```
 
 <img src="man/figures/README-unnamed-chunk-8-1.png" width="100%" />
+Thorough Example 1
 
 <!-- You'll still need to render `README.Rmd` regularly, to keep `README.md` up-to-date. `devtools::build_readme()` is handy for this. -->
 <!-- In that case, don't forget to commit and push the resulting figure files, so they display on GitHub and CRAN. -->

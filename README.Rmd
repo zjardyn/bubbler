@@ -148,8 +148,7 @@ You can also make bubble plots!
 ggplot(a, aes(x = sample_id, y = taxon, colour = Location)) +
     geom_point(aes(size = rel_abund))
 ```
-
-
+Thorough Example 1
 
 
 

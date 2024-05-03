@@ -2,6 +2,21 @@ library(tidyverse)
 library(phyloseq)
 load("data/physeq1.rda")
 
+a <- rel_abund(phy = physeq2,
+               taxa_level = "Phylum",
+               meta_data = TRUE)
+subset_rel_abund(a, var = "sample", selection = c("enrichment", "enrichment2"))
+subset_rel_abund <- function(rel_abund_tab, var, selection) {
+    rel_abund_tab %>%
+        dplyr::filter(!!rlang::sym(var) %in% selection) %>%
+        dplyr::mutate(rel_abund = rel_abund/sum(rel_abund))
+}
+subset_rel_abund(a, var = "sample", selection =  )
+
+a %>%
+    dplyr::filter(sample %in% c("enrichment", "enrichment2")) %>%
+    dplyr::mutate(rel_abund = rel_abund/sum(rel_abund))
+
 # can we generate the same plot by subsetting samples before
 # and after generating rel_abund?
 plot_bar(physeq1, fill = "Family")
