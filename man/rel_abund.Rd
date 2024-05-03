@@ -4,14 +4,16 @@
 \alias{rel_abund}
 \title{Generate a relative abundance table from a phyloseq object.}
 \usage{
-rel_abund(phy, taxa_level = "Phylum", meta_data = FALSE)
+rel_abund(phy, taxa_level = "Phylum", var = NULL, meta_data = FALSE)
 }
 \arguments{
 \item{phy}{A phyloseq object containing an otu_table and tax_table.}
 
 \item{taxa_level}{A character value specifying the taxa level from Domain to species.}
 
-\item{meta_data}{A logical value specifying if metadata should be included from the phyloseq object.}
+\item{var}{A character value of a variable to sum by.}
+
+\item{meta_data}{A logical value specifying if metadata should be included from phy.}
 }
 \value{
 A tibble.
@@ -20,5 +22,5 @@ A tibble.
 Generate a relative abundance table from a phyloseq object.
 }
 \examples{
-rel_abund(phy = physeq1)
+rel_abund(phy = physeq1, taxa_level = "Phylum", var = NULL , meta_data = FALSE)
 }
