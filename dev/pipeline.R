@@ -74,6 +74,31 @@ c %>%
     geom_bar(position = "stack", stat = "identity")
 
 
+# new dataset
+asv_data_phy(physeq1)
+fpath <- system.file("extdata", "seqtab.tsv", package = "bubbler")
+
+asv_data_tsv(fpath) %>%
+    pivot_longer(-sample_id,
+                 names_to = "asv",
+                 values_to = "count")
+
+
+
+
+
+meta_data_phy(physeq1)
+read_tsv("inst/extdata/metadata.tsv")
+
+taxa_data_phy(physeq1)
+read_tsv("inst/extdata/taxa.tsv")
+
+
+
+
+
+
+
 # ## #physeq1
  # a %>%
 # #     group_by(sample_id) %>%

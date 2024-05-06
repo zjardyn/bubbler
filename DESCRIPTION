@@ -17,6 +17,7 @@ Imports:
     glue,
     magrittr,
     phyloseq,
+    readr,
     rlang,
     tibble,
     tidyr

@@ -2,6 +2,7 @@
 
 export("%>%")
 export(asv_data_phy)
+export(asv_data_tsv)
 export(choose_n_taxa)
 export(meta_data_phy)
 export(pool_taxa)
