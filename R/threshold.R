@@ -73,7 +73,7 @@ pool_taxa <- function(rel_abund_tab, threshold = 0.2, var = NULL) {
 
     pooled <- dplyr::inner_join(rel_abund_tab, taxon_pool, by = "taxon") %>%
         # set_taxon_threshold(taxon, threshold)
-         dplyr::mutate(taxon = dplyr::if_else(pool, glue::glue("< {round(threshold, 2)}%"), taxon),
+         dplyr::mutate(taxon = dplyr::if_else(pool, glue::glue("< {round(threshold, 4)}%"), taxon),
                taxon = tidyr::replace_na(taxon, "Unclassified"))
 
     if(is.null(var)){
