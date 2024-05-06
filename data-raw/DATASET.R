@@ -1,3 +1,5 @@
+## code to prepare `DATASET` dataset goes here
+
 # library("phyloseq")
 #
 # otumat = matrix(sample(1:100, 100, replace = TRUE), nrow = 10, ncol = 10)
@@ -29,3 +31,15 @@
 #
 # physeq1
 # use_data(physeq1, overwrite = TRUE)
+#
+# load("data/physeq1.rda")
+# load("data/rel_abund_tab.rda")
+# load("data/rel_abund_pool.rda")
+# load("data/threshold.rda")
+#
+# usethis::use_data(physeq1, rel_abund_tab, rel_abund_pool, threshold, internal = TRUE)
+#
+# devtools::load_all()
+
+# usethis::use_data(DATASET, overwrite = TRUE)
+
