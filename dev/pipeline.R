@@ -75,16 +75,27 @@ c %>%
 
 
 # new dataset
+
+rel_abund_raw <- function(asv, taxa, meta = NULL, var = NULL, taxa_level = "Phylum" ) {
+
+}
+
+
+taxa_path <- system.file("extdata", "taxa.tsv", package = "bubbler")
+taxa_data_tsv(taxa_path)
+
 asv_data_phy(physeq1)
-fpath <- system.file("extdata", "seqtab.tsv", package = "bubbler")
+asv_path <- system.file("extdata", "seqtab.tsv", package = "bubbler")
 
-asv_data_tsv(fpath) %>%
-    pivot_longer(-sample_id,
-                 names_to = "asv",
-                 values_to = "count")
+asv_data_tsv(asv_path)
+    # pivot_longer(-sample_id,
+    #              names_to = "asv",
+    #              values_to = "count")
 
 
-
+meta_path <- system.file("extdata", "metadata.tsv", package = "bubbler")
+read_tsv(meta_path) %>%
+    rename_with(~ "sample_id", 1)
 
 
 meta_data_phy(physeq1)
