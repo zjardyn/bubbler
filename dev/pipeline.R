@@ -2,6 +2,12 @@ library(tidyverse)
 library(phyloseq)
 load("data/physeq1.rda")
 
+file <- "F:/soil_enrichments/samples/dte/seqtab.tsv"
+read_tsv(file) %>%
+    select(-1,-2) %>%
+    as.matrix() %>% hist(breaks = "Scott")
+
+
 a <- rel_abund(phy = physeq2,
                taxa_level = "Phylum",
                meta_data = TRUE)
@@ -79,18 +85,32 @@ c %>%
 asv <- system.file("extdata", "seqtab.tsv", package = "bubbler")
 taxa <- system.file("extdata", "taxa.tsv", package = "bubbler")
 meta_data <- system.file("extdata", "metadata.tsv", package = "bubbler")
+
+asv_data_tsv(asv) %>% view(n = 100)
+
 # meta_data <- NULL
 
-rel_abund_raw(asv, taxa, meta_data, var = "Carbon_source", taxa_level = "Genus")
+rel_abund <- rel_abund_raw(asv, taxa, var = "sample_id",taxa_level = "Genus")
+
+ggplot(rel_abund, aes(x = sample_id, y = rel_abund)) +
+    geom_bar(stat = "identity", aes(fill = taxon))
+# same count fucks this up
+sample_grouping <- rel_abund %>%
+    group_by(sample_id) %>%
+    slice_max(order_by = rel_abund) %>%
+    select(taxon, sample_id) %>%
+    rename(peak_taxon = taxon)
+
+rel_abund_o <- rel_abund %>%
+    inner_join(sample_grouping, by = "sample_id") %>%
+    group_by(peak_taxon) %>%
+    mutate(rank = rank(rel_abund)) %>%
+    mutate(sample_id = reorder(sample_id, -rank)) %>%
+    ungroup()
 
 
-taxa_data_tsv(taxa)
-asv_data_tsv(asv)
-meta_data_tsv(meta_data)
-
-
-
-
+ggplot(rel_abund_o, aes(x = sample_id, y = rel_abund)) +
+    geom_bar(stat = "identity", aes(fill = taxon))
 
 
 
