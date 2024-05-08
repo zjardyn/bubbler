@@ -86,18 +86,17 @@ asv <- system.file("extdata", "seqtab.tsv", package = "bubbler")
 taxa <- system.file("extdata", "taxa.tsv", package = "bubbler")
 meta_data <- system.file("extdata", "metadata.tsv", package = "bubbler")
 
-asv_data_tsv(asv) %>% view(n = 100)
+rel_abund <- rel_abund_raw(asv, taxa , var = "sample_id", taxa_level = "Genus")
+# threshold <- choose_n_taxa(rel_abund)
+# rel_abund <- pool_taxa(rel_abund, threshold)
 
-# meta_data <- NULL
-
-rel_abund <- rel_abund_raw(asv, taxa, var = "sample_id",taxa_level = "Genus")
 
 ggplot(rel_abund, aes(x = sample_id, y = rel_abund)) +
     geom_bar(stat = "identity", aes(fill = taxon))
 # same count fucks this up
 sample_grouping <- rel_abund %>%
     group_by(sample_id) %>%
-    slice_max(order_by = rel_abund) %>%
+    slice_max(order_by = rel_abund, with_ties = FALSE) %>%
     select(taxon, sample_id) %>%
     rename(peak_taxon = taxon)
 

@@ -1,10 +1,32 @@
 library(tidyverse)
+options(scipen = 999)
 
+n_smp = 100
+n_taxa = 8
 
-taxa <- read_tsv("inst/extdata/rdp_taxa.tsv", col_names = FALSE)
+taxa <- read_tsv("inst/extdata/rdp_taxa.tsv", col_names = FALSE) %>%
+    select(2) %>% pull()
+taxa_subset <- sample(taxa, n_taxa)
+taxa_tb <- as_tibble(do.call(rbind, strsplit(taxa_subset, ";", fixed = TRUE)))
 
-generate_counts_nbinom <- function(n_smp = 100, n_asv = 5000 , size = 10, prob = 0.25 ){
-    dat <- rnbinom(n_smp * n_asv, size = size, prob = prob) %>%
+colnames(taxa_tb) <- c("Domain", "Phylum", "Class", "Order", "Family", "Genus")
+taxa_tb$asv <- paste0("ASV", 1:n_taxa)
+taxa_tb <- taxa_tb[, c("asv", "Domain", "Phylum", "Class", "Order", "Family", "Genus")]
+
+# generate_counts_nbinom <- function(n_smp = 100, n_asv = 5000 , size = 1, prob = 0.01 ){
+#     dat <- rnbinom(n_smp * n_asv, size = size, prob = prob) %>%
+#         matrix(ncol = n_smp)
+#     hist(dat)
+#     colnames(dat) <- paste("Smp", 1:n_smp, sep = "")
+#     rownames(dat) <- paste("ASV", 1:n_asv, sep = "")
+#     dat %>%
+#         as.data.frame() %>%
+#         rownames_to_column(var = "asv") %>%
+#         as_tibble()
+# }
+
+generate_counts_lnorm <- function(n_smp = 100, n_asv = n_taxa , meanlog = 2, sdlog = 3 ){
+    dat <- rlnorm(n_smp * n_asv, meanlog, sdlog) %>%
         matrix(ncol = n_smp)
     hist(dat)
     colnames(dat) <- paste("Smp", 1:n_smp, sep = "")
@@ -12,11 +34,13 @@ generate_counts_nbinom <- function(n_smp = 100, n_asv = 5000 , size = 10, prob =
     dat %>%
         as.data.frame() %>%
         rownames_to_column(var = "asv") %>%
-        as_tibble()
+        as_tibble() %>%
+        mutate(across(where(is.numeric), floor))
 }
 
 
-counts_df <- generate_counts()
+counts_df <- generate_counts_lnorm()
+
 metadata_df <- data.frame(
     sample_id = paste0("Smp", 1:100),
     Location = sample(c("Location1", "Location2", "Location3"), 100, replace = TRUE),
@@ -24,7 +48,7 @@ metadata_df <- data.frame(
     Date = as.Date(sample(18000:19000, 100, replace = TRUE), origin = "1970-01-01")
 )
 
-write_tsv(bacteria_tb, "inst/extdata/taxa.tsv")
+write_tsv(taxa_tb, "inst/extdata/taxa.tsv")
 write_tsv(counts_df, "inst/extdata/seqtab.tsv")
 write_tsv(metadata_df, "inst/extdata/metadata.tsv")
 
