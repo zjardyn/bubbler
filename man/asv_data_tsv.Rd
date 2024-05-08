@@ -10,7 +10,7 @@ asv_data_tsv(tsv)
 \item{tsv}{A character vector specifying the path to seqtab.tsv}
 }
 \value{
-A tibble
+A tibble.
 }
 \description{
 Grab asv table from a tsv file and format to tibble

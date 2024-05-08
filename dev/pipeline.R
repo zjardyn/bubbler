@@ -75,23 +75,18 @@ c %>%
 
 
 # new dataset
-asv_data_phy(physeq1)
-fpath <- system.file("extdata", "seqtab.tsv", package = "bubbler")
 
-asv_data_tsv(fpath) %>%
-    pivot_longer(-sample_id,
-                 names_to = "asv",
-                 values_to = "count")
+asv <- system.file("extdata", "seqtab.tsv", package = "bubbler")
+taxa <- system.file("extdata", "taxa.tsv", package = "bubbler")
+meta_data <- system.file("extdata", "metadata.tsv", package = "bubbler")
+# meta_data <- NULL
 
-
+rel_abund_raw(asv, taxa, meta_data, var = "Carbon_source", taxa_level = "Genus")
 
 
-
-meta_data_phy(physeq1)
-read_tsv("inst/extdata/metadata.tsv")
-
-taxa_data_phy(physeq1)
-read_tsv("inst/extdata/taxa.tsv")
+taxa_data_tsv(taxa)
+asv_data_tsv(asv)
+meta_data_tsv(meta_data)
 
 
 

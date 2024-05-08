@@ -1,4 +1,4 @@
-sample_id	Location	Carbon_source	Date
+Sample	Location	Carbon_source	Date
 Smp1	Location3	Glucose	2020-12-01
 Smp2	Location3	Glucose	2019-11-19
 Smp3	Location3	Styrene	2020-03-18
