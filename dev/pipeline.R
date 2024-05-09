@@ -86,6 +86,8 @@ asv <- system.file("extdata", "seqtab.tsv", package = "bubbler")
 taxa <- system.file("extdata", "taxa.tsv", package = "bubbler")
 meta_data <- system.file("extdata", "metadata.tsv", package = "bubbler")
 
+asv_data_tsv(asv)
+
 rel_abund <- rel_abund_raw(asv, taxa , var = "sample_id", taxa_level = "Genus")
 # threshold <- choose_n_taxa(rel_abund)
 # rel_abund <- pool_taxa(rel_abund, threshold)
@@ -110,6 +112,11 @@ rel_abund_o <- rel_abund %>%
 
 ggplot(rel_abund_o, aes(x = sample_id, y = rel_abund)) +
     geom_bar(stat = "identity", aes(fill = taxon))
+
+
+
+rel_abund_phy(physeq1)
+rel_abund_raw(asv, taxa)
 
 
 
