@@ -27,7 +27,6 @@ rel_abund_phy <- function(phy, taxa_data = TRUE, taxa_level = "Phylum", meta_dat
        dplyr::mutate(rel_abund = count/sum(count)) %>%
        dplyr::ungroup() %>%
        dplyr::select(-count)
-       # dplyr::inner_join(., taxonomy, by =  "asv")
 
    } else if (!is.null(var) & meta_data == FALSE) {
 
@@ -39,7 +38,6 @@ rel_abund_phy <- function(phy, taxa_data = TRUE, taxa_level = "Phylum", meta_dat
        dplyr::mutate(rel_abund = count/sum(count)) %>%
        dplyr::ungroup() %>%
        dplyr::select(-count)
-       # dplyr::inner_join(., taxonomy, by =  "asv")
    }
 
    if(is.null(var) & meta_data == TRUE) {
@@ -53,7 +51,6 @@ rel_abund_phy <- function(phy, taxa_data = TRUE, taxa_level = "Phylum", meta_dat
         dplyr::inner_join(., metadata, by =  "sample_id") %>%
         dplyr::mutate(rel_abund = count/sum(count)) %>%
         dplyr::select(-count)
-        # dplyr::inner_join(., taxonomy, by =  "asv")
 
    } else if (is.null(var) & meta_data == FALSE){
 
@@ -63,7 +60,6 @@ rel_abund_phy <- function(phy, taxa_data = TRUE, taxa_level = "Phylum", meta_dat
                             values_to = "count") %>%
         dplyr::mutate(rel_abund = count/sum(count)) %>%
         dplyr::select(-count)
-        # dplyr::inner_join(., taxonomy, by =  "asv")
    }
 
     if(taxa_data == TRUE) {
@@ -92,10 +88,10 @@ rel_abund_phy <- function(phy, taxa_data = TRUE, taxa_level = "Phylum", meta_dat
 #' Generate a relative abundance table in tibble format from raw tsv files.
 #'
 #' @param asv A tsv file path containing an asv table.
-#' @param taxa  A tsv file path containing a taxa table.
-#' @param meta_data Either NULL, or, optionally, a tsv file path containing a meta_data table.
-#' @param var A character value of a variable to sum by.
+#' @param taxa_data  A tsv file path containing a taxa table.
 #' @param taxa_level A character value specifying the taxa level from Domain to species.
+#' @param meta_data A tsv file path containing a meta_data table.
+#' @param var A character value of a variable to sum by.
 #'
 #' @return A tibble.
 #' @export
@@ -105,11 +101,7 @@ rel_abund_phy <- function(phy, taxa_data = TRUE, taxa_level = "Phylum", meta_dat
 #' taxa <- system.file("extdata", "taxa.tsv", package = "bubbler")
 #' meta_data <- system.file("extdata", "metadata.tsv", package = "bubbler")
 #' rel_abund_raw(asv, taxa, meta_data)
-rel_abund_raw <- function(asv, taxa = NULL, meta_data = NULL, var = NULL, taxa_level = "Phylum" ) {
-#
-#     if(!is.null(meta_data)) {
-#         metadata <- meta_data_tsv(meta_data)
-#     }
+rel_abund_raw <- function(asv, taxa_data = NULL, taxa_level = "Phylum", meta_data = NULL, var = NULL ) {
 
     if(!is.null(var) & !is.null(meta_data)){
 
@@ -124,7 +116,6 @@ rel_abund_raw <- function(asv, taxa = NULL, meta_data = NULL, var = NULL, taxa_l
             dplyr::mutate(rel_abund = count/sum(count)) %>%
             dplyr::ungroup() %>%
             dplyr::select(-count)
-            # dplyr::inner_join(., taxonomy, by =  "asv")
 
     } else if (!is.null(var) & is.null(meta_data)) {
 
@@ -136,7 +127,6 @@ rel_abund_raw <- function(asv, taxa = NULL, meta_data = NULL, var = NULL, taxa_l
             dplyr::mutate(rel_abund = count/sum(count)) %>%
             dplyr::ungroup() %>%
             dplyr::select(-count)
-            # dplyr::inner_join(., taxonomy, by =  "asv")
     }
 
     if(is.null(var) & !is.null(meta_data)) {
@@ -150,7 +140,6 @@ rel_abund_raw <- function(asv, taxa = NULL, meta_data = NULL, var = NULL, taxa_l
             dplyr::inner_join(., metadata, by =  "sample_id") %>%
             dplyr::mutate(rel_abund = count/sum(count)) %>%
             dplyr::select(-count)
-            # dplyr::inner_join(., taxonomy, by =  "asv")
 
     } else if (is.null(var) & is.null(meta_data)) {
 
@@ -160,12 +149,11 @@ rel_abund_raw <- function(asv, taxa = NULL, meta_data = NULL, var = NULL, taxa_l
                                 values_to = "count") %>%
             dplyr::mutate(rel_abund = count/sum(count)) %>%
             dplyr::select(-count)
-            # dplyr::inner_join(., taxonomy, by =  "asv")
     }
 
-    if(!is.null(taxa)){
+    if(!is.null(taxa_data)){
 
-    taxonomy <- taxa_data_tsv(taxa)
+    taxonomy <- taxa_data_tsv(taxa_data)
 
     taxa_lvls <- taxonomy %>%
         dplyr::select(-asv) %>%

@@ -115,7 +115,7 @@ ggplot(rel_abund_o, aes(x = sample_id, y = rel_abund)) +
 
 
 
-rel_abund_phy(physeq1)
+rel_abund_phy(physeq1, taxa_data = FALSE)
 rel_abund_raw(asv, taxa)
 
 

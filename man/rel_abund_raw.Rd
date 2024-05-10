@@ -4,18 +4,24 @@
 \alias{rel_abund_raw}
 \title{Generate a relative abundance table in tibble format from raw tsv files.}
 \usage{
-rel_abund_raw(asv, taxa, meta_data = NULL, var = NULL, taxa_level = "Phylum")
+rel_abund_raw(
+  asv,
+  taxa_data = NULL,
+  taxa_level = "Phylum",
+  meta_data = NULL,
+  var = NULL
+)
 }
 \arguments{
 \item{asv}{A tsv file path containing an asv table.}
 
-\item{taxa}{A tsv file path containing a taxa table.}
-
-\item{meta_data}{Either NULL, or, optionally, a tsv file path containing a meta_data table.}
-
-\item{var}{A character value of a variable to sum by.}
+\item{taxa_data}{A tsv file path containing a taxa table.}
 
 \item{taxa_level}{A character value specifying the taxa level from Domain to species.}
+
+\item{meta_data}{A tsv file path containing a meta_data table.}
+
+\item{var}{A character value of a variable to sum by.}
 }
 \value{
 A tibble.
