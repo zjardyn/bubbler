@@ -99,8 +99,8 @@ ggplot(a, aes(x = sample_id, y = rel_abund, fill = taxon)) +
 <img src="man/figures/README-unnamed-chunk-5-1.png" width="100%" />
 
 Relative abundance across a variable is calculated as
-$r_i = \frac{x_i}{\sum_{j=1}^{n} x_j}$ where $x_j$ is the grouped levels
-of that variable.
+$r_i = \frac{x_ij}{\sum_{j=1}^{n} x_j}$ where $x_j$ is the grouped
+levels of that variable.
 
 Let’s try this with the variable `Location`. By default, metadata is not
 loaded, so we specify `meta_data` to be be TRUE. We also change the
