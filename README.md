@@ -86,7 +86,7 @@ plot. Alternatively, you can set `geom_bar` argument `position` to
 “fill”, which has the same effect.
 
 ``` r
-a <- rel_abund(phy = physeq1, taxa_level = "Genus", var = "sample_id")
+a <- rel_abund_phy(phy = physeq1, taxa_level = "Genus", var = "sample_id")
 
 ggplot(a, aes(x = sample_id, y = rel_abund, fill = taxon)) +
     geom_bar(position = "stack", stat = "identity")
@@ -99,7 +99,7 @@ ggplot(a, aes(x = sample_id, y = rel_abund, fill = taxon)) +
 <img src="man/figures/README-unnamed-chunk-5-1.png" width="100%" />
 
 Relative abundance across a variable is calculated as
-$$ r_i = \frac{x_i}{\sum_{j=1}^{n} x_j}$$ where $x_j$ is the grouped
+$$ r_i = \frac{x_i}{\sum_{j=1}^{n} x_j} $$ where $x_j$ is the grouped
 levels of that variable.
 
 Let’s try this with the variable `Location`. By default, metadata is not
@@ -107,7 +107,7 @@ loaded, so we specify `meta_data` to be be TRUE. We also change the
 x-axis value in the ggplot call.
 
 ``` r
-a <- rel_abund(phy = physeq1, 
+a <- rel_abund_phy(phy = physeq1, 
                taxa_level = "Genus", 
                var = "Location",
                meta_data = TRUE)
@@ -122,7 +122,7 @@ Again, but not grouping the variable. This way we can see how the data
 stacks up.
 
 ``` r
-a <- rel_abund(phy = physeq1, 
+a <- rel_abund_phy(phy = physeq1, 
                taxa_level = "Genus", 
                meta_data = TRUE)
 

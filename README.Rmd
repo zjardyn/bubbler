@@ -69,7 +69,7 @@ load("data/physeq1.rda")
 library(patchwork)
 ```
 
-We generate a relative abundance table, choosing the taxa level of Genus. Lets compare it to phyloseq's `plot_bar`. Relative abundance is calculated as \[ r_i = \frac{x_i}{x} \] where $x_i$ is a species count, divided by $x$ the total sum of all species.
+We generate a relative abundance table, choosing the taxa level of Genus. Lets compare it to phyloseq's `plot_bar`. Relative abundance is calculated as $$ r_i = \frac{x_i}{x} $$ where $x_i$ is a species count, divided by $x$ the total sum of all species.
 
 
 ```{r barfill, message=FALSE, eval=FALSE}
@@ -91,7 +91,7 @@ library(bubbler)
 library(phyloseq)
 library(tidyverse)
 
-a <- rel_abund(phy = physeq1, taxa_level = "Genus")
+a <- rel_abund_phy(phy = physeq1, taxa_level = "Genus")
  
 p1 <-ggplot(a, aes(x = sample_id, y = rel_abund, fill = taxon)) +
     geom_bar(position = "stack", stat = "identity")
@@ -102,7 +102,7 @@ You can normalize counts across a variable which results in a filled in plot. Al
 the same effect.
 
 ```{r eval=FALSE}
-a <- rel_abund(phy = physeq1, taxa_level = "Genus", var = "sample_id")
+a <- rel_abund_phy(phy = physeq1, taxa_level = "Genus", var = "sample_id")
 
 ggplot(a, aes(x = sample_id, y = rel_abund, fill = taxon)) +
     geom_bar(position = "stack", stat = "identity")
@@ -113,17 +113,17 @@ ggplot(a, aes(x = sample_id, y = rel_abund, fill = taxon)) +
 ```
 
 ```{r, echo=FALSE}
-a <- rel_abund(phy = physeq1, taxa_level = "Genus", var = "sample_id")
+a <- rel_abund_phy(phy = physeq1, taxa_level = "Genus", var = "sample_id")
 
 ggplot(a, aes(x = sample_id, y = rel_abund, fill = taxon)) +
     geom_bar(position = "stack", stat = "identity")
 ```
 
-Relative abundance across a variable is calculated as \[ r_i = \frac{x_i}{\sum_{j=1}^{n} x_j}\] where $x_j$ is the grouped levels of that variable.
+Relative abundance across a variable is calculated as $$ r_i = \frac{x_i}{\sum_{j=1}^{n} x_j} $$ where $x_j$ is the grouped levels of that variable.
 
 Let's try this with the variable `Location`. By default, metadata is not loaded, so we specify `meta_data` to be be TRUE. We also change the x-axis value in the ggplot call. 
 ```{r}
-a <- rel_abund(phy = physeq1, 
+a <- rel_abund_phy(phy = physeq1, 
                taxa_level = "Genus", 
                var = "Location",
                meta_data = TRUE)
@@ -135,7 +135,7 @@ ggplot(a, aes(x = Location, y = rel_abund, fill = taxon)) +
 Again, but not grouping the variable. This way we can see how the data stacks up.
 
 ```{r}
-a <- rel_abund(phy = physeq1, 
+a <- rel_abund_phy(phy = physeq1, 
                taxa_level = "Genus", 
                meta_data = TRUE)
 
