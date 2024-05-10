@@ -64,8 +64,8 @@ bubbler, see importing data from
 
 We generate a relative abundance table, choosing the taxa level of
 Genus. Lets compare it to phyloseq’s `plot_bar`. Relative abundance is
-calculated as \$ r_i = \$ where $x_i$ is a species count, divided by $x$
-the total sum of all species.
+calculated as $r_i = \frac{x_i}{x}$ where $x_i$ is a species count,
+divided by $x$ the total sum of all species.
 
 ``` r
 library(bubbler)
@@ -98,8 +98,9 @@ ggplot(a, aes(x = sample_id, y = rel_abund, fill = taxon)) +
 
 <img src="man/figures/README-unnamed-chunk-5-1.png" width="100%" />
 
-Relative abundance across a variable is calculated as \$ r_i = \$ where
-$x_j$ is the grouped levels of that variable.
+Relative abundance across a variable is calculated as
+$r_i = \frac{x_i}{\sum_{j=1}^{n} x_j}$ where $x_j$ is the grouped levels
+of that variable.
 
 Let’s try this with the variable `Location`. By default, metadata is not
 loaded, so we specify `meta_data` to be be TRUE. We also change the
