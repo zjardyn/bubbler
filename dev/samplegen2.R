@@ -43,7 +43,7 @@ counts_df <- generate_counts_lnorm()
 
 metadata_df <- data.frame(
     sample_id = paste0("Smp", 1:100),
-    Location = sample(c("Location1", "Location2", "Location3"), 100, replace = TRUE),
+    Depth = sample(1:30, 100, replace = TRUE),
     Carbon_source = sample(c("Glucose", "Hexadecane", "Styrene"), 100, replace = TRUE),
     Date = as.Date(sample(18000:19000, 100, replace = TRUE), origin = "1970-01-01")
 )

@@ -81,43 +81,30 @@ c %>%
 
 
 # new dataset
-
+library(tidyverse)
 asv <- system.file("extdata", "seqtab.tsv", package = "bubbler")
 taxa <- system.file("extdata", "taxa.tsv", package = "bubbler")
 meta_data <- system.file("extdata", "metadata.tsv", package = "bubbler")
 
-asv_data_tsv(asv)
+rel_abund <- rel_abund_raw(asv, taxa , meta_data = meta_data,  taxa_level = "Genus")
+# rel_abund_o <- arrange_taxa(rel_abund_o)
+# rel_abund_o2 <- arrange_sample_by_taxa(rel_abund)
 
-rel_abund <- rel_abund_raw(asv, taxa , var = "sample_id", taxa_level = "Genus")
-# threshold <- choose_n_taxa(rel_abund)
-# rel_abund <- pool_taxa(rel_abund, threshold)
-
-
-ggplot(rel_abund, aes(x = sample_id, y = rel_abund)) +
-    geom_bar(stat = "identity", aes(fill = taxon))
-# same count fucks this up
-sample_grouping <- rel_abund %>%
-    group_by(sample_id) %>%
-    slice_max(order_by = rel_abund, with_ties = FALSE) %>%
-    select(taxon, sample_id) %>%
-    rename(peak_taxon = taxon)
-
-rel_abund_o <- rel_abund %>%
-    inner_join(sample_grouping, by = "sample_id") %>%
-    group_by(peak_taxon) %>%
-    mutate(rank = rank(rel_abund)) %>%
-    mutate(sample_id = reorder(sample_id, -rank)) %>%
-    ungroup()
-
-
-ggplot(rel_abund_o, aes(x = sample_id, y = rel_abund)) +
+ggplot(rel_abund, aes(x = Depth, y = rel_abund)) +
     geom_bar(stat = "identity", aes(fill = taxon))
 
+a <- rel_abund_phy(physeq1, taxa_level = "Genus")
+t <- choose_n_taxa(a, 5)
+b <- pool_taxa(a,t)
+b_1 <- b %>%
+    mutate(taxon = if_else(taxon == "Pseudomonas", "Unclassified", taxon))
 
+c <- arrange_taxa(b_1, pooled_top = TRUE)
 
-rel_abund_phy(physeq1, taxa_data = FALSE)
-rel_abund_raw(asv, taxa)
-
+c %>%
+    # mutate(taxon = fct_rev(taxon)) %>%
+ggplot( aes(x = sample_id, y = rel_abund)) +
+    geom_bar(stat = "identity", aes(fill = taxon))
 
 
 # ## #physeq1

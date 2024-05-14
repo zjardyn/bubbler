@@ -79,14 +79,14 @@ pool_taxa <- function(rel_abund_tab, threshold = 0.2, var = NULL) {
     if(is.null(var)){
         pooled %>%
         dplyr::group_by(sample_id, taxon) %>%
-        dplyr::reframe(rel_abund = sum(rel_abund),
-                mean = sum(mean)) %>%
+        dplyr::reframe(rel_abund = sum(rel_abund))%>%
+                # mean = sum(mean)) %>%
         dplyr::distinct()
     } else {
         pooled %>%
         dplyr::group_by(!!rlang::sym(var), sample_id, taxon) %>%
         dplyr::reframe(rel_abund = sum(rel_abund),
-                mean = sum(mean),
+                # mean = sum(mean),
                 !!var := !!rlang::sym(var)) %>%
         dplyr::distinct()
     }
