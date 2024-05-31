@@ -2,6 +2,28 @@ library(tidyverse)
 library(phyloseq)
 load("data/physeq1.rda")
 
+# qiime importing
+library(qiime2R)
+asv_data_q <- read_qza("inst/extdata/qiime/table-dada2.qza")
+asv_data_q$data %>%
+    t() %>%
+    as.data.frame() %>%
+    rownames_to_column(var = "sample_id") %>%
+    as_tibble()
+
+taxa_data_q <- read_qza("inst/extdata/qiime/taxonomy.qza")
+taxa_data_q$data %>%
+    {quietly(separate)}(Taxon, into = c("Domain", "Phylum", "Class", "Order", "Family", "Genus", "Species"), sep = "; ") %>% magrittr::extract2("result") %>%
+    mutate(across(.cols = Domain:Species,
+                  .fns = ~str_remove(.,"[a-z]__"))) %>%
+    mutate(across(.cols = Domain:Species,
+                  .fns = ~na_if(., "") )) %>%
+    rename_with(~"asv", 1) %>%
+    select(-Confidence) %>% as_tibble()
+
+meta_data_q <- read_q2metadata("inst/extdata/qiime/sample-metadata.tsv")
+meta_data_q %>%
+    rename_with(~"sample_id", 1)
 
 
 # new dataset
