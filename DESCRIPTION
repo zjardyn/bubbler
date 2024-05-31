@@ -17,9 +17,11 @@ Imports:
     forcats,
     glue,
     magrittr,
+    purrr,
     readr,
     rlang,
     stats,
+    stringr,
     tibble,
     tidyr
 Config/testthat/edition: 3
