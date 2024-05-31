@@ -1,3 +1,5 @@
+utils::globalVariables(c("rel_abund", "top_taxon"))
+
 #' @export
 arrange_sample_by_taxa <- function(rel_abund_tab){
    grouping <- rel_abund_tab %>%
@@ -9,7 +11,7 @@ arrange_sample_by_taxa <- function(rel_abund_tab){
     dplyr::inner_join(rel_abund_tab, grouping, by = "sample_id") %>%
         dplyr::group_by(top_taxon) %>%
         dplyr::mutate(rank = rank(rel_abund)) %>%
-        dplyr::mutate(sample_id = reorder(sample_id, -rank)) %>%
+        dplyr::mutate(sample_id = stats::reorder(sample_id, -rank)) %>%
         dplyr::ungroup() %>%
         dplyr::select(-rank, -top_taxon)
 

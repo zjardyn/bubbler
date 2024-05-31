@@ -14,11 +14,15 @@ Depends:
 LazyData: true
 Imports: 
     dplyr,
+    forcats,
     glue,
     magrittr,
-    phyloseq,
     readr,
     rlang,
+    stats,
     tibble,
     tidyr
 Config/testthat/edition: 3
+Suggests: 
+    phyloseq,
+    qiime2R

@@ -14,6 +14,10 @@ utils::globalVariables(c("sample_id", "count", ".", "asv", "level"))
 #' rel_abund_phy(phy = physeq1, taxa_level = "Phylum", var = NULL , meta_data = FALSE)
 rel_abund_phy <- function(phy, taxa_data = TRUE, taxa_level = "Phylum", meta_data = FALSE, var = NULL ) {
 
+   if(rlang::is_installed("phyloseq") == FALSE){
+       stop("Please install phyloseq.")
+   }
+
    if(!is.null(var) & meta_data == TRUE) {
 
    metadata <- meta_data_phy(phy)
@@ -85,7 +89,7 @@ rel_abund_phy <- function(phy, taxa_data = TRUE, taxa_level = "Phylum", meta_dat
 
 }
 
-#' Generate a relative abundance table in tibble format from raw tsv files.
+#' Generate a relative abundance table in tibble format from tsv files.
 #'
 #' @param asv A tsv file path containing an asv table.
 #' @param taxa_data  A tsv file path containing a taxa table.
@@ -100,8 +104,8 @@ rel_abund_phy <- function(phy, taxa_data = TRUE, taxa_level = "Phylum", meta_dat
 #' asv <- system.file("extdata", "seqtab.tsv", package = "bubbler")
 #' taxa <- system.file("extdata", "taxa.tsv", package = "bubbler")
 #' meta_data <- system.file("extdata", "metadata.tsv", package = "bubbler")
-#' rel_abund_raw(asv, taxa, meta_data)
-rel_abund_raw <- function(asv, taxa_data = NULL, taxa_level = "Phylum", meta_data = NULL, var = NULL ) {
+#' rel_abund_tsv(asv, taxa, meta_data)
+rel_abund_tsv <- function(asv, taxa_data = NULL, taxa_level = "Phylum", meta_data = NULL, var = NULL ) {
 
     if(!is.null(var) & !is.null(meta_data)){
 
