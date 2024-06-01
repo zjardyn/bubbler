@@ -4,20 +4,26 @@ library(phyloseq)
 # qiime importing
 library(qiime2R)
 
-asv_data_qiime("inst/extdata/qiime/table-dada2.qza")
-# taxa_data_qiime("inst/extdata/qiime/taxonomy.qza")
-# meta_data_qiime("inst/extdata/qiime/sample-metadata.tsv")
+# order my sample read abundance, plot as line
 
 asv_qiime <- "inst/extdata/qiime/table-dada2.qza"
 taxa_qiime <- "inst/extdata/qiime/taxonomy.qza"
 metadata_qiime <- "inst/extdata/qiime/sample-metadata.tsv"
 
-
-rel_abund_qiime(
+q <- rel_abund_qiime(
     asv_qiime = asv_qiime,
     taxa_qiime = taxa_qiime,
     metadata_qiime = metadata_qiime,
-    taxa_level = "Genus")
+    taxa_level = "Genus",
+    var = "sample_id")
+
+choose_n_taxa(q)
+
+q %>%
+    pool_taxa(threshold = 0.1) %>%
+    ggplot(aes(x = sample_id, y = rel_abund)) +
+    geom_bar(stat = "identity", aes(fill = taxon))
+
 
 # new dataset
 library(tidyverse)

@@ -186,7 +186,7 @@ rel_abund_qiime <- function(asv_qiime, taxa_qiime = NULL, metadata_qiime = NULL,
 
     if(!is.null(var) & !is.null(metadata_qiime)){
 
-        metadata <- meta_data_qiime(meta_data)
+        metadata <- meta_data_qiime(metadata_qiime)
 
         rel_abund <- asv_data_qiime(asv_qiime) %>%
             tidyr::pivot_longer(-sample_id,
