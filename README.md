@@ -7,13 +7,15 @@
 <!-- badges: end -->
 
 Bubbler is a tidy approach to community composition visualization of
-amplicon-sequencing datasets (breath), which is inspired by Pat
-Schloss’s implementation of 16S rRNA stacked barcharts in his Coding
-Club Youtube [series](https://www.youtube.com/@Riffomonas). Bubbler
-generates ASV (Actual Sequence Variant) relative abundance tables from
-ASV sequence tables and taxonomic classifications generated from
-[dada2](https://github.com/benjjneb/dada2) or
-[qiime2](https://github.com/qiime2/qiime2).
+amplicon-sequencing datasets (16S/18S rRNA), which is inspired by Pat
+Schloss’s implementation of stacked barcharts in his Coding Club Youtube
+[series](https://www.youtube.com/@Riffomonas). Bubbler generates
+relative abundance tables from ASV count data, taxonomic classification
+data, and meta data, to prepare data for high-quality visualizations.
+Bubbler is compatible with [dada2](https://github.com/benjjneb/dada2),
+[qiime2](https://github.com/qiime2/qiime2), and
+[phyloseq](https://joey711.github.io/phyloseq/), making data import
+easy.
 
 ## Installation
 

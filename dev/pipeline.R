@@ -13,10 +13,11 @@ taxa_qiime <- "inst/extdata/qiime/taxonomy.qza"
 metadata_qiime <- "inst/extdata/qiime/sample-metadata.tsv"
 
 
-rel_abund_qiime(asv_qiime = asv_qiime, metadata_qiime = metadata_qiime)
-
-
-rel_abund_qiime(asv_qiime, taxa_qiime)
+rel_abund_qiime(
+    asv_qiime = asv_qiime,
+    taxa_qiime = taxa_qiime,
+    metadata_qiime = metadata_qiime,
+    taxa_level = "Genus")
 
 # new dataset
 library(tidyverse)
