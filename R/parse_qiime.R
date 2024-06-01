@@ -25,6 +25,6 @@ taxa_data_qiime <- function(qza){
 #' @export
 meta_data_qiime <- function(qza){
     qiime2R::read_q2metadata(qza) %>%
-        dplyr::rename_with(~"sample_id", 1)
-
+        dplyr::rename_with(~"sample_id", 1) %>%
+        tibble::as_tibble()
 }
