@@ -195,8 +195,8 @@ rel_abund_qiime <- function(asv_qiime, taxa_qiime = NULL, metadata_qiime = NULL,
             dplyr::inner_join(., metadata, by =  "sample_id") %>%
             dplyr::group_by(!!rlang::sym(var)) %>%
             dplyr::mutate(rel_abund = count/sum(count)) %>%
-            dplyr::ungroup() %>%
-            dplyr::select(-count)
+            dplyr::ungroup()
+            # dplyr::select(-count)
 
     } else if (!is.null(var) & is.null(metadata_qiime)) {
 
@@ -206,8 +206,8 @@ rel_abund_qiime <- function(asv_qiime, taxa_qiime = NULL, metadata_qiime = NULL,
                                 values_to = "count") %>%
             dplyr::group_by(!!rlang::sym(var)) %>%
             dplyr::mutate(rel_abund = count/sum(count)) %>%
-            dplyr::ungroup() %>%
-            dplyr::select(-count)
+            dplyr::ungroup()
+            # dplyr::select(-count)
     }
 
     if(is.null(var) & !is.null(metadata_qiime)) {
@@ -219,8 +219,8 @@ rel_abund_qiime <- function(asv_qiime, taxa_qiime = NULL, metadata_qiime = NULL,
                                 names_to = "asv",
                                 values_to = "count") %>%
             dplyr::inner_join(., metadata, by =  "sample_id") %>%
-            dplyr::mutate(rel_abund = count/sum(count)) %>%
-            dplyr::select(-count)
+            dplyr::mutate(rel_abund = count/sum(count))
+            # dplyr::select(-count)
 
     } else if (is.null(var) & is.null(metadata_qiime)) {
 
@@ -228,8 +228,8 @@ rel_abund_qiime <- function(asv_qiime, taxa_qiime = NULL, metadata_qiime = NULL,
             tidyr::pivot_longer(-sample_id,
                                 names_to = "asv",
                                 values_to = "count") %>%
-            dplyr::mutate(rel_abund = count/sum(count)) %>%
-            dplyr::select(-count)
+            dplyr::mutate(rel_abund = count/sum(count))
+            # dplyr::select(-count)
     }
 
     if(!is.null(taxa_qiime)){
