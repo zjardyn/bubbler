@@ -64,6 +64,9 @@ choose_n_taxa <- function(rel_abund_tab, n_taxa = 8) {
 #' pool_taxa(rel_abund_tab, threshold = 0.2, var = "Location")
 pool_taxa <- function(rel_abund_tab, threshold = 0.2, var = NULL) {
 
+    metadata <- rel_abund_tab %>%
+        dplyr::select(!(asv:count))
+
     # taxon_pool <- pool_taxon_thresh(rel_abund_tab, threshold)
     taxon_pool <- rel_abund_tab %>%
         dplyr::group_by(taxon) %>%
@@ -77,11 +80,21 @@ pool_taxa <- function(rel_abund_tab, threshold = 0.2, var = NULL) {
                taxon = tidyr::replace_na(taxon, "Unclassified"))
 
     if(is.null(var)){
-        pooled %>%
+
+        # TODO: Add this to other parts of function.
+        rel_abund_pooled <- pooled %>%
         dplyr::group_by(sample_id, taxon) %>%
-        dplyr::reframe(rel_abund = sum(rel_abund))%>%
+        dplyr::reframe(rel_abund = sum(rel_abund))
                 # mean = sum(mean)) %>%
-        dplyr::distinct()
+        # dplyr::distinct()
+
+        if(dim(metadata)[2] != 0) {
+           inner_join(rel_abund_pooled, metadata, by = "sample_id") %>%
+                distinct()
+        } else {
+            rel_abund_pooled
+        }
+
     } else {
         pooled %>%
         dplyr::group_by(!!rlang::sym(var), sample_id, taxon) %>%
