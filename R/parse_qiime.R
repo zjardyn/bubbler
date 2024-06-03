@@ -24,7 +24,16 @@ taxa_data_qiime <- function(qza){
 
 #' @export
 meta_data_qiime <- function(qza){
-    qiime2R::read_q2metadata(qza) %>%
+    metadata <- qiime2R::read_q2metadata(qza) %>%
         dplyr::rename_with(~"sample_id", 1) %>%
         tibble::as_tibble()
+
+    metadata_names <- metadata %>%
+        names() %>%
+        #TODO: Add these to all parsing functions
+        str_replace_all("-", "_") %>%
+        str_replace_all(" ", "_")
+
+    colnames(metadata) <- metadata_names
+    metadata
 }
