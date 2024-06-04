@@ -61,7 +61,7 @@ choose_n_taxa <- function(rel_abund_tab, n_taxa = 8) {
 #' @export
 #'
 #' @examples
-#' pool_taxa(rel_abund_tab, threshold = 0.2, var = "Location")
+#' \dontrun{pool_taxa(rel_abund_tab, threshold = 0.2, var = "Location")}
 pool_taxa <- function(rel_abund_tab, threshold = 0.2, var = NULL) {
 
     metadata <- rel_abund_tab %>%

@@ -21,5 +21,5 @@ Applies a threshold and pools any taxa below this threshold, across samples
 and optionally, across a variable.
 }
 \examples{
-pool_taxa(rel_abund_tab, threshold = 0.2, var = "Location")
+\dontrun{pool_taxa(rel_abund_tab, threshold = 0.2, var = "Location")}
 }
