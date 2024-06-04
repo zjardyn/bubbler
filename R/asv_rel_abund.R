@@ -29,8 +29,8 @@ rel_abund_phy <- function(phy, taxa_data = TRUE, taxa_level = "Phylum", meta_dat
        dplyr::inner_join(., metadata, by =  "sample_id") %>%
        dplyr::group_by(!!rlang::sym(var)) %>%
        dplyr::mutate(rel_abund = count/sum(count)) %>%
-       dplyr::ungroup() %>%
-       dplyr::select(-count)
+       dplyr::ungroup()
+       # dplyr::select(-count)
 
    } else if (!is.null(var) & meta_data == FALSE) {
 
@@ -40,8 +40,8 @@ rel_abund_phy <- function(phy, taxa_data = TRUE, taxa_level = "Phylum", meta_dat
                            values_to = "count") %>%
        dplyr::group_by(!!rlang::sym(var)) %>%
        dplyr::mutate(rel_abund = count/sum(count)) %>%
-       dplyr::ungroup() %>%
-       dplyr::select(-count)
+       dplyr::ungroup()
+       # dplyr::select(-count)
    }
 
    if(is.null(var) & meta_data == TRUE) {
@@ -53,8 +53,8 @@ rel_abund_phy <- function(phy, taxa_data = TRUE, taxa_level = "Phylum", meta_dat
                             names_to = "asv",
                             values_to = "count") %>%
         dplyr::inner_join(., metadata, by =  "sample_id") %>%
-        dplyr::mutate(rel_abund = count/sum(count)) %>%
-        dplyr::select(-count)
+        dplyr::mutate(rel_abund = count/sum(count))
+        # dplyr::select(-count)
 
    } else if (is.null(var) & meta_data == FALSE){
 
@@ -62,8 +62,8 @@ rel_abund_phy <- function(phy, taxa_data = TRUE, taxa_level = "Phylum", meta_dat
         tidyr::pivot_longer(-sample_id,
                             names_to = "asv",
                             values_to = "count") %>%
-        dplyr::mutate(rel_abund = count/sum(count)) %>%
-        dplyr::select(-count)
+        dplyr::mutate(rel_abund = count/sum(count))
+        # dplyr::select(-count)
    }
 
     if(taxa_data == TRUE) {
@@ -118,8 +118,8 @@ rel_abund_tsv <- function(asv, taxa_data = NULL, taxa_level = "Phylum", meta_dat
             dplyr::inner_join(., metadata, by =  "sample_id") %>%
             dplyr::group_by(!!rlang::sym(var)) %>%
             dplyr::mutate(rel_abund = count/sum(count)) %>%
-            dplyr::ungroup() %>%
-            dplyr::select(-count)
+            dplyr::ungroup()
+            # dplyr::select(-count)
 
     } else if (!is.null(var) & is.null(meta_data)) {
 
@@ -129,8 +129,8 @@ rel_abund_tsv <- function(asv, taxa_data = NULL, taxa_level = "Phylum", meta_dat
                                 values_to = "count") %>%
             dplyr::group_by(!!rlang::sym(var)) %>%
             dplyr::mutate(rel_abund = count/sum(count)) %>%
-            dplyr::ungroup() %>%
-            dplyr::select(-count)
+            dplyr::ungroup()
+            # dplyr::select(-count)
     }
 
     if(is.null(var) & !is.null(meta_data)) {
@@ -142,8 +142,8 @@ rel_abund_tsv <- function(asv, taxa_data = NULL, taxa_level = "Phylum", meta_dat
                                 names_to = "asv",
                                 values_to = "count") %>%
             dplyr::inner_join(., metadata, by =  "sample_id") %>%
-            dplyr::mutate(rel_abund = count/sum(count)) %>%
-            dplyr::select(-count)
+            dplyr::mutate(rel_abund = count/sum(count))
+            # dplyr::select(-count)
 
     } else if (is.null(var) & is.null(meta_data)) {
 
@@ -151,8 +151,8 @@ rel_abund_tsv <- function(asv, taxa_data = NULL, taxa_level = "Phylum", meta_dat
             tidyr::pivot_longer(-sample_id,
                                 names_to = "asv",
                                 values_to = "count") %>%
-            dplyr::mutate(rel_abund = count/sum(count)) %>%
-            dplyr::select(-count)
+            dplyr::mutate(rel_abund = count/sum(count))
+            # dplyr::select(-count)
     }
 
     if(!is.null(taxa_data)){
