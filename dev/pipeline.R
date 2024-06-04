@@ -70,6 +70,57 @@ library(patchwork)
 
 p1 + p2 + plot_layout(guides = "collect", axes = "collect")
 
+# arrange samples by a chosen taxa
+
+q <- rel_abund_qiime(
+    asv_qiime = asv_qiime,
+    taxa_qiime = taxa_qiime,
+    metadata_qiime = metadata_qiime,
+    taxa_level = "Genus" )
+
+q %>%
+    pool_taxa(threshold = choose_n_taxa(q,12)) %>%
+    unite("date",day, month, year) %>%
+    mutate(date = as.factor(dmy(date))) %>%
+    bar_plot(x_var = "date", position = "fill")  +
+    facet_wrap(~body_site)
+
+
+
+# add line for taxa of interest
+# Arrange by taxa
+tax <- "Pseudomonas"
+
+(taxon_sums <- q %>%
+    filter(taxon == tax) %>%
+    group_by(sample_id) %>%
+    summarise(taxon_sum = sum(count)) %>%
+    arrange(desc(taxon_sum))
+)
+q2 <- inner_join(q, taxon_sums, by = "sample_id") %>%
+    mutate(sample_id = as.factor(sample_id)) %>%
+    mutate(sample_id = fct_reorder(sample_id, taxon_sum, .desc = TRUE))
+
+pool_taxa(q2, threshold = choose_n_taxa(q2, 8)) %>%
+    arrange_taxa(pooled_top = TRUE)%>%
+    bar_plot(position = "fill") + guides(fill = guide_legend(reverse = TRUE))
+
+
+bar_plot <- function(rel_abund_tab, x_var = "sample_id", position = c("stack", "fill")){
+
+    p <- ggplot(rel_abund_tab, aes(x = !!rlang::sym(x_var), y = rel_abund, fill = taxon))
+    position <- match.arg(position)
+    if(position == "stack") {
+        p <- p + geom_bar(stat = "identity", position = position)
+    }
+    if(position == "fill") {
+        p <- p + geom_bar(stat = "identity", position = position)
+    }
+    p + theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))
+}
+
+
+
 
 
 # new dataset
@@ -78,7 +129,7 @@ asv <- system.file("extdata", "seqtab.tsv", package = "bubbler")
 taxa <- system.file("extdata", "taxa.tsv", package = "bubbler")
 meta_data <- system.file("extdata", "metadata.tsv", package = "bubbler")
 
-rel_abund <- rel_abund_raw(asv, taxa , meta_data = meta_data,  taxa_level = "Genus")
+rel_abund <- rel_abund_tsv(asv, taxa , meta_data = meta_data,  taxa_level = "Genus")
 # rel_abund_o <- arrange_taxa(rel_abund_o)
 # rel_abund_o2 <- arrange_sample_by_taxa(rel_abund)
 
