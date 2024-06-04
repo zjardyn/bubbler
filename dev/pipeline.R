@@ -82,9 +82,8 @@ q %>%
     pool_taxa(threshold = choose_n_taxa(q,12)) %>%
     unite("date",day, month, year) %>%
     mutate(date = as.factor(dmy(date))) %>%
-    bar_plot(x_var = "date", position = "fill")  +
-    facet_wrap(~body_site)
-
+    arrange_taxa(pooled = "bottom") %>%
+    bar_plot(x_var = "date", position = "fill")
 
 
 # add line for taxa of interest
