@@ -4,12 +4,20 @@ library(phyloseq)
 # qiime importing
 library(qiime2R)
 
+# fix pool_taxa, go through it to see if it is legit, add option to remove the threshold taxa
+# count number of asvs per taxonomic group and add as variable
+
+# add bray-curtis tree beside bargraph
+# organize legend by a higher taxonomic level using ggnewscale
+# stackoverflow: grouping legend by higher classification, filum and genus?
+
+
+
 # order my sample read abundance, plot as line
 
 asv_qiime <- "inst/extdata/qiime/table-dada2.qza"
 taxa_qiime <- "inst/extdata/qiime/taxonomy.qza"
 metadata_qiime <- "inst/extdata/qiime/sample-metadata.tsv"
-
 
 # sample_id, asv, rel_abund, level, taxon
 q <- rel_abund_qiime(
@@ -79,12 +87,11 @@ q <- rel_abund_qiime(
     taxa_level = "Genus" )
 
 q %>%
-    pool_taxa(threshold = choose_n_taxa(q,12)) %>%
-    unite("date",day, month, year) %>%
-    mutate(date = as.factor(dmy(date))) %>%
-    arrange_taxa(pooled = "bottom") %>%
-    bar_plot(x_var = "date", position = "fill")
-
+    pool_taxa(threshold = choose_n_taxa(q,12))
+    # unite("date",day, month, year) %>%
+    # mutate(date = as.factor(dmy(date))) %>%
+    # arrange_taxa(pooled = "top")
+    # bar_plot(x_var = "date", position = "fill") + guides(fill = guide_legend(reverse = TRUE))
 
 # add line for taxa of interest
 # Arrange by taxa
@@ -117,10 +124,6 @@ bar_plot <- function(rel_abund_tab, x_var = "sample_id", position = c("stack", "
     }
     p + theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))
 }
-
-
-
-
 
 # new dataset
 library(tidyverse)

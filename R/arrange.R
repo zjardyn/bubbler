@@ -27,6 +27,7 @@ arrange_taxa <- function(rel_abund_tab, pooled = c("top", "bottom")) {
         dplyr::summarise(mean = mean(rel_abund))
 
    threshold <- grep("<", rel_abund_tab$taxon, value = TRUE, fixed = TRUE, useBytes = TRUE)[1]
+
     if(pooled == "top"){
 
         rel_abund_arranged <- dplyr::inner_join(rel_abund_tab, grouping, by = "taxon") %>%
@@ -45,6 +46,8 @@ arrange_taxa <- function(rel_abund_tab, pooled = c("top", "bottom")) {
             dplyr::mutate(taxon = forcats::fct_relevel(taxon, "Unclassified", after = Inf),
                           taxon = forcats::fct_relevel(taxon, threshold, after =  Inf))
 
-   }
+    }
+
    rel_abund_arranged
+
 }
