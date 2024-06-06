@@ -8,13 +8,10 @@ library(qiime2R)
 # count number of asvs per taxonomic group and add as variable
 
 # add bray-curtis tree beside bargraph
-# organize legend by a higher taxonomic level using ggnewscale
-# stackoverflow: grouping legend by higher classification, filum and genus?
-#
-# library(RColorBrewer)
-# RColorBrewer::display.brewer.all()
-library(ggplot2)
+
+
 library(viridis)
+library(ggnewscale)
 
 # Function to display a vector of colors with 10 colors per row using ggplot2
 display_colors_ggplot <- function(color_vector, colors_per_row = 10) {
@@ -59,7 +56,8 @@ q <- rel_abund_qiime(
     # metadata_qiime = metadata_qiime,
     taxa_level = "Genus", )
 
-qp <- pool_taxa(q, 0.001)
+
+qp <- pool_taxa(q, 0.0035)
 
 qp$taxon %>%
     unique()
@@ -125,20 +123,41 @@ qpc[qpc[["taxon"]] == "Unclassified", "color"] <- "#555555"
 
 names(qpc$color) <- qpc$taxon
 
+# colours are now set, now time to group by phylum for plotting!
 
+cols <- qpc$color
 
-bar_plot(qpc, position = "fill") + scale_fill_manual(values = qpc$color)
+tx2 <- tx %>%
+    select(Genus, Phylum) %>%
+    rename(taxon = "Genus") %>%
+    na.omit() %>%
+    distinct()
 
+qpc2 <- left_join(qpc, tx2, by = "taxon")
 
-cols_full <- vector()
-for(i in turbo(n_rows, begin = 0.2,end = 0.8)){
-   col_pal <- colorRampPalette(c(i, "black"))
-   cols <- col_pal(n_cols + cutoff)
-   cols <- cols[1:(length(cols) - cutoff)]
-   cols_full <- c(cols_full, cols)
-}
-display_colors_ggplot(cols_full, colors_per_row = n_cols)
+idx <- grepl("^<", qpc2$taxon)
+qpc2[idx,"Phylum"] <- "Other"
 
+qpc2[qpc2[["taxon"]] == "Unclassified", "Phylum"] <- "Other"
+
+groups <- qpc2 %>%
+    distinct(Phylum, taxon) %>%
+    mutate(order = as.numeric(forcats::fct_inorder(Phylum))) %>%
+    split(.$Phylum)
+
+qpc %>%
+    arrange_taxa(pooled = "top") %>%
+ggplot() +
+    lapply(groups, function(x){
+        list(
+            geom_col(aes(x = sample_id, y = rel_abund, fill = taxon), position = "fill"),
+            scale_fill_manual(name = unique(x$Phylum),
+                              values = cols, limits = x$taxon, na.value = "transparent",
+                              guide = guide_legend(order = unique(x$order))),
+            new_scale_fill()
+
+        )
+    }) + theme(legend.position = "bottom")
 
 # old way of doing it
 
@@ -160,28 +179,6 @@ generate_shades <- function(phylum, n) {
     scales::seq_gradient_pal(base_color, "white", space = "Lab")(seq(0.1, 0.7, length.out = n))
 }
 
-library(RColorBrewer)
-
-RColorBrewer::display.brewer.all()
-# viridis::turbo(n_rows
-RColorBrewer::brewer.pal(11, "Spectral")
-
-end_col <- "black"
-n_rows <- 10 # the number of different colours
-n_cols <- 15 # the number of different shades of a given colour
-cutoff <- ceiling(n_rows * 0.7)
-
-cols_full <- vector()
-for(i in turbo(n_rows, begin = 0.2,end = 0.8)){
-   col_pal <- colorRampPalette(c(i, "black"))
-   cols <- col_pal(n_cols + cutoff)
-   cols <- cols[1:(length(cols) - cutoff)]
-   cols_full <- c(cols_full, cols)
-}
-display_colors_ggplot(cols_full, colors_per_row = n_cols)
-
-
-# "#30123bff" "#a2fc3cff" "#7a0403ff"
 # order my sample read abundance, plot as line
 
 asv_qiime <- "inst/extdata/qiime/table-dada2.qza"
