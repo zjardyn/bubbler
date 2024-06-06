@@ -10,9 +10,139 @@ library(qiime2R)
 # add bray-curtis tree beside bargraph
 # organize legend by a higher taxonomic level using ggnewscale
 # stackoverflow: grouping legend by higher classification, filum and genus?
+#
+# library(RColorBrewer)
+# RColorBrewer::display.brewer.all()
+library(ggplot2)
+library(viridis)
+
+# Function to display a vector of colors with 10 colors per row using ggplot2
+display_colors_ggplot <- function(color_vector, colors_per_row = 10) {
+    n <- length(color_vector)
+    rows <- ceiling(n / colors_per_row)
+    data <- data.frame(
+        x = rep(1:colors_per_row, length.out = n),
+        y = rep(1:rows, each = colors_per_row)[1:n],
+        color = color_vector
+    )
+
+    ggplot(data, aes(x = factor(x), y = factor(y), fill = color)) +
+        geom_tile() +
+        scale_fill_identity() +
+        theme_void() +
+        theme(
+            axis.text.x = element_blank(),
+            axis.text.y = element_blank(),
+            axis.ticks = element_blank()
+        )
+        # geom_text(aes(label = color), angle = 90, hjust = 1, vjust = 0.5, size = 3)
+}
+
+###~%~ trying to get a nested colour scheme for phylum ~%~###
+
+taxa_qiime <- "inst/extdata/qiime/taxonomy.qza"
+tx <- taxa_data_qiime(taxa_qiime)
+tx %>%
+    select(Phylum) %>%
+    group_by(Phylum) %>%
+    summarise(sum = n()) %>%
+    arrange(desc(sum))
+
+asv_qiime <- "inst/extdata/qiime/table-dada2.qza"
+taxa_qiime <- "inst/extdata/qiime/taxonomy.qza"
+metadata_qiime <- "inst/extdata/qiime/sample-metadata.tsv"
+
+# sample_id, asv, rel_abund, level, taxon
+q <- rel_abund_qiime(
+    asv_qiime = asv_qiime,
+    taxa_qiime = taxa_qiime,
+    # metadata_qiime = metadata_qiime,
+    taxa_level = "Genus", )
+
+qp <- pool_taxa(q, 0.001)
+
+qp$taxon %>%
+    unique()
+
+taxa_pooled <- qp %>%
+    rename(Genus = "taxon") %>%
+    select(Genus)
+
+taxa_full <- inner_join(tx, taxa_pooled, by = "Genus",
+                        relationship = "many-to-many") %>%
+    distinct()
+    # select(Genus) %>%
+    # unique()``
+taxa_unique <- taxa_full %>%
+    select(Phylum) %>%
+    unique() %>%
+    pull()
+
+# Generate viridis colors for each group
+phylum_colors <- setNames(viridis::turbo(length(taxa_unique)), taxa_unique)
+
+
+phylum_genus <- taxa_full %>%
+    select(Phylum, Genus) %>%
+    arrange(Phylum, Genus ) %>%
+    distinct()
+
+# new way of doing it
+
+pg_nest <- phylum_genus %>%
+    group_by(Phylum) %>%
+    nest()
+
+for(i in 1:nrow(pg_nest)){
+    phylum <- pg_nest$Phylum[i]
+    group
+}
 
 
 
+
+# old way of doing it
+
+phylum_genus_col <- phylum_genus %>%
+    mutate(color = phylum_colors[Phylum])
+
+
+# Group by Phylum and generate shades of colors
+phylum_genus_col2 <- phylum_genus_col %>%
+    group_by(Phylum) %>%
+    mutate(color = generate_shades(first(Phylum), n())) %>%
+    ungroup()
+
+display_colors_ggplot(phylum_genus_col2$color)
+
+# Function to generate shades for each phylum with specified base color
+generate_shades <- function(phylum, n) {
+    base_color <- phylum_colors[[phylum]]
+    scales::seq_gradient_pal(base_color, "white", space = "Lab")(seq(0.1, 0.7, length.out = n))
+}
+
+library(RColorBrewer)
+
+RColorBrewer::display.brewer.all()
+# viridis::turbo(n_rows
+RColorBrewer::brewer.pal(11, "Spectral")
+
+end_col <- "black"
+n_rows <- 10 # the number of different colours
+n_cols <- 15 # the number of different shades of a given colour
+cutoff <- ceiling(n_rows * 0.7)
+
+cols_full <- vector()
+for(i in turbo(n_rows, begin = 0.2,end = 0.8)){
+   col_pal <- colorRampPalette(c(i, "black"))
+   cols <- col_pal(n_cols + cutoff)
+   cols <- cols[1:(length(cols) - cutoff)]
+   cols_full <- c(cols_full, cols)
+}
+display_colors_ggplot(cols_full, colors_per_row = n_cols)
+
+
+# "#30123bff" "#a2fc3cff" "#7a0403ff"
 # order my sample read abundance, plot as line
 
 asv_qiime <- "inst/extdata/qiime/table-dada2.qza"
