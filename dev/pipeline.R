@@ -73,13 +73,14 @@ taxa_full <- inner_join(tx, taxa_pooled, by = "Genus",
     distinct()
     # select(Genus) %>%
     # unique()``
-taxa_unique <- taxa_full %>%
-    select(Phylum) %>%
-    unique() %>%
-    pull()
+
+# taxa_unique <- taxa_full %>%
+#     select(Phylum) %>%
+#     unique() %>%
+#     pull()
 
 # Generate viridis colors for each group
-phylum_colors <- setNames(viridis::turbo(length(taxa_unique)), taxa_unique)
+# phylum_colors <- setNames(viridis::turbo(length(taxa_unique)), taxa_unique)
 
 
 phylum_genus <- taxa_full %>%
@@ -93,12 +94,50 @@ pg_nest <- phylum_genus %>%
     group_by(Phylum) %>%
     nest()
 
+base_colours <- turbo(n = nrow(pg_nest), begin = 0.2, end = 0.8)
+# cutoff <- ceiling(n_rows * 0.7)
+2 * 0.8
+
+# taxon is Genus actually.
+tb <- tibble(taxon = character(), color = character())
 for(i in 1:nrow(pg_nest)){
     phylum <- pg_nest$Phylum[i]
-    group
+    genera <- pg_nest$data[[i]]
+
+    phylum_shades_pal <- colorRampPalette(c(base_colours[i], "black"))
+    cutoff <- ceiling(nrow(genera) * 0.5)
+    phylum_shades <- phylum_shades_pal(nrow(genera) + cutoff)
+    phylum_shades <- phylum_shades[1:(length(phylum_shades) - cutoff)]
+
+    pgc <- tibble(taxon = pull(genera),
+                 color = phylum_shades)
+
+    tb <- bind_rows(tb, pgc)
 }
 
+qpc <- left_join(qp, tb, by = "taxon")
 
+idx <- grepl("^<", qpc$taxon)
+qpc[idx,"color"] <- "#999999"
+
+qpc[qpc[["taxon"]] == "Unclassified", "color"] <- "#555555"
+
+
+names(qpc$color) <- qpc$taxon
+
+
+
+bar_plot(qpc, position = "fill") + scale_fill_manual(values = qpc$color)
+
+
+cols_full <- vector()
+for(i in turbo(n_rows, begin = 0.2,end = 0.8)){
+   col_pal <- colorRampPalette(c(i, "black"))
+   cols <- col_pal(n_cols + cutoff)
+   cols <- cols[1:(length(cols) - cutoff)]
+   cols_full <- c(cols_full, cols)
+}
+display_colors_ggplot(cols_full, colors_per_row = n_cols)
 
 
 # old way of doing it
