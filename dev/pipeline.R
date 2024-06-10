@@ -1,7 +1,10 @@
 library(tidyverse)
 library(phyloseq)
 library(viridis)
-
+library(ggnewscale)
+library(vegan)
+library(ape)
+library(ggtree)
 # qiime importing
 # library(qiime2R)
 
@@ -9,15 +12,6 @@ library(viridis)
 # count number of asvs per taxonomic group and add as variable
 
 # add bray-curtis tree beside bargraph
-
-
-#Extract OTU table and compute BC
-ps_rel_otu <- data.frame(phyloseq::otu_table(ps_rel_abund))
-ps_rel_otu <- t(ps_rel_otu)
-bc_dist <- vegan::vegdist(ps_rel_otu, method = "bray")
-as.matrix(bc_dist)[1:5, 1:5]
-
-library(vegan)
 
 otufile = system.file("extdata", "GP_otu_table_rand_short.txt.gz", package="phyloseq")
 mapfile = system.file("extdata", "master_map.txt", package="phyloseq")
@@ -31,10 +25,8 @@ bc_dist <- vegan::vegdist(asv, method = "bray")
 hc <- hclust(bc_dist, method = "average")
 
 
-library(ape)
 phylo_tree <- as.phylo(hc)
 
-library(ggtree)
 # Use ggtree to get the tip order
 ggtree_plot <- ggtree(phylo_tree)
 
@@ -52,24 +44,11 @@ p1 <- ggtree(phylo_tree) +
     # theme_tree2() +
     theme(plot.margin = margin(0, -5, 0, 0))
 #
-
-# Create the ggtree plot
-# p <- ggtree(tree) +
-#     geom_tiplab(aes(label = ""), align = TRUE)
-#
-# # Adjust the plot limits to ensure tips reach the edge
-# p <- p + xlim(0, max(p$data$x) + 0.2 * max(p$data$x))
-
-
-
 q <- rel_abund_phy(qiimedata, taxa_level = "Phylum")
-q1 <- q %>%
-    mutate(sample_id = as.factor(sample_id),
-           sample_id = fct_relevel(sample_id, tip_order))
 
-
-
-p2 <- bar_plot(q1, position = "fill") +
+p1 <- q %>%
+    arrange_variable(levels = tip_order) %>%
+    bar_plot(position = "fill") +
     labs(x = NULL) +
     scale_x_discrete(position = "top") +
     scale_y_continuous(expand = c(0,0)) +
@@ -366,18 +345,7 @@ pool_taxa(q2, threshold = choose_n_taxa(q2, 8)) %>%
     bar_plot(position = "fill") + guides(fill = guide_legend(reverse = TRUE))
 
 
-bar_plot <- function(rel_abund_tab, x_var = "sample_id", position = c("stack", "fill")){
 
-    p <- ggplot(rel_abund_tab, aes(x = !!rlang::sym(x_var), y = rel_abund, fill = taxon))
-    position <- match.arg(position)
-    if(position == "stack") {
-        p <- p + geom_bar(stat = "identity", position = position)
-    }
-    if(position == "fill") {
-        p <- p + geom_bar(stat = "identity", position = position)
-    }
-    p + theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))
-}
 
 # new dataset
 library(tidyverse)

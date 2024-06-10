@@ -51,3 +51,14 @@ arrange_taxa <- function(rel_abund_tab, pooled = c("top", "bottom")) {
    rel_abund_arranged
 
 }
+
+#' @export
+arrange_variable <- function(rel_abund_tab, variable, levels){
+   if(missing(variable)){variable <- "sample_id"}
+   if(missing(levels)){stop("levels not provided.")}
+
+   rel_abund_tab %>%
+   dplyr::mutate(!!rlang::sym(variable) := as.factor(!!rlang::sym(variable)),
+                 !!rlang::sym(variable) := forcats::fct_relevel(!!rlang::sym(variable), levels))
+}
+
