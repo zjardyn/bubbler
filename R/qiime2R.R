@@ -1,4 +1,14 @@
+#' read qiime2 artifacts (.qza)
+#'
+#' extracts embedded data and object metadata into an R session
+#'
+#' @param file path to the input file, ex: file="~/data/moving_pictures/table.qza"
+#' @param tmp a temporary directory that the object will be decompressed to (default="tempdir()")
+#' @param rm should the decompressed object be removed at completion of function (T/F default=TRUE)
+#' @return a named list.
+#' @examples \dontrun{SVs<-read_qza("data/table.qza")}
 #' @export
+
 read_qza <- function(file, tmp, rm) {
 
     if(missing(tmp)){tmp <- tempdir()}
@@ -26,7 +36,19 @@ read_qza <- function(file, tmp, rm) {
     return(artifact)
 }
 
+#' read qiime2 biom file (version 2.1)
+#'
+#' Loads a version 2.1 spec biom file (http://biom-format.org/documentation/format_versions/biom-2.1.html) as expected to be found within a qiime2 artifact.
+#'
+#' @param file path to the input file, ex: file="~/Downloads/3372d9e0-3f1c-43d8-838b-35c7ad6dac89/data/feature-table.biom"
+
+#' @return a matrix of values
+#'
+#' @examples \dontrun{metadata<-read_q2biom("feature-table.biom")}
 #' @export
+#'
+#'
+
 read_q2biom <- function(file) {
     if(missing(file)){stop("Path to biom file given")}
     if(!file.exists(file)){stop("File not found")}
@@ -45,5 +67,57 @@ read_q2biom <- function(file) {
     return(as.matrix(ftable))
 }
 
+#' read qiime2 metadata (.tsv)
+#'
+#' Loads a qiime2 metadata file wherein the 2nd line contains the #q2:types line dictating the type of variable (categorical/numeric)
+#'
+#' @param file path to the input file, ex: file="~/data/moving_pictures/table.qza"
+
+#' @return a data.frame wherein the first column is SampleID
+#'
+#' @examples \dontrun{metadata<-read_q2metadata("q2metadata.tsv")}
+#' @export
+#'
+#'
+
+read_q2metadata <- function(file) {
+    if(missing(file)){stop("Path to metadata file not found")}
+    if(!is_q2metadata(file)){stop("Metadata does not define types (ie second line does not start with #q2:types)")}
+
+    defline<-suppressWarnings(readLines(file)[2])
+    defline<-strsplit(defline, split="\t")[[1]]
+
+    defline[grep("numeric", tolower(defline))]<-"double"
+    defline[grep("categorical|q2:types", tolower(defline))]<-"factor"
+    defline[defline==""]<-"factor"
+
+    coltitles<-strsplit(suppressWarnings(readLines(file)[1]), split='\t')[[1]]
+    metadata<-read.table(file, header=F, col.names=coltitles, skip=2, sep='\t', colClasses = defline, check.names = FALSE)
+    colnames(metadata)[1]<-"SampleID"
+
+    return(metadata)
+}
 
 
+
+#' checks if metadata is in qiime2 (.tsv)
+#'
+#' Checks to see if a file is in qiime2 metadata format, ie contains #q2:types line dictating the type of variable (categorical/numeric)
+#'
+#' @param file path to the input file, ex: file="~/data/moving_pictures/table.qza"
+
+#' @return TRUE/FALSE
+#'
+#' @examples \dontrun{metadata<-is_q2metadata("q2metadata.tsv")}
+#' @export
+#'
+#'
+
+is_q2metadata <- function(file){
+
+    if (!file.exists(file)){stop("Input metadata file (",file,") not found. Please check path and/or use list.files() to see files in current working directory.")}
+
+    suppressWarnings(
+        if(grepl("^#q2:types", readLines(file)[2])){return(TRUE)}else{return(FALSE)}
+    )
+}

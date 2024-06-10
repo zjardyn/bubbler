@@ -46,7 +46,7 @@ p1 <- ggtree(phylo_tree) +
 #
 q <- rel_abund_phy(qiimedata, taxa_level = "Phylum")
 
-p1 <- q %>%
+p2 <- q %>%
     arrange_variable(levels = tip_order) %>%
     bar_plot(position = "fill") +
     labs(x = NULL) +

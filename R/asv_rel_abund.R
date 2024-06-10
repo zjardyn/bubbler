@@ -180,9 +180,9 @@ rel_abund_tsv <- function(asv, taxa_data = NULL, taxa_level = "Phylum", meta_dat
 #' @export
 rel_abund_qiime <- function(asv_qiime, taxa_qiime = NULL, metadata_qiime = NULL, taxa_level = "Phylum", var = NULL ) {
 
-    if(rlang::is_installed("qiime2R") == FALSE){
-       stop("Please install qiime2R")
-    }
+    # if(rlang::is_installed("qiime2R") == FALSE){
+    #    stop("Please install qiime2R")
+    # }
 
     if(!is.null(var) & !is.null(metadata_qiime)){
 
