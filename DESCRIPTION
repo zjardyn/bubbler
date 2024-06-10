@@ -23,8 +23,9 @@ Imports:
     stats,
     stringr,
     tibble,
-    tidyr
+    tidyr,
+    yaml
 Config/testthat/edition: 3
 Suggests: 
     phyloseq,
-    qiime2R
+    rhdf5

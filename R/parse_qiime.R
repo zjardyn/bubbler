@@ -1,7 +1,7 @@
 
 #' @export
 asv_data_qiime <- function(qza){
-   qiime2R::read_qza(qza)[["data"]] %>%
+   read_qza(qza)[["data"]] %>%
         t() %>%
         as.data.frame() %>%
         tibble::rownames_to_column(var = "sample_id") %>%
@@ -10,7 +10,7 @@ asv_data_qiime <- function(qza){
 
 #' @export
 taxa_data_qiime <- function(qza){
-    qiime2R::read_qza(qza)[["data"]] %>%
+    read_qza(qza)[["data"]] %>%
         {purrr::quietly(tidyr::separate)}(Taxon, into = c("Domain", "Phylum", "Class", "Order", "Family", "Genus", "Species"), sep = "; ") %>% magrittr::extract2("result") %>%
         dplyr::mutate(dplyr::across(.cols = Domain:Species,
                       .fns = ~stringr::str_remove(.,"[a-z]__"))) %>%

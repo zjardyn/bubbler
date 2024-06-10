@@ -1,8 +1,9 @@
 library(tidyverse)
 library(phyloseq)
+library(viridis)
 
 # qiime importing
-library(qiime2R)
+# library(qiime2R)
 
 # fix pool_taxa, go through it to see if it is legit, add option to remove the threshold taxa
 # count number of asvs per taxonomic group and add as variable
@@ -41,22 +42,39 @@ ggtree_plot <- ggtree(phylo_tree)
 tip_order <- ggtree_plot$data %>%
     filter(isTip == TRUE) %>%
     arrange(y) %>%
-    select(label) %>% pull
+    select(label) %>%
+    rev() %>%
+    pull()
 
 # Visualize the phylogenetic tree using ggtree
 p1 <- ggtree(phylo_tree) +
-    geom_tiplab() +
-    theme_tree2()
+    # geom_tiplab() +
+    # theme_tree2() +
+    theme(plot.margin = margin(0, -5, 0, 0))
+#
+
+# Create the ggtree plot
+# p <- ggtree(tree) +
+#     geom_tiplab(aes(label = ""), align = TRUE)
+#
+# # Adjust the plot limits to ensure tips reach the edge
+# p <- p + xlim(0, max(p$data$x) + 0.2 * max(p$data$x))
+
+
 
 q <- rel_abund_phy(qiimedata, taxa_level = "Phylum")
 q1 <- q %>%
     mutate(sample_id = as.factor(sample_id),
-           sample_id = fct_relevel(sample_id, tip_order)
-           )
+           sample_id = fct_relevel(sample_id, tip_order))
 
 
 
-p2 <- bar_plot(q1, position = "fill") + coord_flip()
+p2 <- bar_plot(q1, position = "fill") +
+    labs(x = NULL) +
+    scale_x_discrete(position = "top") +
+    scale_y_continuous(expand = c(0,0)) +
+    coord_flip() +
+    theme(plot.margin = margin(0, 0, 0, 5))
 
 library(patchwork)
 p1 | p2
