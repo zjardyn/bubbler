@@ -10,6 +10,59 @@ library(qiime2R)
 # add bray-curtis tree beside bargraph
 
 
+#Extract OTU table and compute BC
+ps_rel_otu <- data.frame(phyloseq::otu_table(ps_rel_abund))
+ps_rel_otu <- t(ps_rel_otu)
+bc_dist <- vegan::vegdist(ps_rel_otu, method = "bray")
+as.matrix(bc_dist)[1:5, 1:5]
+
+library(vegan)
+
+otufile = system.file("extdata", "GP_otu_table_rand_short.txt.gz", package="phyloseq")
+mapfile = system.file("extdata", "master_map.txt", package="phyloseq")
+trefile = system.file("extdata", "GP_tree_rand_short.newick.gz", package="phyloseq")
+rs_file = system.file("extdata", "qiime500-refseq.fasta", package="phyloseq")
+qiimedata = import_qiime(otufile, mapfile, trefile, rs_file)
+
+asv <- data.frame(phyloseq::otu_table(qiimedata))
+asv <- t(asv)
+bc_dist <- vegan::vegdist(asv, method = "bray")
+hc <- hclust(bc_dist, method = "average")
+
+
+library(ape)
+phylo_tree <- as.phylo(hc)
+
+library(ggtree)
+# Use ggtree to get the tip order
+ggtree_plot <- ggtree(phylo_tree)
+
+
+tip_order <- ggtree_plot$data %>%
+    filter(isTip == TRUE) %>%
+    arrange(y) %>%
+    select(label) %>% pull
+
+# Visualize the phylogenetic tree using ggtree
+p1 <- ggtree(phylo_tree) +
+    geom_tiplab() +
+    theme_tree2()
+
+q <- rel_abund_phy(qiimedata, taxa_level = "Phylum")
+q1 <- q %>%
+    mutate(sample_id = as.factor(sample_id),
+           sample_id = fct_relevel(sample_id, tip_order)
+           )
+
+
+
+p2 <- bar_plot(q1, position = "fill") + coord_flip()
+
+library(patchwork)
+p1 | p2
+
+
+
 library(viridis)
 library(ggnewscale)
 
@@ -49,26 +102,23 @@ asv_qiime <- "inst/extdata/qiime/table-dada2.qza"
 taxa_qiime <- "inst/extdata/qiime/taxonomy.qza"
 metadata_qiime <- "inst/extdata/qiime/sample-metadata.tsv"
 
-# sample_id, asv, rel_abund, level, taxon
+# generate rel_abund
 q <- rel_abund_qiime(
     asv_qiime = asv_qiime,
     taxa_qiime = taxa_qiime,
     # metadata_qiime = metadata_qiime,
     taxa_level = "Genus", )
 
-
+# pool taxa, rename taxon to Genus (its true level) and select it.
 qp <- pool_taxa(q, 0.0035)
-
-qp$taxon %>%
-    unique()
 
 taxa_pooled <- qp %>%
     rename(Genus = "taxon") %>%
-    select(Genus)
-
-taxa_full <- inner_join(tx, taxa_pooled, by = "Genus",
-                        relationship = "many-to-many") %>%
+    select(Genus) %>%
     distinct()
+
+# merge the filtered
+taxa_full <- inner_join(tx, taxa_pooled, by = "Genus" )
     # select(Genus) %>%
     # unique()``
 
@@ -157,9 +207,29 @@ ggplot() +
             new_scale_fill()
 
         )
-    }) + theme(legend.position = "bottom")
+    }) + guides(fill=guide_legend(ncol=3)) +
+    theme(
+        # legend.position = "bottom"
+         plot.margin=margin(t=30),
+         legend.key.size = unit(10, "pt"),
+         # legend.position = "bottom"
+         # legend.box = "vertical"
+        )
 
-# old way of doing it
+guides(fill=guide_legend(nrow=2,byrow=TRUE))
+legend.key.height = unit(0.3, "npc"),
+legend.key.width = unit(30, "pt"),
+legend.key = element_blank(),
+legend.title = element_text(margin=margin(t=-30)),
+plot.margin=margin(t=50)
+
+guides(color = guide_legend(nrow = 2))
+
+
+# old way of doing it``
+
+
+
 
 phylum_genus_col <- phylum_genus %>%
     mutate(color = phylum_colors[Phylum])
