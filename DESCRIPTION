@@ -17,6 +17,7 @@ Imports:
     forcats,
     glue,
     magrittr,
+    Matrix,
     purrr,
     readr,
     rlang,

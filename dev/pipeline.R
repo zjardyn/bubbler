@@ -103,7 +103,7 @@ metadata_qiime <- "inst/extdata/qiime/sample-metadata.tsv"
 q <- rel_abund_qiime(
     asv_qiime = asv_qiime,
     taxa_qiime = taxa_qiime,
-    # metadata_qiime = metadata_qiime,
+    metadata_qiime = metadata_qiime,
     taxa_level = "Genus", )
 
 # pool taxa, rename taxon to Genus (its true level) and select it.
