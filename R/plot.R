@@ -1,3 +1,4 @@
+#' @importFrom ggplot2 ggplot aes geom_bar theme element_text
 #' @export
 bar_plot <- function(rel_abund_tab, x_var = "sample_id", position = c("stack", "fill")){
 
