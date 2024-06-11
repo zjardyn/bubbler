@@ -80,18 +80,18 @@
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu">rel_abund_phy</span><span class="op">(</span>phy <span class="op">=</span> <span class="va">physeq1</span>, taxa_level <span class="op">=</span> <span class="st">"Phylum"</span>, var <span class="op">=</span> <span class="cn">NULL</span> , meta_data <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 100 × 6</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    sample_id asv   count rel_abund level  taxon         </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>         </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 1</span> Smp1      ASV1     10   0.002<span style="text-decoration: underline;">08</span> Phylum Firmicutes    </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 2</span> Smp1      ASV2     95   0.019<span style="text-decoration: underline;">8</span>  Phylum Actinobacteria</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 3</span> Smp1      ASV3     65   0.013<span style="text-decoration: underline;">5</span>  Phylum Actinobacteria</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 4</span> Smp1      ASV4     32   0.006<span style="text-decoration: underline;">65</span> Phylum Firmicutes    </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 5</span> Smp1      ASV5     50   0.010<span style="text-decoration: underline;">4</span>  Phylum Proteobacteria</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 6</span> Smp1      ASV6     62   0.012<span style="text-decoration: underline;">9</span>  Phylum Firmicutes    </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 7</span> Smp1      ASV7     78   0.016<span style="text-decoration: underline;">2</span>  Phylum Proteobacteria</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 8</span> Smp1      ASV8     70   0.014<span style="text-decoration: underline;">6</span>  Phylum Proteobacteria</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span> Smp1      ASV9     10   0.002<span style="text-decoration: underline;">08</span> Phylum Proteobacteria</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span> Smp1      ASV10    13   0.002<span style="text-decoration: underline;">70</span> Phylum Actinobacteria</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    sample_id asv   rel_abund level  taxon          count</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;int&gt;</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 1</span> Smp1      ASV1    0.002<span style="text-decoration: underline;">08</span> Phylum Firmicutes        10</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 2</span> Smp1      ASV2    0.019<span style="text-decoration: underline;">8</span>  Phylum Actinobacteria    95</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 3</span> Smp1      ASV3    0.013<span style="text-decoration: underline;">5</span>  Phylum Actinobacteria    65</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 4</span> Smp1      ASV4    0.006<span style="text-decoration: underline;">65</span> Phylum Firmicutes        32</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 5</span> Smp1      ASV5    0.010<span style="text-decoration: underline;">4</span>  Phylum Proteobacteria    50</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 6</span> Smp1      ASV6    0.012<span style="text-decoration: underline;">9</span>  Phylum Firmicutes        62</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 7</span> Smp1      ASV7    0.016<span style="text-decoration: underline;">2</span>  Phylum Proteobacteria    78</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 8</span> Smp1      ASV8    0.014<span style="text-decoration: underline;">6</span>  Phylum Proteobacteria    70</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span> Smp1      ASV9    0.002<span style="text-decoration: underline;">08</span> Phylum Proteobacteria    10</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span> Smp1      ASV10   0.002<span style="text-decoration: underline;">70</span> Phylum Actinobacteria    13</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 90 more rows</span></span>
 </code></pre></div>
     </div>
