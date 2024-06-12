@@ -64,8 +64,8 @@ choose_n_taxa <- function(rel_abund_tab, n_taxa = 8) {
 #' \dontrun{pool_taxa(rel_abund_tab, threshold = 0.2, var = "Location")}
 pool_taxa <- function(rel_abund_tab, threshold = 0.2, var = NULL) {
 
-    metadata <- rel_abund_tab %>%
-        dplyr::select(!(asv:count))
+    # metadata <- rel_abund_tab %>%
+    #     dplyr::select(!(asv:count))
 
     # taxon_pool <- pool_taxon_thresh(rel_abund_tab, threshold)
     taxon_pool <- rel_abund_tab %>%
@@ -84,23 +84,30 @@ pool_taxa <- function(rel_abund_tab, threshold = 0.2, var = NULL) {
         # TODO: Add this to other parts of function.
         rel_abund_pooled <- pooled %>%
         dplyr::group_by(sample_id, taxon) %>%
-        dplyr::reframe(rel_abund = sum(rel_abund))
+        dplyr::reframe(rel_abund = sum(rel_abund),
+                       level = level,
+                       asv = asv) %>%
                 # mean = sum(mean)) %>%
-        # dplyr::distinct()
+            dplyr::relocate(sample_id, asv, level, taxon, rel_abund ) %>%
+            distinct()
 
-        if(dim(metadata)[2] != 0) {
-           inner_join(rel_abund_pooled, metadata, by = "sample_id") %>%
-                distinct()
-        } else {
-            rel_abund_pooled
-        }
+
+        rel_abund_pooled
+        # if(dim(metadata)[2] != 0) {
+        #    inner_join(rel_abund_pooled, metadata, by = "sample_id") %>%
+        #         distinct()
+        # } else {
+        #     rel_abund_pooled
+        # }
 
     } else {
         pooled %>%
         dplyr::group_by(!!rlang::sym(var), sample_id, taxon) %>%
         dplyr::reframe(rel_abund = sum(rel_abund),
-                # mean = sum(mean),
-                !!var := !!rlang::sym(var)) %>%
-        dplyr::distinct()
+                       level = level,
+                       asv = asv,
+                       !!var := !!rlang::sym(var)) %>%
+            dplyr::relocate(sample_id, asv, level, taxon, rel_abund, !!rlang::sym(var)) %>%
+            distinct()
     }
 }

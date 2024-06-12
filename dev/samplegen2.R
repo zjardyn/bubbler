@@ -2,7 +2,7 @@ library(tidyverse)
 options(scipen = 999)
 
 n_smp = 10
-n_taxa = 20
+n_taxa = 20000
 
 set.seed(123)
 taxa <- read_tsv("inst/extdata/rdp/rdp_taxa.tsv", col_names = FALSE) %>%

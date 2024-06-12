@@ -26,7 +26,7 @@ meta_data_phy <- function(phy) {
 #' @examples
 #' taxa_data_phy(physeq1)
 taxa_data_phy <- function(phy){
-    physeq1@tax_table %>%
+    phy@tax_table %>%
         as.data.frame() %>%
         tibble::rownames_to_column(var = "asv") %>%
         tibble::as_tibble()
@@ -50,5 +50,4 @@ asv_data_phy <- function(phy){
         tibble::as_tibble()
     counts_tb %>% tibble::add_column(sample_id) %>%
         dplyr::relocate(sample_id)
-
 }

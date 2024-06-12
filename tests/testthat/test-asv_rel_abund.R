@@ -1,8 +1,3 @@
-test_that("multiplication works", {
-  expect_equal(2 * 2, 4)
-})
-
-# phyloseq
 devtools::load_all()
 
 rel_abund_phy(physeq1,

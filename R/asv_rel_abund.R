@@ -30,7 +30,8 @@ rel_abund_phy <- function(phy, taxa_data, meta_data, taxa_level, var) {
        dplyr::inner_join(., metadata, by =  "sample_id") %>%
        dplyr::group_by(!!rlang::sym(var)) %>%
        dplyr::mutate(rel_abund = count/sum(count)) %>%
-       dplyr::ungroup()
+       dplyr::ungroup() %>%
+       dplyr::select(-count)
 
    } else if (!is.null(var) & meta_data == FALSE) {
 
@@ -40,7 +41,8 @@ rel_abund_phy <- function(phy, taxa_data, meta_data, taxa_level, var) {
                            values_to = "count") %>%
        dplyr::group_by(!!rlang::sym(var)) %>%
        dplyr::mutate(rel_abund = count/sum(count)) %>%
-       dplyr::ungroup()
+       dplyr::ungroup() %>%
+       dplyr::select(-count)
    }
 
    if(is.null(var) & meta_data == TRUE) {
@@ -52,7 +54,8 @@ rel_abund_phy <- function(phy, taxa_data, meta_data, taxa_level, var) {
                             names_to = "asv",
                             values_to = "count") %>%
         dplyr::inner_join(., metadata, by =  "sample_id") %>%
-        dplyr::mutate(rel_abund = count/sum(count))
+        dplyr::mutate(rel_abund = count/sum(count)) %>%
+        dplyr::select(-count)
 
    } else if (is.null(var) & meta_data == FALSE){
 
@@ -60,7 +63,9 @@ rel_abund_phy <- function(phy, taxa_data, meta_data, taxa_level, var) {
         tidyr::pivot_longer(-sample_id,
                             names_to = "asv",
                             values_to = "count") %>%
-        dplyr::mutate(rel_abund = count/sum(count))
+        dplyr::mutate(rel_abund = count/sum(count)) %>%
+        dplyr::select(-count)
+
    }
 
     if(taxa_data == TRUE) {
@@ -77,12 +82,12 @@ rel_abund_phy <- function(phy, taxa_data, meta_data, taxa_level, var) {
                             names_to = "level",
                             values_to = "taxon") %>%
         dplyr::filter(level == taxa_level) %>%
-        dplyr::relocate(sample_id, asv, rel_abund, level, taxon)
+        dplyr::relocate(sample_id, asv, level, taxon, rel_abund)
 
     } else {
 
        rel_abund %>%
-            dplyr::relocate(sample_id, asv, rel_abund, level, taxon)
+            dplyr::relocate(sample_id, asv, level, taxon, rel_abund)
     }
 
 }
@@ -123,8 +128,8 @@ rel_abund_tsv <- function(asv, taxa_data, taxa_level, meta_data, var) {
             dplyr::inner_join(., metadata, by =  "sample_id") %>%
             dplyr::group_by(!!rlang::sym(var)) %>%
             dplyr::mutate(rel_abund = count/sum(count)) %>%
-            dplyr::ungroup()
-            # dplyr::select(-count)
+            dplyr::ungroup() %>%
+            dplyr::select(-count)
 
     } else if (!is.null(var) & is.null(meta_data)) {
 
@@ -134,8 +139,8 @@ rel_abund_tsv <- function(asv, taxa_data, taxa_level, meta_data, var) {
                                 values_to = "count") %>%
             dplyr::group_by(!!rlang::sym(var)) %>%
             dplyr::mutate(rel_abund = count/sum(count)) %>%
-            dplyr::ungroup()
-            # dplyr::select(-count)
+            dplyr::ungroup() %>%
+            dplyr::select(-count)
     }
 
     if(is.null(var) & !is.null(meta_data)) {
@@ -147,8 +152,8 @@ rel_abund_tsv <- function(asv, taxa_data, taxa_level, meta_data, var) {
                                 names_to = "asv",
                                 values_to = "count") %>%
             dplyr::inner_join(., metadata, by =  "sample_id") %>%
-            dplyr::mutate(rel_abund = count/sum(count))
-            # dplyr::select(-count)
+            dplyr::mutate(rel_abund = count/sum(count)) %>%
+            dplyr::select(-count)
 
     } else if (is.null(var) & is.null(meta_data)) {
 
@@ -156,8 +161,8 @@ rel_abund_tsv <- function(asv, taxa_data, taxa_level, meta_data, var) {
             tidyr::pivot_longer(-sample_id,
                                 names_to = "asv",
                                 values_to = "count") %>%
-            dplyr::mutate(rel_abund = count/sum(count))
-            # dplyr::select(-count)
+            dplyr::mutate(rel_abund = count/sum(count)) %>%
+            dplyr::select(-count)
     }
 
     if(!is.null(taxa_data)){
@@ -173,11 +178,13 @@ rel_abund_tsv <- function(asv, taxa_data, taxa_level, meta_data, var) {
         tidyr::pivot_longer(taxa_lvls,
                             names_to = "level",
                             values_to = "taxon") %>%
-        dplyr::filter(level == taxa_level)
+        dplyr::filter(level == taxa_level) %>%
+          dplyr::relocate(sample_id, asv, level, taxon, rel_abund)
 
     } else {
 
-        rel_abund
+        rel_abund %>%
+              dplyr::relocate(sample_id, asv, level, taxon, rel_abund)
 
     }
 }
@@ -201,8 +208,8 @@ rel_abund_qiime <- function(asv_qiime, taxa_qiime, taxa_level, metadata_qiime , 
             dplyr::inner_join(., metadata, by =  "sample_id") %>%
             dplyr::group_by(!!rlang::sym(var)) %>%
             dplyr::mutate(rel_abund = count/sum(count)) %>%
-            dplyr::ungroup()
-            # dplyr::select(-count)
+            dplyr::ungroup() %>%
+            dplyr::select(-count)
 
     } else if (!is.null(var) & is.null(metadata_qiime)) {
 
@@ -212,8 +219,8 @@ rel_abund_qiime <- function(asv_qiime, taxa_qiime, taxa_level, metadata_qiime , 
                                 values_to = "count") %>%
             dplyr::group_by(!!rlang::sym(var)) %>%
             dplyr::mutate(rel_abund = count/sum(count)) %>%
-            dplyr::ungroup()
-            # dplyr::select(-count)
+            dplyr::ungroup() %>%
+            dplyr::select(-count)
     }
 
     if(is.null(var) & !is.null(metadata_qiime)) {
@@ -225,8 +232,8 @@ rel_abund_qiime <- function(asv_qiime, taxa_qiime, taxa_level, metadata_qiime , 
                                 names_to = "asv",
                                 values_to = "count") %>%
             dplyr::inner_join(., metadata, by =  "sample_id") %>%
-            dplyr::mutate(rel_abund = count/sum(count))
-            # dplyr::select(-count)
+            dplyr::mutate(rel_abund = count/sum(count)) %>%
+            dplyr::select(-count)
 
     } else if (is.null(var) & is.null(metadata_qiime)) {
 
@@ -234,8 +241,8 @@ rel_abund_qiime <- function(asv_qiime, taxa_qiime, taxa_level, metadata_qiime , 
             tidyr::pivot_longer(-sample_id,
                                 names_to = "asv",
                                 values_to = "count") %>%
-            dplyr::mutate(rel_abund = count/sum(count))
-            # dplyr::select(-count)
+            dplyr::mutate(rel_abund = count/sum(count)) %>%
+            dplyr::select(-count)
     }
 
     if(!is.null(taxa_qiime)){
@@ -252,12 +259,12 @@ rel_abund_qiime <- function(asv_qiime, taxa_qiime, taxa_level, metadata_qiime , 
                             names_to = "level",
                             values_to = "taxon") %>%
         dplyr::filter(level == taxa_level) %>%
-        dplyr::relocate(sample_id, asv, rel_abund, level, taxon)
+        dplyr::relocate(sample_id, asv, level, taxon, rel_abund)
 
     } else {
 
         rel_abund %>%
-            dplyr::relocate(sample_id, asv, rel_abund)
+            dplyr::relocate(sample_id, asv, rel_abund, level, taxon)
 
     }
 }
