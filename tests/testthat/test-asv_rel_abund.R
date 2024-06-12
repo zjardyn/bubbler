@@ -15,7 +15,7 @@ taxa <- system.file("extdata/tsv/taxa.tsv", package = "bubbler")
 meta <- system.file("extdata/tsv/metadata.tsv", package = "bubbler")
 
 rel_abund_tsv(asv = counts,
-              # taxa_data = taxa,
+              taxa_data = taxa,
               meta_data = meta)
 
 # qiime

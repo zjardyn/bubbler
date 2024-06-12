@@ -8,10 +8,12 @@
 #' @examples
 #' meta_data_phy(physeq1)
 meta_data_phy <- function(phy) {
-    sample_id <- rownames(phyloseq::sample_data(phy))
-    phyloseq::sample_data(phy) %>%
-        tibble::as_tibble() %>%
-        tibble::add_column(sample_id)
+    meta <- phy@sam_data
+    sample_id <- rownames(meta)
+    meta_tb <- meta %>%
+        tibble::as_tibble()
+    meta_tb %>% tibble::add_column(sample_id) %>%
+        dplyr::relocate(sample_id)
 }
 
 #' Grab taxa table from a physeq object and format to tibble
@@ -24,7 +26,7 @@ meta_data_phy <- function(phy) {
 #' @examples
 #' taxa_data_phy(physeq1)
 taxa_data_phy <- function(phy){
-    phyloseq::tax_table(phy) %>%
+    physeq1@tax_table %>%
         as.data.frame() %>%
         tibble::rownames_to_column(var = "asv") %>%
         tibble::as_tibble()
@@ -40,9 +42,13 @@ taxa_data_phy <- function(phy){
 #' @examples
 #' asv_data_phy(physeq1)
 asv_data_phy <- function(phy){
-    phyloseq::otu_table(phy) %>%
-        t() %>%
+
+    counts <- phy@otu_table %>% t()
+    sample_id <- rownames(counts)
+    counts_tb <- counts %>%
         as.data.frame() %>%
-        tibble::rownames_to_column(var = "sample_id") %>%
         tibble::as_tibble()
+    counts_tb %>% tibble::add_column(sample_id) %>%
+        dplyr::relocate(sample_id)
+
 }
