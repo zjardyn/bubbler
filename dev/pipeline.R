@@ -5,6 +5,7 @@ library(ggnewscale)
 library(vegan)
 library(ape)
 library(ggtree)
+library(phyloseq)
 # qiime importing
 # library(qiime2R)
 
@@ -44,7 +45,7 @@ p1 <- ggtree(phylo_tree) +
     # theme_tree2() +
     theme(plot.margin = margin(0, -5, 0, 0))
 #
-q <- rel_abund_phy(qiimedata, taxa_level = "Phylum")
+q <- rel_abund_phy(qiimedata, taxa_data = TRUE, taxa_level = "Phylum")
 
 p2 <- q %>%
     arrange_variable(levels = tip_order) %>%
@@ -194,6 +195,7 @@ groups <- qpc2 %>%
 
 qpc %>%
     arrange_taxa(pooled = "top") %>%
+    arrange_sample_by_taxa() %>%
 ggplot() +
     lapply(groups, function(x){
         list(

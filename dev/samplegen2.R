@@ -1,10 +1,11 @@
 library(tidyverse)
 options(scipen = 999)
 
-n_smp = 100
-n_taxa = 8
+n_smp = 10
+n_taxa = 20
 
-taxa <- read_tsv("inst/extdata/rdp_taxa.tsv", col_names = FALSE) %>%
+set.seed(123)
+taxa <- read_tsv("inst/extdata/rdp/rdp_taxa.tsv", col_names = FALSE) %>%
     select(2) %>% pull()
 taxa_subset <- sample(taxa, n_taxa)
 taxa_tb <- as_tibble(do.call(rbind, strsplit(taxa_subset, ";", fixed = TRUE)))
@@ -38,19 +39,20 @@ generate_counts_lnorm <- function(n_smp = 100, n_asv = n_taxa , meanlog = 2, sdl
         mutate(across(where(is.numeric), floor))
 }
 
-
+set.seed(123)
 counts_df <- generate_counts_lnorm()
 
+set.seed(123)
 metadata_df <- data.frame(
-    sample_id = paste0("Smp", 1:100),
-    Depth = sample(1:30, 100, replace = TRUE),
-    Carbon_source = sample(c("Glucose", "Hexadecane", "Styrene"), 100, replace = TRUE),
-    Date = as.Date(sample(18000:19000, 100, replace = TRUE), origin = "1970-01-01")
+    sample_id = paste0("Smp", 1:n_smp),
+    Depth = sample(1:30, n_smp, replace = TRUE),
+    Carbon_source = sample(c("Glucose", "Hexadecane", "Styrene"), n_smp, replace = TRUE),
+    Date = as.Date(sample(18000:19000, n_smp, replace = TRUE), origin = "1970-01-01")
 )
 
-write_tsv(taxa_tb, "inst/extdata/taxa.tsv")
-write_tsv(counts_df, "inst/extdata/seqtab.tsv")
-write_tsv(metadata_df, "inst/extdata/metadata.tsv")
+write_tsv(taxa_tb, "inst/extdata/tsv/taxa.tsv")
+write_tsv(counts_df, "inst/extdata/tsv/seqtab.tsv")
+write_tsv(metadata_df, "inst/extdata/tsv/metadata.tsv")
 
 # generate_counts <- function(N) {
 #     sample(1:20000, N, replace = TRUE)

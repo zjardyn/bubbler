@@ -12,11 +12,12 @@ utils::globalVariables(c("sample_id", "count", ".", "asv", "level"))
 #'
 #' @examples
 #' rel_abund_phy(phy = physeq1, taxa_level = "Phylum", var = NULL , meta_data = FALSE)
-rel_abund_phy <- function(phy, taxa_data = TRUE, taxa_level = "Phylum", meta_data = FALSE, var = NULL ) {
-
-   if(rlang::is_installed("phyloseq") == FALSE){
-       stop("Please install phyloseq.")
-   }
+rel_abund_phy <- function(phy, taxa_data, meta_data, taxa_level, var) {
+   if(missing(phy)){stop("rel_abund_phy needs a physeq object with a asv/otu table.")}
+   if(missing(taxa_data)){taxa_data = TRUE}
+   if(missing(meta_data)){meta_data = FALSE}
+   if(missing(taxa_level)){message("Setting taxonomic level to Phylum\n");taxa_level = "Phylum"}
+   if(missing(var)){var = NULL}
 
    if(!is.null(var) & meta_data == TRUE) {
 
@@ -30,7 +31,6 @@ rel_abund_phy <- function(phy, taxa_data = TRUE, taxa_level = "Phylum", meta_dat
        dplyr::group_by(!!rlang::sym(var)) %>%
        dplyr::mutate(rel_abund = count/sum(count)) %>%
        dplyr::ungroup()
-       # dplyr::select(-count)
 
    } else if (!is.null(var) & meta_data == FALSE) {
 
@@ -41,7 +41,6 @@ rel_abund_phy <- function(phy, taxa_data = TRUE, taxa_level = "Phylum", meta_dat
        dplyr::group_by(!!rlang::sym(var)) %>%
        dplyr::mutate(rel_abund = count/sum(count)) %>%
        dplyr::ungroup()
-       # dplyr::select(-count)
    }
 
    if(is.null(var) & meta_data == TRUE) {
@@ -54,7 +53,6 @@ rel_abund_phy <- function(phy, taxa_data = TRUE, taxa_level = "Phylum", meta_dat
                             values_to = "count") %>%
         dplyr::inner_join(., metadata, by =  "sample_id") %>%
         dplyr::mutate(rel_abund = count/sum(count))
-        # dplyr::select(-count)
 
    } else if (is.null(var) & meta_data == FALSE){
 
@@ -63,7 +61,6 @@ rel_abund_phy <- function(phy, taxa_data = TRUE, taxa_level = "Phylum", meta_dat
                             names_to = "asv",
                             values_to = "count") %>%
         dplyr::mutate(rel_abund = count/sum(count))
-        # dplyr::select(-count)
    }
 
     if(taxa_data == TRUE) {
@@ -79,12 +76,13 @@ rel_abund_phy <- function(phy, taxa_data = TRUE, taxa_level = "Phylum", meta_dat
         tidyr::pivot_longer(taxa_lvls,
                             names_to = "level",
                             values_to = "taxon") %>%
-        dplyr::filter(level == taxa_level)
+        dplyr::filter(level == taxa_level) %>%
+        dplyr::relocate(sample_id, asv, rel_abund, level, taxon)
 
     } else {
 
-       rel_abund
-
+       rel_abund %>%
+            dplyr::relocate(sample_id, asv, rel_abund, level, taxon)
     }
 
 }
@@ -105,7 +103,14 @@ rel_abund_phy <- function(phy, taxa_data = TRUE, taxa_level = "Phylum", meta_dat
 #' taxa <- system.file("extdata", "taxa.tsv", package = "bubbler")
 #' meta_data <- system.file("extdata", "metadata.tsv", package = "bubbler")
 #' rel_abund_tsv(asv, taxa, meta_data)
-rel_abund_tsv <- function(asv, taxa_data = NULL, taxa_level = "Phylum", meta_data = NULL, var = NULL ) {
+rel_abund_tsv <- function(asv, taxa_data, taxa_level, meta_data, var) {
+   if(missing(asv)){stop("rel_abund_tsv needs a .tsv asv/otu table filepath.")}
+   if(missing(taxa_data)){taxa_data = NULL}
+   if(missing(taxa_level)){message("Setting taxonomic level to Phylum");taxa_level = "Phylum"}
+   if(missing(meta_data)){meta_data = NULL}
+   if(missing(var)){var = NULL}
+
+
 
     if(!is.null(var) & !is.null(meta_data)){
 
@@ -178,11 +183,12 @@ rel_abund_tsv <- function(asv, taxa_data = NULL, taxa_level = "Phylum", meta_dat
 }
 
 #' @export
-rel_abund_qiime <- function(asv_qiime, taxa_qiime = NULL, metadata_qiime = NULL, taxa_level = "Phylum", var = NULL ) {
-
-    # if(rlang::is_installed("qiime2R") == FALSE){
-    #    stop("Please install qiime2R")
-    # }
+rel_abund_qiime <- function(asv_qiime, taxa_qiime, taxa_level, metadata_qiime , var) {
+   if(missing(asv_qiime)){stop("rel_abund_qiime needs an .asv filepath.")}
+   if(missing(taxa_qiime)){taxa_qiime = NULL}
+   if(missing(metadata_qiime)){metadata_qiime = NULL}
+   if(missing(taxa_level)){message("Setting taxonomic level to Phylum");taxa_level = "Phylum"}
+   if(missing(var)){var = NULL}
 
     if(!is.null(var) & !is.null(metadata_qiime)){
 

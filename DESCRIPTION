@@ -30,5 +30,6 @@ Imports:
 Config/testthat/edition: 3
 Suggests: 
     phyloseq,
-    rhdf5
+    rhdf5,
+    testthat (>= 3.0.0)
 URL: https://zjardyn.github.io/bubbler/
