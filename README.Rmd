@@ -32,23 +32,6 @@ if (!requireNamespace("devtools", quietly = TRUE)){
 devtools::install_github("zjardyn/bubbler")
 ```
 
-If you want to import data from a phyloseq object or qiime2 artifacts, install these packages:
-
-```r
-# install phyloseq
-if(!requireNamespace("BiocManager")){
-  install.packages("BiocManager")
-}
-BiocManager::install("phyloseq")
-
-# install qiime2R
-if (!requireNamespace("devtools", quietly = TRUE)){
-    install.packages("devtools")
-}
-devtools::install_github("jbisanz/qiime2R")
-
-```
-
 
 <!-- You'll still need to render `README.Rmd` regularly, to keep `README.md` up-to-date. `devtools::build_readme()` is handy for this. -->
 
