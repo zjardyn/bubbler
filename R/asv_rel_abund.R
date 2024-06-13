@@ -264,7 +264,7 @@ rel_abund_qiime <- function(asv_qiime, taxa_qiime, taxa_level, metadata_qiime , 
     } else {
 
         rel_abund %>%
-            dplyr::relocate(sample_id, asv, rel_abund, level, taxon)
+            dplyr::relocate(sample_id, asv, rel_abund)
 
     }
 }

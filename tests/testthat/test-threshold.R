@@ -41,6 +41,7 @@ rel_abund_pooled <- pooled %>%
 
 
 rel_abund_pooled %>%
+    dplyr::inner_join(taxa_data_tsv(taxa))
 
 
 
