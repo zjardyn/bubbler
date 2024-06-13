@@ -1,0 +1,72 @@
+---
+title: "intro"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{intro}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+# Intro
+
+Generate a relative abundance table from asv/otu counts, classified taxonomy and metadata files. You can import the files separately as .tsv files (usually the output of dada2), or a qiime artifact, or a phyloseq object works too. 
+
+
+
+```{r setup}
+library(bubbler)
+
+
+```
+```{r examples, eval=FALSE}
+
+# example phyloseq
+rel_abund_phy(physeq1) %>% bar_plot()
+
+# example qiime
+counts_q <- system.file("extdata/qiime/table-dada2.qza", package = "bubbler")
+taxa_q <- system.file("extdata/qiime/taxonomy.qza", package = "bubbler")
+
+rel_abund_qiime(counts_q, taxa_q) %>% bar_plot()
+
+# example .tsv
+counts <- system.file("extdata/tsv/seqtab.tsv", package = "bubbler")
+taxa <- system.file("extdata/tsv/taxa.tsv", package = "bubbler")
+
+rel_abund_tsv(counts, taxa ) %>% bar_plot()
+
+```
+```{r plots, echo=TRUE}
+p1 <- rel_abund_phy(physeq1) %>% bar_plot()
+
+# example qiime
+counts_q <- system.file("extdata/qiime/table-dada2.qza", package = "bubbler")
+taxa_q <- system.file("extdata/qiime/taxonomy.qza", package = "bubbler")
+
+p2 <- rel_abund_qiime(counts_q, taxa_q) %>% 
+    pool_taxa(0.003) %>%
+    bar_plot()
+
+# example .tsv
+counts <- system.file("extdata/tsv/seqtab.tsv", package = "bubbler")
+taxa <- system.file("extdata/tsv/taxa.tsv", package = "bubbler")
+
+p3 <- rel_abund_tsv(counts, taxa ) %>%
+    pool_taxa(choose_n_taxa(rel_abund_tsv(counts, taxa))) %>%
+    bar_plot()
+
+library(patchwork)
+
+p1 / p2 + p3
+
+
+```
+
+

@@ -16,7 +16,7 @@ rel_abund_phy <- function(phy, taxa_data, meta_data, taxa_level, var) {
    if(missing(phy)){stop("rel_abund_phy needs a physeq object with a asv/otu table.")}
    if(missing(taxa_data)){taxa_data = TRUE}
    if(missing(meta_data)){meta_data = FALSE}
-   if(missing(taxa_level)){message("Setting taxonomic level to Phylum\n");taxa_level = "Phylum"}
+   if(missing(taxa_level)){taxa_level = "Phylum"}
    if(missing(var)){var = NULL}
 
    if(!is.null(var) & meta_data == TRUE) {
@@ -111,7 +111,7 @@ rel_abund_phy <- function(phy, taxa_data, meta_data, taxa_level, var) {
 rel_abund_tsv <- function(asv, taxa_data, taxa_level, meta_data, var) {
    if(missing(asv)){stop("rel_abund_tsv needs a .tsv asv/otu table filepath.")}
    if(missing(taxa_data)){taxa_data = NULL}
-   if(missing(taxa_level)){message("Setting taxonomic level to Phylum");taxa_level = "Phylum"}
+   if(missing(taxa_level)){taxa_level = "Phylum"}
    if(missing(meta_data)){meta_data = NULL}
    if(missing(var)){var = NULL}
 
@@ -194,7 +194,7 @@ rel_abund_qiime <- function(asv_qiime, taxa_qiime, taxa_level, metadata_qiime , 
    if(missing(asv_qiime)){stop("rel_abund_qiime needs an .asv filepath.")}
    if(missing(taxa_qiime)){taxa_qiime = NULL}
    if(missing(metadata_qiime)){metadata_qiime = NULL}
-   if(missing(taxa_level)){message("Setting taxonomic level to Phylum");taxa_level = "Phylum"}
+   # if(missing(taxa_level)){taxa_level = "Phylum"}
    if(missing(var)){var = NULL}
 
     if(!is.null(var) & !is.null(metadata_qiime)){

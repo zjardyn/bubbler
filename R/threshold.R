@@ -89,7 +89,7 @@ pool_taxa <- function(rel_abund_tab, threshold = 0.2, var = NULL) {
                        asv = asv) %>%
                 # mean = sum(mean)) %>%
             dplyr::relocate(sample_id, asv, level, taxon, rel_abund ) %>%
-            distinct()
+            dplyr::distinct()
 
 
         rel_abund_pooled
@@ -108,6 +108,6 @@ pool_taxa <- function(rel_abund_tab, threshold = 0.2, var = NULL) {
                        asv = asv,
                        !!var := !!rlang::sym(var)) %>%
             dplyr::relocate(sample_id, asv, level, taxon, rel_abund, !!rlang::sym(var)) %>%
-            distinct()
+            dplyr::distinct()
     }
 }

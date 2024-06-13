@@ -4,13 +4,7 @@
 \alias{rel_abund_tsv}
 \title{Generate a relative abundance table in tibble format from tsv files.}
 \usage{
-rel_abund_tsv(
-  asv,
-  taxa_data = NULL,
-  taxa_level = "Phylum",
-  meta_data = NULL,
-  var = NULL
-)
+rel_abund_tsv(asv, taxa_data, taxa_level, meta_data, var)
 }
 \arguments{
 \item{asv}{A tsv file path containing an asv table.}
