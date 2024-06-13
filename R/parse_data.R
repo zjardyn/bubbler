@@ -8,7 +8,7 @@
 #' @export
 #'
 #' @examples
-#' fpath <- system.file("extdata", "seqtab.tsv", package = "bubbler")
+#' fpath <- system.file("extdata/tsv", "seqtab.tsv", package = "bubbler")
 #' asv_data_tsv(fpath)
 asv_data_tsv <- function(tsv){
     suppressMessages(readr::read_tsv(tsv, show_col_types = FALSE)) %>%
@@ -30,7 +30,7 @@ asv_data_tsv <- function(tsv){
 #' @export
 #'
 #' @examples
-#' fpath <- system.file("extdata", "taxa.tsv", package = "bubbler")
+#' fpath <- system.file("extdata/tsv", "taxa.tsv", package = "bubbler")
 #' taxa_data_tsv(fpath)
 taxa_data_tsv <- function(tsv){
     suppressMessages(readr::read_tsv(tsv, show_col_types = FALSE)) %>%
@@ -45,7 +45,7 @@ taxa_data_tsv <- function(tsv){
 #' @export
 #'
 #' @examples
-#' fpath <- system.file("extdata", "metadata.tsv", package = "bubbler")
+#' fpath <- system.file("extdata/tsv", "metadata.tsv", package = "bubbler")
 #' meta_data_tsv(fpath)
 meta_data_tsv <- function(tsv){
     suppressMessages(readr::read_tsv(tsv, show_col_types = FALSE)) %>%
@@ -142,8 +142,8 @@ meta_data_qiime <- function(qza){
     metadata_names <- metadata %>%
         names() %>%
         #TODO: Add these to all parsing functions
-        str_replace_all("-", "_") %>%
-        str_replace_all(" ", "_")
+        stringr::str_replace_all("-", "_") %>%
+        stringr::str_replace_all(" ", "_")
 
     colnames(metadata) <- metadata_names
     metadata
