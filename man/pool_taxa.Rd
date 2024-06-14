@@ -4,14 +4,12 @@
 \alias{pool_taxa}
 \title{Pool taxa according to threshold}
 \usage{
-pool_taxa(rel_abund_tab, threshold = 0.2, var = NULL)
+pool_taxa(rel_abund_tab, threshold)
 }
 \arguments{
 \item{rel_abund_tab}{A rel_abund table in tibble format.}
 
 \item{threshold}{A numeric vector for the threshold.}
-
-\item{var}{A variable to pool across.}
 }
 \value{
 A tibble.

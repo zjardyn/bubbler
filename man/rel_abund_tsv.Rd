@@ -24,8 +24,8 @@ A tibble.
 Generate a relative abundance table in tibble format from tsv files.
 }
 \examples{
-asv <- system.file("extdata", "seqtab.tsv", package = "bubbler")
-taxa <- system.file("extdata", "taxa.tsv", package = "bubbler")
-meta_data <- system.file("extdata", "metadata.tsv", package = "bubbler")
+asv <- system.file("extdata/tsv", "seqtab.tsv", package = "bubbler")
+taxa <- system.file("extdata/tsv", "taxa.tsv", package = "bubbler")
+meta_data <- system.file("extdata/tsv", "metadata.tsv", package = "bubbler")
 rel_abund_tsv(asv, taxa, meta_data)
 }

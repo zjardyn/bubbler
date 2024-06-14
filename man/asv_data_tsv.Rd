@@ -16,6 +16,6 @@ A tibble.
 Grab asv table from a tsv file and format to tibble
 }
 \examples{
-fpath <- system.file("extdata", "seqtab.tsv", package = "bubbler")
+fpath <- system.file("extdata/tsv", "seqtab.tsv", package = "bubbler")
 asv_data_tsv(fpath)
 }

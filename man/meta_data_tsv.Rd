@@ -16,6 +16,6 @@ A tibble.
 Grab metadata table from a tsv file and format to tibble
 }
 \examples{
-fpath <- system.file("extdata", "metadata.tsv", package = "bubbler")
+fpath <- system.file("extdata/tsv", "metadata.tsv", package = "bubbler")
 meta_data_tsv(fpath)
 }

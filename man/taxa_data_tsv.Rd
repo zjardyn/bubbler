@@ -16,6 +16,6 @@ A tibble.
 Grab taxa table from a tsv file and format to tibble
 }
 \examples{
-fpath <- system.file("extdata", "taxa.tsv", package = "bubbler")
+fpath <- system.file("extdata/tsv", "taxa.tsv", package = "bubbler")
 taxa_data_tsv(fpath)
 }
