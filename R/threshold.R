@@ -55,52 +55,39 @@ choose_n_taxa <- function(rel_abund_tab, n_taxa = 8) {
 #'
 #' @param rel_abund_tab A rel_abund table in tibble format.
 #' @param threshold A numeric vector for the threshold.
-#' @param var A variable to pool across.
 #'
 #' @return A tibble.
 #' @export
 #'
 #' @examples
 #' \dontrun{pool_taxa(rel_abund_tab, threshold = 0.2, var = "Location")}
-pool_taxa <- function(rel_abund_tab, threshold = 0.2, var = NULL) {
+pool_taxa <- function(rel_abund_tab, threshold) {
+    if(missing(rel_abund_tab)){stop("Provide a relative abundence table.")}
+    if(!("taxon" %in% colnames(rel_abund_tab))){stop('Taxonomic information not detected.\nPlease import in your relative abundance table.' )}
+    if(missing(threshold)){threshold = choose_n_taxa(rel_abund_tab)}
 
     metadata <- rel_abund_tab %>%
-        dplyr::select(!(asv:rel_abund))
+        dplyr::select(!(asv:rel_abund)) %>%
+        dplyr::distinct()
 
-    # taxon_pool <- pool_taxon_thresh(rel_abund_tab, threshold)
     taxon_pool <- rel_abund_tab %>%
         dplyr::group_by(taxon) %>%
-        dplyr::summarise(pool = max(rel_abund) < threshold,
-                         mean = mean(rel_abund),
+        dplyr::summarise(pool = max(rel_abund) <= threshold,
                          .groups = "drop")
 
     pooled <- dplyr::inner_join(rel_abund_tab, taxon_pool, by = "taxon") %>%
-        # set_taxon_threshold(taxon, threshold)
         dplyr::mutate(taxon = dplyr::if_else(pool, glue::glue("< {round(threshold, 4)}%"), taxon),
                       taxon = tidyr::replace_na(taxon, "Unclassified"))
 
-    if(is.null(var)){
+    rel_abund_pooled <- pooled %>%
+        dplyr::group_by(sample_id, taxon) %>%
+        dplyr::summarise(rel_abund = sum(rel_abund),
+                         .groups = "drop")
 
-        # TODO: Add this to other parts of function.
-        rel_abund_pooled <- pooled %>%
-            dplyr::group_by(sample_id, taxon) %>%
-            dplyr::reframe(rel_abund = sum(rel_abund))
-        # mean = sum(mean)) %>%
-        # dplyr::distinct()
-
-        if(dim(metadata)[2] > 1) {
-            inner_join(rel_abund_pooled, metadata, by = "sample_id") %>%
-                distinct()
-        } else {
-            rel_abund_pooled
-        }
-
+    if(dim(metadata)[2] > 1) {
+        dplyr::inner_join(rel_abund_pooled, metadata, by = "sample_id")
     } else {
-        pooled %>%
-            dplyr::group_by(!!rlang::sym(var), sample_id, taxon) %>%
-            dplyr::reframe(rel_abund = sum(rel_abund),
-                           # mean = sum(mean),
-                           !!var := !!rlang::sym(var)) %>%
-            dplyr::distinct()
+        rel_abund_pooled
     }
 }
+
