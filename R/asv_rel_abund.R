@@ -87,7 +87,7 @@ rel_abund_phy <- function(phy, taxa_data, meta_data, taxa_level, var) {
     } else {
 
        rel_abund %>%
-            dplyr::relocate(sample_id, asv, level, taxon, rel_abund)
+            dplyr::relocate(sample_id, asv, rel_abund)
     }
 
 }
@@ -104,9 +104,9 @@ rel_abund_phy <- function(phy, taxa_data, meta_data, taxa_level, var) {
 #' @export
 #'
 #' @examples
-#' asv <- system.file("extdata", "seqtab.tsv", package = "bubbler")
-#' taxa <- system.file("extdata", "taxa.tsv", package = "bubbler")
-#' meta_data <- system.file("extdata", "metadata.tsv", package = "bubbler")
+#' asv <- system.file("extdata/tsv", "seqtab.tsv", package = "bubbler")
+#' taxa <- system.file("extdata/tsv", "taxa.tsv", package = "bubbler")
+#' meta_data <- system.file("extdata/tsv", "metadata.tsv", package = "bubbler")
 #' rel_abund_tsv(asv, taxa, meta_data)
 rel_abund_tsv <- function(asv, taxa_data, taxa_level, meta_data, var) {
    if(missing(asv)){stop("rel_abund_tsv needs a .tsv asv/otu table filepath.")}
@@ -184,7 +184,7 @@ rel_abund_tsv <- function(asv, taxa_data, taxa_level, meta_data, var) {
     } else {
 
         rel_abund %>%
-              dplyr::relocate(sample_id, asv, level, taxon, rel_abund)
+              dplyr::relocate(sample_id, asv, rel_abund)
 
     }
 }
@@ -194,7 +194,7 @@ rel_abund_qiime <- function(asv_qiime, taxa_qiime, taxa_level, metadata_qiime , 
    if(missing(asv_qiime)){stop("rel_abund_qiime needs an .asv filepath.")}
    if(missing(taxa_qiime)){taxa_qiime = NULL}
    if(missing(metadata_qiime)){metadata_qiime = NULL}
-   # if(missing(taxa_level)){taxa_level = "Phylum"}
+   if(missing(taxa_level)){taxa_level = "Phylum"}
    if(missing(var)){var = NULL}
 
     if(!is.null(var) & !is.null(metadata_qiime)){
