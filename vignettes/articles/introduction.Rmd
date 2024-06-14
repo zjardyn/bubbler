@@ -1,10 +1,5 @@
 ---
-title: "intro"
-output: rmarkdown::html_vignette
-vignette: >
-  %\VignetteIndexEntry{intro}
-  %\VignetteEngine{knitr::rmarkdown}
-  %\VignetteEncoding{UTF-8}
+title: "introduction"
 ---
 
 ```{r, include = FALSE}
@@ -14,17 +9,10 @@ knitr::opts_chunk$set(
 )
 ```
 
-# Intro
-
-Generate a relative abundance table from asv/otu counts, classified taxonomy and metadata files. You can import the files separately as .tsv files (usually the output of dada2), or a qiime artifact, or a phyloseq object works too. 
-
-
-
 ```{r setup}
 library(bubbler)
-
-
 ```
+
 ```{r examples, eval=FALSE}
 
 # example phyloseq
@@ -63,10 +51,8 @@ p3 <- rel_abund_tsv(counts, taxa ) %>%
     bar_plot()
 
 library(patchwork)
-
+# 
 p1 / p2 + p3
 
 
 ```
-
-
