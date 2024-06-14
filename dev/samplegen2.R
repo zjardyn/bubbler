@@ -2,7 +2,7 @@ library(tidyverse)
 options(scipen = 999)
 
 n_smp = 10
-n_taxa = 20000
+n_taxa = 20
 
 set.seed(123)
 taxa <- read_tsv("inst/extdata/rdp/rdp_taxa.tsv", col_names = FALSE) %>%
@@ -40,7 +40,7 @@ generate_counts_lnorm <- function(n_smp = 100, n_asv = n_taxa , meanlog = 2, sdl
 }
 
 set.seed(123)
-counts_df <- generate_counts_lnorm()
+counts_df <- generate_counts_lnorm(n_smp)
 
 set.seed(123)
 metadata_df <- data.frame(
