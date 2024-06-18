@@ -108,7 +108,7 @@ rel_abund_phy <- function(phy, taxa_data, meta_data, taxa_level, var) {
 #' taxa <- system.file("extdata/tsv", "taxa.tsv", package = "bubbler")
 #' meta_data <- system.file("extdata/tsv", "metadata.tsv", package = "bubbler")
 #' rel_abund_tsv(asv, taxa, meta_data)
-rel_abund_tsv <- function(asv, taxa_data, taxa_level, meta_data, var) {
+rel_abund_tsv <- function(asv, taxa_data, meta_data, taxa_level, var) {
    if(missing(asv)){stop("rel_abund_tsv needs a .tsv asv/otu table filepath.")}
    if(missing(taxa_data)){taxa_data = NULL}
    if(missing(taxa_level)){taxa_level = "Phylum"}
@@ -190,7 +190,7 @@ rel_abund_tsv <- function(asv, taxa_data, taxa_level, meta_data, var) {
 }
 
 #' @export
-rel_abund_qiime <- function(asv_qiime, taxa_qiime, taxa_level, metadata_qiime , var) {
+rel_abund_qiime <- function(asv_qiime, taxa_qiime, metadata_qiime, taxa_level, var) {
    if(missing(asv_qiime)){stop("rel_abund_qiime needs an .asv filepath.")}
    if(missing(taxa_qiime)){taxa_qiime = NULL}
    if(missing(metadata_qiime)){metadata_qiime = NULL}

@@ -1,0 +1,46 @@
+---
+title: "data_import"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{data_import}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+Data import can be a frustrating first step. `bubbler` tries to alleviate this frustration by giving the user flexibility with how they choose to get their data into R. Let's load `bubbler` and import some data! 
+
+```{r setup}
+library(bubbler)
+```
+
+## Qiime2
+
+If you have just ran your amplicon sequencing data through [qiime2](https://qiime2.org/), you can import the asv-table and taxonomy artifacts (.qza), and optionally, the qiime-formatted metadata (.tsv). If you are unfamiliar with qiime2, check out their documentation, specifically the [Moving Pictures](https://docs.qiime2.org/2024.5/tutorials/moving-pictures/) tutorial. Let's load the data from that tutorial!
+
+```{r}
+# path to qiime-formatted asv counts 
+counts_q <- system.file("extdata", "qiime", "table-dada2.qza", package = "bubbler")
+
+# path to qiime-formatted taxonomy data 
+taxa_q <- system.file("extdata", "qiime", "taxonomy.qza", package = "bubbler")
+
+# path to qiime-formatted metadata
+metadata_q <- system.file("extdata", "qiime", "sample-metadata.tsv", package = "bubbler")
+
+# make a relative abundance table 
+rel_abund_qiime(counts_q, taxa_q, metadata_q)
+
+```
+
+## DADA2 or 
+
+
+
+
