@@ -39,7 +39,34 @@ rel_abund_qiime(counts_q, taxa_q, metadata_q)
 
 ```
 
-## DADA2 or 
+## DADA2 
+
+DADA2 allows you to generate an asv-table and taxonomic classifications from amplicon sequencing data, all within R. An asv-table has ASVs as columns (variables) and samples as rows (observations). A taxonomy table has taxonomic levels as columns and ASVs as rows. `bubbler` can import these files in the form of .tsv files, with optional metadata as a .tsv as well. 
+
+```{r}
+# path to asv counts in tab-separated format
+counts <- system.file("extdata", "tsv", "seqtab.tsv", package = "bubbler")
+
+# path to taxonomy data in tab-separated format
+taxa <- system.file("extdata", "tsv", "taxa.tsv", package = "bubbler")
+
+# path to metadata in tab-seperated format 
+metadata <- system.file("extdata", "tsv", "metadata.tsv", package = "bubbler")
+
+rel_abund_tsv(counts, taxa, metadata)
+```
+
+## Phyloseq
+
+If you can get your data into a phyloseq object, it is possible to import that as well. `bubbler` expects to see a otu_table and tax_table, and optionally, sam_data within the phyloseq object. 
+
+```{r}
+# example phyloseq
+rel_abund_phy(physeq1,
+              taxa_data = TRUE,
+              meta_data = TRUE)
+```
+
 
 
 
