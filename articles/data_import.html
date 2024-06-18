@@ -115,8 +115,66 @@ Pictures</a> tutorial. Let’s load the data from that tutorial!</p>
 <span><span class="co">#&gt; <span style="color: #949494;">#   reported_antibiotic_usage &lt;fct&gt;, days_since_experiment_start &lt;dbl&gt;</span></span></span></code></pre></div>
 </div>
 <div class="section level2">
-<h2 id="dada2-or">DADA2 or<a class="anchor" aria-label="anchor" href="#dada2-or"></a>
+<h2 id="dada2">DADA2<a class="anchor" aria-label="anchor" href="#dada2"></a>
 </h2>
+<p>DADA2 allows you to generate an asv-table and taxonomic
+classifications from amplicon sequencing data, all within R. An
+asv-table has ASVs as columns (variables) and samples as rows
+(observations). A taxonomy table has taxonomic levels as columns and
+ASVs as rows. <code>bubbler</code> can import these files in the form of
+.tsv files, with optional metadata as a .tsv as well.</p>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># path to asv counts in tab-separated format</span></span>
+<span><span class="va">counts</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>, <span class="st">"tsv"</span>, <span class="st">"seqtab.tsv"</span>, package <span class="op">=</span> <span class="st">"bubbler"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># path to taxonomy data in tab-separated format</span></span>
+<span><span class="va">taxa</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>, <span class="st">"tsv"</span>, <span class="st">"taxa.tsv"</span>, package <span class="op">=</span> <span class="st">"bubbler"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># path to metadata in tab-seperated format </span></span>
+<span><span class="va">metadata</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>, <span class="st">"tsv"</span>, <span class="st">"metadata.tsv"</span>, package <span class="op">=</span> <span class="st">"bubbler"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="../reference/rel_abund_tsv.html">rel_abund_tsv</a></span><span class="op">(</span><span class="va">counts</span>, <span class="va">taxa</span>, <span class="va">metadata</span><span class="op">)</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 200 × 8</span></span></span>
+<span><span class="co">#&gt;    sample_id asv   level  taxon         rel_abund Depth Carbon_source Date      </span></span>
+<span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>             <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;date&gt;</span>    </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> Smp1      ASV1  Phylum Actinomyceto…   6.09<span style="color: #949494;">e</span><span style="color: #BB0000;">-6</span>    15 Hexadecane    2021-01-21</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> Smp1      ASV2  Phylum Bacillota       1.83<span style="color: #949494;">e</span><span style="color: #BB0000;">-5</span>    15 Hexadecane    2021-01-21</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> Smp1      ASV3  Phylum Bacillota       4.83<span style="color: #949494;">e</span><span style="color: #BB0000;">-3</span>    15 Hexadecane    2021-01-21</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> Smp1      ASV4  Phylum Pseudomonado…   5.48<span style="color: #949494;">e</span><span style="color: #BB0000;">-5</span>    15 Hexadecane    2021-01-21</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> Smp1      ASV5  Phylum Pseudomonado…   6.09<span style="color: #949494;">e</span><span style="color: #BB0000;">-5</span>    15 Hexadecane    2021-01-21</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> Smp1      ASV6  Phylum Pseudomonado…   7.71<span style="color: #949494;">e</span><span style="color: #BB0000;">-3</span>    15 Hexadecane    2021-01-21</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> Smp1      ASV7  Phylum Bacteroidota    1.76<span style="color: #949494;">e</span><span style="color: #BB0000;">-4</span>    15 Hexadecane    2021-01-21</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> Smp1      ASV8  Phylum Bacillota       0   <span style="color: #949494;"> </span>      15 Hexadecane    2021-01-21</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> Smp1      ASV9  Phylum Pseudomonado…   0   <span style="color: #949494;"> </span>      15 Hexadecane    2021-01-21</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> Smp1      ASV10 Phylum Pseudomonado…   6.09<span style="color: #949494;">e</span><span style="color: #BB0000;">-6</span>    15 Hexadecane    2021-01-21</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 190 more rows</span></span></span></code></pre></div>
+</div>
+<div class="section level2">
+<h2 id="phyloseq">Phyloseq<a class="anchor" aria-label="anchor" href="#phyloseq"></a>
+</h2>
+<p>If you can get your data into a phyloseq object, it is possible to
+import that as well. <code>bubbler</code> expects to see a otu_table and
+tax_table, and optionally, sam_data within the phyloseq object.</p>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># example phyloseq</span></span>
+<span><span class="fu"><a href="../reference/rel_abund_phy.html">rel_abund_phy</a></span><span class="op">(</span><span class="va">physeq1</span>,</span>
+<span>              taxa_data <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>              meta_data <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Loading required package: phyloseq</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 100 × 7</span></span></span>
+<span><span class="co">#&gt;    sample_id asv   level  taxon          rel_abund Location Depth</span></span>
+<span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>              <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;int&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> Smp1      ASV1  Phylum Firmicutes       0.002<span style="text-decoration: underline;">08</span> C          339</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> Smp1      ASV2  Phylum Actinobacteria   0.019<span style="text-decoration: underline;">8</span>  C          339</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> Smp1      ASV3  Phylum Actinobacteria   0.013<span style="text-decoration: underline;">5</span>  C          339</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> Smp1      ASV4  Phylum Firmicutes       0.006<span style="text-decoration: underline;">65</span> C          339</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> Smp1      ASV5  Phylum Proteobacteria   0.010<span style="text-decoration: underline;">4</span>  C          339</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> Smp1      ASV6  Phylum Firmicutes       0.012<span style="text-decoration: underline;">9</span>  C          339</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> Smp1      ASV7  Phylum Proteobacteria   0.016<span style="text-decoration: underline;">2</span>  C          339</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> Smp1      ASV8  Phylum Proteobacteria   0.014<span style="text-decoration: underline;">6</span>  C          339</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> Smp1      ASV9  Phylum Proteobacteria   0.002<span style="text-decoration: underline;">08</span> C          339</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> Smp1      ASV10 Phylum Actinobacteria   0.002<span style="text-decoration: underline;">70</span> C          339</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 90 more rows</span></span></span></code></pre></div>
 </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
     </nav></aside>
