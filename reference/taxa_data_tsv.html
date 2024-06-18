@@ -24,7 +24,7 @@
 <li class="nav-item dropdown">
   <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-articles">Articles</a>
   <div class="dropdown-menu" aria-labelledby="dropdown-articles">
-    <a class="dropdown-item" href="../articles/import.html">import</a>
+    <a class="dropdown-item" href="../articles/introduction.html">introduction</a>
   </div>
 </li>
       </ul><form class="form-inline my-2 my-lg-0" role="search">
@@ -66,9 +66,31 @@
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">fpath</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>, <span class="st">"taxa.tsv"</span>, package <span class="op">=</span> <span class="st">"bubbler"</span><span class="op">)</span></span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">fpath</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata/tsv"</span>, <span class="st">"taxa.tsv"</span>, package <span class="op">=</span> <span class="st">"bubbler"</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu">taxa_data_tsv</span><span class="op">(</span><span class="va">fpath</span><span class="op">)</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error:</span> '' does not exist in current working directory ('/home/runner/work/bubbler/bubbler/docs/reference').</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 20 × 7</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    asv   Domain   Phylum         Class               Order          Family Genus</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>               <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 1</span> ASV1  Bacteria Actinomycetota Actinobacteria      Streptomyceta… Strep… Stre…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 2</span> ASV2  Bacteria Bacillota      Bacilli             Caryophanales  Alicy… Alic…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 3</span> ASV3  Bacteria Bacillota      Bacilli             Caryophanales  Staph… Stap…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 4</span> ASV4  Bacteria Pseudomonadota Gammaproteobacteria Alteromonadal… Alter… Mari…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 5</span> ASV5  Bacteria Pseudomonadota Gammaproteobacteria Pseudomonadal… Pseud… Pseu…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 6</span> ASV6  Bacteria Pseudomonadota Gammaproteobacteria Vibrionales    Vibri… Alii…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 7</span> ASV7  Bacteria Bacteroidota   Flavobacteriia      Flavobacteria… Flavo… Psyc…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 8</span> ASV8  Bacteria Bacillota      Bacilli             Lactobacillal… Lacto… Lact…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span> ASV9  Bacteria Pseudomonadota Alphaproteobacteria Rickettsiales  Ricke… Rick…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span> ASV10 Bacteria Pseudomonadota Gammaproteobacteria Pseudomonadal… Morax… Mora…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">11</span> ASV11 Bacteria Pseudomonadota Alphaproteobacteria Caulobacteral… Maric… Mari…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">12</span> ASV12 Bacteria Pseudomonadota Gammaproteobacteria Nevskiales     Nevsk… Sini…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">13</span> ASV13 Bacteria Bacillota      Bacilli             Lactobacillal… Lacto… Comp…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">14</span> ASV14 Bacteria Bacteroidota   Cytophagia          Cytophagales   Cyclo… Algo…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">15</span> ASV15 Bacteria Pseudomonadota Gammaproteobacteria Xanthomonadal… Xanth… Lyso…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">16</span> ASV16 Bacteria Bacillota      Bacilli             Caryophanales  Bacil… Anae…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">17</span> ASV17 Bacteria Bacillota      Clostridia          Eubacteriales  Clost… Clos…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">18</span> ASV18 Bacteria Pseudomonadota Gammaproteobacteria Enterobactera… Yersi… Serr…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">19</span> ASV19 Bacteria Pseudomonadota Alphaproteobacteria Rhodobacteral… Roseo… Rhod…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">20</span> ASV20 Bacteria Synergistota   Synergistia         Synergistales  Dethi… Rari…</span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
