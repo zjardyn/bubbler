@@ -24,6 +24,7 @@
 <li class="nav-item dropdown">
   <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-articles">Articles</a>
   <div class="dropdown-menu" aria-labelledby="dropdown-articles">
+    <a class="dropdown-item" href="../articles/data_import.html">data_import</a>
     <a class="dropdown-item" href="../articles/introduction.html">introduction</a>
   </div>
 </li>
@@ -86,9 +87,20 @@
 <span class="r-in"><span><span class="va">taxa</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata/tsv"</span>, <span class="st">"taxa.tsv"</span>, package <span class="op">=</span> <span class="st">"bubbler"</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">meta_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata/tsv"</span>, <span class="st">"metadata.tsv"</span>, package <span class="op">=</span> <span class="st">"bubbler"</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu">rel_abund_tsv</span><span class="op">(</span><span class="va">asv</span>, <span class="va">taxa</span>, <span class="va">meta_data</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 0 × 5</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 5 variables: sample_id &lt;chr&gt;, asv &lt;chr&gt;, level &lt;chr&gt;, taxon &lt;chr&gt;,</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   rel_abund &lt;dbl&gt;</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 200 × 8</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    sample_id asv   level  taxon         rel_abund Depth Carbon_source Date      </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>             <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;date&gt;</span>    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 1</span> Smp1      ASV1  Phylum Actinomyceto…   6.09<span style="color: #949494;">e</span><span style="color: #BB0000;">-6</span>    15 Hexadecane    2021-01-21</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 2</span> Smp1      ASV2  Phylum Bacillota       1.83<span style="color: #949494;">e</span><span style="color: #BB0000;">-5</span>    15 Hexadecane    2021-01-21</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 3</span> Smp1      ASV3  Phylum Bacillota       4.83<span style="color: #949494;">e</span><span style="color: #BB0000;">-3</span>    15 Hexadecane    2021-01-21</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 4</span> Smp1      ASV4  Phylum Pseudomonado…   5.48<span style="color: #949494;">e</span><span style="color: #BB0000;">-5</span>    15 Hexadecane    2021-01-21</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 5</span> Smp1      ASV5  Phylum Pseudomonado…   6.09<span style="color: #949494;">e</span><span style="color: #BB0000;">-5</span>    15 Hexadecane    2021-01-21</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 6</span> Smp1      ASV6  Phylum Pseudomonado…   7.71<span style="color: #949494;">e</span><span style="color: #BB0000;">-3</span>    15 Hexadecane    2021-01-21</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 7</span> Smp1      ASV7  Phylum Bacteroidota    1.76<span style="color: #949494;">e</span><span style="color: #BB0000;">-4</span>    15 Hexadecane    2021-01-21</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 8</span> Smp1      ASV8  Phylum Bacillota       0   <span style="color: #949494;"> </span>      15 Hexadecane    2021-01-21</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span> Smp1      ASV9  Phylum Pseudomonado…   0   <span style="color: #949494;"> </span>      15 Hexadecane    2021-01-21</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span> Smp1      ASV10 Phylum Pseudomonado…   6.09<span style="color: #949494;">e</span><span style="color: #BB0000;">-6</span>    15 Hexadecane    2021-01-21</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 190 more rows</span></span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
