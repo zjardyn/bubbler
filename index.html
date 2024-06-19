@@ -41,7 +41,8 @@
 <li class="nav-item dropdown">
   <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-articles">Articles</a>
   <div class="dropdown-menu" aria-labelledby="dropdown-articles">
-    <a class="dropdown-item" href="articles/data_import.html">data_import</a>
+    <a class="dropdown-item" href="articles/calc_rel_abund.html">1.1 Calculate relative abundance</a>
+    <a class="dropdown-item" href="articles/data_import.html">1. Data Import</a>
     <a class="dropdown-item" href="articles/introduction.html">introduction</a>
   </div>
 </li>
@@ -62,7 +63,7 @@
 </h1></div>
 <!-- badges: start -->
 <!-- badges: end -->
-<p>Bubbler makes relative abundance tables for visualization of amplicon-sequencing (16S/18S rRNA) datasets. Bubbler combines asv counts, taxonomic information, and optionally, meta data to create stacked barcharts, or bubble plots. Bubbler works with <a href="https://github.com/benjjneb/dada2" class="external-link">dada2</a>, <a href="https://github.com/qiime2/qiime2" class="external-link">qiime2</a>, and [phyloseq](<a href="https://joey711.github.io/phyloseq/" class="external-link uri">https://joey711.github.io/phyloseq/</a> output.</p>
+<p>Bubbler makes relative abundance tables for visualization of amplicon-sequencing (16S/18S rRNA) datasets. Bubbler combines asv counts, taxonomic information, and optionally, meta data to create stacked barcharts, or bubble plots. Bubbler works with <a href="https://github.com/benjjneb/dada2" class="external-link">dada2</a>, <a href="https://github.com/qiime2/qiime2" class="external-link">qiime2</a>, and <a href="https://joey711.github.io/phyloseq/" class="external-link">phyloseq</a> output.</p>
 <div class="section level2">
 <h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
 </h2>
@@ -72,19 +73,8 @@
 <span>    <span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"devtools"</span><span class="op">)</span></span>
 <span><span class="op">}</span></span>
 <span><span class="fu">devtools</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"zjardyn/bubbler"</span><span class="op">)</span></span></code></pre></div>
-<p>If you want to import data from a phyloseq object or qiime2 artifacts, install these packages:</p>
-<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># install phyloseq</span></span>
-<span><span class="kw">if</span><span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/ns-load.html" class="external-link">requireNamespace</a></span><span class="op">(</span><span class="st">"BiocManager"</span><span class="op">)</span><span class="op">)</span><span class="op">{</span></span>
-<span>  <span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"BiocManager"</span><span class="op">)</span></span>
-<span><span class="op">}</span></span>
-<span><span class="fu">BiocManager</span><span class="fu">::</span><span class="fu">install</span><span class="op">(</span><span class="st">"phyloseq"</span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># install qiime2R</span></span>
-<span><span class="kw">if</span> <span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/ns-load.html" class="external-link">requireNamespace</a></span><span class="op">(</span><span class="st">"devtools"</span>, quietly <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span><span class="op">{</span></span>
-<span>    <span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"devtools"</span><span class="op">)</span></span>
-<span><span class="op">}</span></span>
-<span><span class="fu">devtools</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"jbisanz/qiime2R"</span><span class="op">)</span></span></code></pre></div>
+<p>bubbler</p>
+<p>A bubbler workflow typically has three steps: 1. Importing data into a relative abundance table. 2. Modifying the <code>rel_abund</code> table. 3. Plotting, in the form of a stacked-bar or bubble plot</p>
 <!-- You'll still need to render `README.Rmd` regularly, to keep `README.md` up-to-date. `devtools::build_readme()` is handy for this. -->
 <!-- In that case, don't forget to commit and push the resulting figure files, so they display on GitHub and CRAN. -->
 </div>
