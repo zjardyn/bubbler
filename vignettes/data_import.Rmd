@@ -1,5 +1,5 @@
 ---
-title: "data_import"
+title: "1. Data Import"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{data_import}
@@ -14,7 +14,9 @@ knitr::opts_chunk$set(
 )
 ```
 
-Data import can be a frustrating first step. `bubbler` tries to alleviate this frustration by giving the user flexibility with how they choose to get their data into R. Let's load `bubbler` and import some data! 
+Data import can be a frustrating first step. bubbler tries to alleviate this by giving the user flexibility with how they can get their data into R. 
+
+Load bubbler and import some data. 
 
 ```{r setup}
 library(bubbler)
@@ -22,7 +24,7 @@ library(bubbler)
 
 ## Qiime2
 
-If you have just ran your amplicon sequencing data through [qiime2](https://qiime2.org/), you can import the asv-table and taxonomy artifacts (.qza), and optionally, the qiime-formatted metadata (.tsv). If you are unfamiliar with qiime2, check out their documentation, specifically the [Moving Pictures](https://docs.qiime2.org/2024.5/tutorials/moving-pictures/) tutorial. Let's load the data from that tutorial!
+If you have just ran your amplicon sequencing data through [qiime2](https://qiime2.org/), you can import the asv-table and taxonomy artifacts (.qza), and optionally, the qiime-formatted metadata (.tsv). Here, I show importing, using data from the "Moving Pictures" Qiime2 [tutorial](https://docs.qiime2.org/2024.5/tutorials/moving-pictures/).
 
 ```{r}
 # path to qiime-formatted asv counts 
@@ -53,6 +55,7 @@ taxa <- system.file("extdata", "tsv", "taxa.tsv", package = "bubbler")
 # path to metadata in tab-seperated format 
 metadata <- system.file("extdata", "tsv", "metadata.tsv", package = "bubbler")
 
+# make a relative abundance table
 rel_abund_tsv(counts, taxa, metadata)
 ```
 
