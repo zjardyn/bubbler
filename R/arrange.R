@@ -18,21 +18,15 @@ arrange_sample_by_taxa <- function(rel_abund_tab){
 }
 
 #' @export
-arrange_taxa <- function(rel_abund_tab, pooled = c("top", "bottom")) {
+arrange_taxa <- function(rel_abund_tab, pooled = "top") {
 
-   pooled <- match.arg(pooled)
+   pooled <- match.arg(pooled,  c("top", "bottom"))
 
    grouping <- rel_abund_tab %>%
         dplyr::group_by(taxon) %>%
         dplyr::summarise(mean = mean(rel_abund))
 
-
-
-   threshold <- grep("<", rel_abund_tab$taxon, value = TRUE, fixed = TRUE, useBytes = TRUE)[1]
-
-   if(is.na(threshold)){
-       threshold <- "Other"
-   }
+    threshold <- detect_threshold(rel_abund_tab)
 
     if(pooled == "top"){
 
@@ -59,6 +53,18 @@ arrange_taxa <- function(rel_abund_tab, pooled = c("top", "bottom")) {
 }
 
 #' @export
+arrange_taxa_colour <- function(rel_abund_tb, taxa_colours){
+
+    threshold <- detect_threshold(rel_abund_tb)
+
+
+    rel_abund_tb  %>% mutate(taxon = factor(taxon, levels = n))
+
+
+
+}
+
+#' @export
 arrange_variable <- function(rel_abund_tab, variable, levels){
    if(missing(variable)){variable <- "sample_id"}
    if(missing(levels)){stop("levels not provided.")}
@@ -67,4 +73,3 @@ arrange_variable <- function(rel_abund_tab, variable, levels){
    dplyr::mutate(!!rlang::sym(variable) := as.factor(!!rlang::sym(variable)),
                  !!rlang::sym(variable) := forcats::fct_relevel(!!rlang::sym(variable), levels))
 }
-

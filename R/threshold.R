@@ -61,12 +61,11 @@ choose_n_taxa <- function(rel_abund_tab, n_taxa = 8) {
 #'
 #' @examples
 #' \dontrun{pool_taxa(rel_abund_tab, threshold = 0.2, var = "Location")}
-pool_taxa <- function(rel_abund_tab, threshold, keep_metadata, label) {
-    if(missing(rel_abund_tab)){stop("Provide a relative abundence table.")}
-    if(!("taxon" %in% colnames(rel_abund_tab))){stop('Taxonomic information not detected.\nPlease import in your relative abundance table.' )}
-    if(missing(threshold)){threshold = choose_n_taxa(rel_abund_tab)}
-    if(missing(keep_metadata)){keep_metadata = FALSE}
-    if(missing(label)){label = TRUE}
+pool_taxa <- function(rel_abund_tab, threshold, n_taxa, keep_metadata = FALSE, label = TRUE) {
+    if(missing(rel_abund_tab)){stop("Provide a relative abundance table.")}
+    if(!("taxon" %in% colnames(rel_abund_tab))){stop('variable taxon not found in colnames' )}
+    if(missing(n_taxa)){n_taxa = 12}
+    if(missing(threshold)){threshold = choose_n_taxa(rel_abund_tab, n_taxa)}
 
     taxon_pool <- rel_abund_tab %>%
         dplyr::group_by(taxon) %>%
@@ -104,3 +103,25 @@ pool_taxa <- function(rel_abund_tab, threshold, keep_metadata, label) {
     }
 }
 
+#' @export
+detect_threshold <- function(rel_abund_tb){
+    threshold <- grep("<", rel_abund_tb[["taxon"]], value = TRUE, fixed = TRUE, useBytes = TRUE)[1]
+
+    if(is.na(threshold)){
+        threshold <- "Other"
+    }
+
+   threshold
+}
+
+
+#' @export
+detect_threshold_vec <- function(vector){
+    threshold <- grep("<", vector, value = TRUE, fixed = TRUE, useBytes = TRUE)[1]
+
+    if(is.na(threshold)){
+        threshold <- "Other"
+    }
+
+   threshold
+}

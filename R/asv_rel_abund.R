@@ -269,3 +269,26 @@ rel_abund_qiime <- function(asv_qiime, taxa_qiime, metadata_qiime, taxa_level, v
     }
 }
 
+#' @export
+rel_abund_bracken <- function(path, remove_human){
+    if(missing(path)){stop("rel_abund_bracken needs a folder of bracken output files.")}
+    if(missing(remove_human)){remove_human = TRUE}
+
+    file_list <- list.files(path = path, pattern = "*.txt", full.names = TRUE)
+    bracken_data <- purrr::map(file_list, read_bracken_file)
+    combined_data <- dplyr::bind_rows(bracken_data)
+
+    data <- combined_data %>%
+        mutate(sample_id = str_split(sample_id, "_kraken2") %>% map_chr(1)) %>%
+        select(sample_id, name, taxonomy_lvl, kraken_assigned_reads)
+
+    if(remove_human == TRUE) {
+        data <- data %>%
+            filter(name != "Homo sapiens")
+    }
+    # TODO: Check to make sure taxonomy_lvl is all S
+    data %>%
+        mutate(rel_abund = kraken_assigned_reads/sum(kraken_assigned_reads)) %>%
+        rename('taxon' = name) %>%
+        select(sample_id, taxon, rel_abund)
+}

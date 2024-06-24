@@ -1,43 +1,17 @@
 library(tidyverse)
-library(bubbler)
+# library(bubbler)
 
-path <- "C:/Users/zjardyn/Desktop/alyssa_bracken"
+# path <- "C:/Users/zjardyn/Desktop/alyssa_bracken"
 
-read_bracken_file <- function(filepath) {
-  sample_id <- basename(filepath)
-  read_tsv(filepath, show_col_types = FALSE) %>%
-    mutate(sample_id = sample_id) %>%
-    relocate(sample_id)
-}
+path <- system.file("extdata", "bracken", package = "bubbler")
 
-# Get a list of all Bracken output files in the directory
-file_list <- list.files(path = path, pattern = "*.txt", full.names = TRUE)
-
-# Read in each file and store it in a named list
-bracken_data <- map(file_list, read_bracken_file)
-
-combined_data <- bind_rows(bracken_data)
-
-data <- combined_data %>%
-  mutate(sample_id = str_split(sample_id, "_kraken2") %>% map_chr(1)) %>%
-  select(sample_id, name, taxonomy_lvl, kraken_assigned_reads)
-
-## Subset ##
-data_s <- data %>%
-    filter(name != "Homo sapiens")
-
-rel_abund0 <- function(counts_tb){
-    counts_tb %>%
-    mutate(rel_abund = kraken_assigned_reads/sum(kraken_assigned_reads)) %>%
-        rename('taxon' = name)
-}
-
+rel_abund <- rel_abund_bracken(path)
 
 ## Rel_abund_tabs
-rel_abund <- rel_abund0(data_s)
+# rel_abund <- rel_abund0(data_s)
 pooled_all<- pool_taxa(rel_abund, choose_n_taxa(rel_abund, 17), label = F)
-lowest_ten <- data_s %>%
-    mutate(rel_abund = kraken_assigned_reads/sum(kraken_assigned_reads)) %>%
+
+lowest_ten <- rel_abund %>%
     group_by(sample_id) %>%
     summarise(sum = sum(rel_abund)) %>%
     arrange(sum) %>%

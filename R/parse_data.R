@@ -149,4 +149,14 @@ meta_data_qiime <- function(qza){
     metadata
 }
 
+## BRACKEN
+
+#' @export
+read_bracken_file <- function(filepath) {
+    sample_id <- basename(filepath)
+    read_tsv(filepath, show_col_types = FALSE) %>%
+        mutate(sample_id = sample_id) %>%
+        relocate(sample_id)
+}
+
 
