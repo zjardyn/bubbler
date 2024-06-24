@@ -39,10 +39,14 @@ A bubbler workflow typically has three steps:
     2. Modifying the `rel_abund` table. 
     3. Making a `ggplot`, with stacked-bar or bubble plot aesthetics.
     
+```{r, echo=FALSE, message=FALSE}
+library(magrittr)
+```
 
 Here are all three steps, using `tidyverse` notation:
 
 ```{r}
+library(bubbler)
 # 1. Import data into rel_abund
 rel_abund_phy(physeq1) %>%
     # 2. Modify  rel_abund; choose a threshold to pool taxa, for plotting

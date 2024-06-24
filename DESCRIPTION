@@ -30,6 +30,7 @@ Imports:
 Config/testthat/edition: 3
 Suggests: 
     knitr,
+    patchwork,
     phyloseq,
     rhdf5,
     rmarkdown,
