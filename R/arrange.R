@@ -26,7 +26,13 @@ arrange_taxa <- function(rel_abund_tab, pooled = c("top", "bottom")) {
         dplyr::group_by(taxon) %>%
         dplyr::summarise(mean = mean(rel_abund))
 
+
+
    threshold <- grep("<", rel_abund_tab$taxon, value = TRUE, fixed = TRUE, useBytes = TRUE)[1]
+
+   if(is.na(threshold)){
+       threshold <- "Other"
+   }
 
     if(pooled == "top"){
 

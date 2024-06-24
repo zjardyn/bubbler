@@ -61,31 +61,44 @@ choose_n_taxa <- function(rel_abund_tab, n_taxa = 8) {
 #'
 #' @examples
 #' \dontrun{pool_taxa(rel_abund_tab, threshold = 0.2, var = "Location")}
-pool_taxa <- function(rel_abund_tab, threshold) {
+pool_taxa <- function(rel_abund_tab, threshold, keep_metadata, label) {
     if(missing(rel_abund_tab)){stop("Provide a relative abundence table.")}
     if(!("taxon" %in% colnames(rel_abund_tab))){stop('Taxonomic information not detected.\nPlease import in your relative abundance table.' )}
     if(missing(threshold)){threshold = choose_n_taxa(rel_abund_tab)}
-
-    metadata <- rel_abund_tab %>%
-        dplyr::select(!(asv:rel_abund)) %>%
-        dplyr::distinct()
+    if(missing(keep_metadata)){keep_metadata = FALSE}
+    if(missing(label)){label = TRUE}
 
     taxon_pool <- rel_abund_tab %>%
         dplyr::group_by(taxon) %>%
         dplyr::summarise(pool = max(rel_abund) <= threshold,
                          .groups = "drop")
 
-    pooled <- dplyr::inner_join(rel_abund_tab, taxon_pool, by = "taxon") %>%
-        dplyr::mutate(taxon = dplyr::if_else(pool, glue::glue("< {round(threshold, 4)}%"), taxon),
-                      taxon = tidyr::replace_na(taxon, "Unclassified"))
+    if(label == TRUE){
+        pooled <- dplyr::inner_join(rel_abund_tab, taxon_pool, by = "taxon") %>%
+            dplyr::mutate(taxon = dplyr::if_else(pool, glue::glue("< {round(threshold, 4)}%"), taxon),
+                          taxon = tidyr::replace_na(taxon, "Unclassified"))
+    } else {
+
+        pooled <- dplyr::inner_join(rel_abund_tab, taxon_pool, by = "taxon") %>%
+            dplyr::mutate(taxon = dplyr::if_else(pool, "Other", taxon),
+                          taxon = tidyr::replace_na(taxon, "Unclassified"))
+    }
 
     rel_abund_pooled <- pooled %>%
         dplyr::group_by(sample_id, taxon) %>%
         dplyr::summarise(rel_abund = sum(rel_abund),
                          .groups = "drop")
 
+    if(keep_metadata == TRUE) {
+        metadata <- rel_abund_tab %>%
+            dplyr::select(!(asv:rel_abund)) %>%
+            dplyr::distinct()
+
     if(dim(metadata)[2] > 1) {
         dplyr::inner_join(rel_abund_pooled, metadata, by = "sample_id")
+        } else {
+            rel_abund_pooled
+            }
     } else {
         rel_abund_pooled
     }

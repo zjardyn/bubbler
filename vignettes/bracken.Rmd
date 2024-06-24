@@ -1,0 +1,53 @@
+---
+title: "bracken"
+author: "Zjardyn Liera-Hood"
+date: "2024-06-23"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+knitr::opts_chunk$set(fig.width = 13)
+```
+
+```{r, message=FALSE}
+library(bubbler)
+library(patchwork)
+library(tidyverse)
+# path <- system.file("dev", "plot.RDS", package = "bubbler")
+path <-  "C:/Users/zjardyn/Desktop/bubbler/dev/tabs.RDS"
+
+rl <- readRDS(file = path)
+
+t1 <- rl[[1]]
+t2 <- rl[[2]]
+t3 <- rl[[3]]
+t4 <- rl[[4]]
+
+p1 <- bar_plot(t1) + scale_fill_manual(values = t4)
+p1.1 <- bar_plot(t1, position = "fill") + scale_fill_manual(values = t4)
+
+p2 <- bar_plot(t2, position = "stack")+ scale_fill_manual(values = t4) +
+    ggtitle("10 least abundant samples")
+p3 <- bar_plot(t2, position = "fill")+ scale_fill_manual(values = t4)
+
+p4 <- bar_plot(t3, position = "stack")+ scale_fill_manual(values = t4)
+p5 <- bar_plot(t3, position = "fill")+ scale_fill_manual(values = t4)
+
+```
+
+```{r }
+p1 + p1.1 + plot_layout(guides = "collect")
+
+```
+
+```{r }
+p2 + p3 + plot_layout(guides = "collect")
+
+```
+
+```{r, fig.height = 7}
+p4 + p5 + plot_layout(guides = "collect")
+
+```
+
