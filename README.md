@@ -12,7 +12,7 @@ counts, taxonomic information, and optionally, meta data to create
 stacked barcharts, or bubble plots. Bubbler works with
 [dada2](https://github.com/benjjneb/dada2),
 [qiime2](https://github.com/qiime2/qiime2), and
-\[phyloseq\](<https://joey711.github.io/phyloseq/> output.
+[phyloseq](https://joey711.github.io/phyloseq/) output.
 
 ## Installation
 
@@ -25,22 +25,11 @@ if (!requireNamespace("devtools", quietly = TRUE)){
 devtools::install_github("zjardyn/bubbler")
 ```
 
-If you want to import data from a phyloseq object or qiime2 artifacts,
-install these packages:
+bubbler
 
-``` r
-# install phyloseq
-if(!requireNamespace("BiocManager")){
-  install.packages("BiocManager")
-}
-BiocManager::install("phyloseq")
-
-# install qiime2R
-if (!requireNamespace("devtools", quietly = TRUE)){
-    install.packages("devtools")
-}
-devtools::install_github("jbisanz/qiime2R")
-```
+A bubbler workflow typically has three steps: 1. Importing data into a
+relative abundance table. 2. Modifying the `rel_abund` table. 3.
+Plotting, in the form of a stacked-bar or bubble plot
 
 <!-- You'll still need to render `README.Rmd` regularly, to keep `README.md` up-to-date. `devtools::build_readme()` is handy for this. -->
 <!-- In that case, don't forget to commit and push the resulting figure files, so they display on GitHub and CRAN. -->

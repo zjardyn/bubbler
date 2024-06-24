@@ -49,10 +49,12 @@ taxa <- system.file("extdata/tsv/taxa.tsv", package = "bubbler")
 p3 <- rel_abund_tsv(counts, taxa ) %>%
     pool_taxa(choose_n_taxa(rel_abund_tsv(counts, taxa))) %>%
     bar_plot()
-
-library(patchwork)
 # 
-p1 / p2 + p3
-
+# library(patchwork)
+# # 
+# p1 / p2 + p3
+p1
+p2
+p3
 
 ```
