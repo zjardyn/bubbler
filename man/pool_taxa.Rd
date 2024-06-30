@@ -4,7 +4,13 @@
 \alias{pool_taxa}
 \title{Pool taxa according to threshold}
 \usage{
-pool_taxa(rel_abund_tab, threshold, keep_metadata, label)
+pool_taxa(
+  rel_abund_tab,
+  threshold,
+  n_taxa,
+  keep_metadata = FALSE,
+  label = TRUE
+)
 }
 \arguments{
 \item{rel_abund_tab}{A rel_abund table in tibble format.}

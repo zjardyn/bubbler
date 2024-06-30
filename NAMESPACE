@@ -2,7 +2,6 @@
 
 export("%>%")
 export(all_taxa)
-export(arrange_sample_abundance)
 export(arrange_sample_by_taxa)
 export(arrange_taxa)
 export(arrange_taxa_colour)

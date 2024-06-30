@@ -48,7 +48,7 @@ rel_abund  <-  rel_abund_qiime(counts_q,
 # 2. modify rel_abund
 rel_abund_pool <- rel_abund %>%
     # pool taxa so that only the 12 most abundant taxa are displayed 
-    pool_taxa(threshold = choose_n_taxa(rel_abund, n_taxa = 12)) 
+    pool_taxa(n_taxa = 12, keep_metadata = TRUE) 
 
 library(ggplot2)
 

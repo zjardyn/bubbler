@@ -4,14 +4,14 @@
 \alias{subset_rel_abund}
 \title{Subset samples from a rel_abund tibble and recompute rel_abund}
 \usage{
-subset_rel_abund(rel_abund_tab, var, selection)
+subset_rel_abund(rel_abund_tb, var, selection)
 }
 \arguments{
-\item{rel_abund_tab}{A tibble.}
-
 \item{var}{A character vector of the variable to subset from.}
 
 \item{selection}{A character vector of elements to select.}
+
+\item{rel_abund_tab}{A tibble.}
 }
 \value{
 A tibble.
