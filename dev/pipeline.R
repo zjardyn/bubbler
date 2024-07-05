@@ -88,7 +88,8 @@ display_colors_ggplot <- function(color_vector, colors_per_row = 10) {
 
 ###~%~ trying to get a nested colour scheme for phylum ~%~###
 
-taxa_qiime <- "inst/extdata/qiime/taxonomy.qza"
+taxa_qiime <- system.file("extdata", "qiime", "taxonomy.qza", package = "bubbler")
+
 tx <- taxa_data_qiime(taxa_qiime)
 tx %>%
     select(Phylum) %>%
@@ -96,9 +97,9 @@ tx %>%
     summarise(sum = n()) %>%
     arrange(desc(sum))
 
-asv_qiime <- "inst/extdata/qiime/table-dada2.qza"
-taxa_qiime <- "inst/extdata/qiime/taxonomy.qza"
-metadata_qiime <- "inst/extdata/qiime/sample-metadata.tsv"
+asv_qiime <- system.file("extdata", "qiime", "table-dada2.qza", package = "bubbler")
+taxa_qiime <- system.file("extdata", "qiime", "taxonomy.qza", package = "bubbler")
+metadata_qiime <- system.file("extdata", "qiime", "sample-metadata.tsv", package = "bubbler")
 
 # generate rel_abund
 q <- rel_abund_qiime(

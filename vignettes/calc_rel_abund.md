@@ -7,16 +7,10 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
-```{r, include = FALSE}
-knitr::opts_chunk$set(
-  collapse = TRUE,
-  comment = "#>", 
-  fig.width = 7
-  
-)
-```
 
-```{r setup}
+
+
+``` r
 library(bubbler)
 ```
 # Relative abundance
@@ -27,18 +21,10 @@ $\text{Relative Abundance} = \frac{1}{N} \sum_{i=1}^{N} \frac{n_i}{N}$
 
 It is often useful to visualize your data in this form, as to see the proportional counts between samples.  Consider the following plot: 
 
-```{r load_qiime, echo=FALSE}
-# path to qiime-formatted asv counts 
-counts_q <- system.file("extdata", "qiime", "table-dada2.qza", package = "bubbler")
 
-# path to qiime-formatted taxonomy data 
-taxa_q <- system.file("extdata", "qiime", "taxonomy.qza", package = "bubbler")
 
-# path to qiime-formatted metadata
-metadata_q <- system.file("extdata", "qiime", "sample-metadata.tsv", package = "bubbler")
-```
 
-```{r fig.height= 6 }
+``` r
 # 1 make rel_abund
 rel_abund  <-  rel_abund_qiime(counts_q, 
                                taxa_q, 
@@ -57,8 +43,9 @@ rel_abund_pool %>%
     bar_plot()  + 
     # group samples by body site. free_x removes unwanted white space
     facet_wrap(~body_site, scales = "free_x" )
-
 ```
+
+![plot of chunk unnamed-chunk-2](figure/unnamed-chunk-2-1.png)
 
 When we keep the samples proportional to the total count, certain samples remain dominant over others, which would affect how downstream analysis is interpreted. Maybe it is time to rarefy the data. 
 
@@ -66,10 +53,13 @@ When we keep the samples proportional to the total count, certain samples remain
 
 We can also fill up the plotting area, which better displays the within-sample composition, but obfuscates our between-sample proportions.
 
-```{r fig.height= 5}
+
+``` r
 rel_abund_pool %>%
     bar_plot(position = "fill")  
 ```
+
+![plot of chunk unnamed-chunk-3](figure/unnamed-chunk-3-1.png)
 # Grouped relative abundance
 
 Filling the plotting area is equivalent to calculating relative abundance between groups, where $J$ represents the various levels of our grouping variable,  such that: 

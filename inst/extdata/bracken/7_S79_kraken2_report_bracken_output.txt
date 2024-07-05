@@ -1,0 +1,222 @@
+name	taxonomy_id	taxonomy_lvl	kraken_assigned_reads	added_reads	new_est_reads	fraction_total_reads
+Enterococcus faecium	1352	S	1733	0	1733	0.29443
+Enterococcus faecalis	1351	S	8	0	8	0.00136
+Enterococcus mundtii	53346	S	3	0	3	0.00051
+Enterococcus sp. DA9	2603296	S	3	0	3	0.00051
+Enterococcus lactis	357441	S	3	0	3	0.00051
+Enterococcus hirae	1354	S	2	0	2	0.00034
+Enterococcus avium	33945	S	2	0	2	0.00034
+Enterococcus casseliflavus	37734	S	2	0	2	0.00034
+Enterococcus durans	53345	S	2	0	2	0.00034
+Enterococcus gallinarum	1353	S	1	0	1	0.00017
+Enterococcus cecorum	44008	S	1	0	1	0.00017
+Enterococcus wangshanyuanii	2005703	S	1	0	1	0.00017
+Jeotgalibaca sp. PTS2502	1903686	S	1	0	1	0.00017
+Staphylococcus aureus	1280	S	38	27	65	0.01104
+Bacillus aquiflavi	2672567	S	1	0	1	0.00017
+Bacillus thuringiensis	1428	S	1	0	1	0.00017
+Terribacillus sp. DMT04	2850441	S	1	0	1	0.00017
+Faecalibacterium prausnitzii	853	S	1	0	1	0.00017
+Vescimonas coprocola	2714355	S	1	0	1	0.00017
+Ruthenibacterium lactatiformans	1550024	S	1	0	1	0.00017
+Clostridium perfringens	1502	S	1	0	1	0.00017
+Streptomyces sp. ST1015	1848900	S	2	0	2	0.00034
+Streptomyces sp. ICC1	2099583	S	1	0	1	0.00017
+Streptomyces sp. Tu 2975	2676871	S	1	0	1	0.00017
+Mycobacteroides abscessus	36809	S	1	0	1	0.00017
+Pengzhenrongella sicca	2819238	S	1	0	1	0.00017
+Acidipropionibacterium virtanenii	2057246	S	1	0	1	0.00017
+Collinsella aerofaciens	74426	S	2	0	2	0.00034
+Pseudomonas sp. MYb193	1827300	S	133	0	133	0.02260
+Pseudomonas sp. OE 28.3	2745519	S	130	0	130	0.02209
+Pseudomonas sp. J380	2605424	S	104	0	104	0.01767
+Pseudomonas sp. CFSAN084952	2664899	S	11	0	11	0.00187
+Pseudomonas sp. LG1E9	2219057	S	5	0	5	0.00085
+Pseudomonas sp. FDAARGOS_380	2018067	S	2	0	2	0.00034
+Pseudomonas sp. NS1(2017)	2025658	S	2	0	2	0.00034
+Pseudomonas sp. ADAK22	2730851	S	2	0	2	0.00034
+Pseudomonas sp. R2-37-08W	1173273	S	2	0	2	0.00034
+Pseudomonas sp. R5-89-07	658644	S	1	0	1	0.00017
+Pseudomonas sp. DG56-2	2320270	S	1	0	1	0.00017
+Pseudomonas sp. S09G 359	2054919	S	1	0	1	0.00017
+Pseudomonas sp. DR208	2870840	S	1	0	1	0.00017
+Pseudomonas sp. R4-39-08	1173288	S	1	0	1	0.00017
+Pseudomonas sp. CCOS 191	1649877	S	1	0	1	0.00017
+Pseudomonas sp. NIBRBAC000502773	2590776	S	1	0	1	0.00017
+Pseudomonas sp. S49	1573720	S	1	0	1	0.00017
+Pseudomonas sp. LH1G9	2083055	S	1	0	1	0.00017
+Pseudomonas sp. SXM-1	2169583	S	1	0	1	0.00017
+Pseudomonas sp. NIBR-H-19	2901380	S	1	0	1	0.00017
+Pseudomonas sp. B10	118613	S	1	0	1	0.00017
+Pseudomonas sp. CBS	2971912	S	1	0	1	0.00017
+Pseudomonas sp. ACM7	2052956	S	1	0	1	0.00017
+Pseudomonas sp. In5(2022)	2961896	S	1	0	1	0.00017
+Pseudomonas sp. ERGC3:05	2866386	S	1	0	1	0.00017
+Pseudomonas sp. LRP2-20	2944234	S	1	0	1	0.00017
+Pseudomonas sp. Ost2	2678260	S	1	0	1	0.00017
+Pseudomonas sp. Seg1	2678259	S	1	0	1	0.00017
+Pseudomonas sp.	306	S	1	0	1	0.00017
+Pseudomonas simiae	321846	S	283	0	283	0.04808
+Pseudomonas fluorescens	294	S	52	0	52	0.00883
+Pseudomonas azotoformans	47878	S	3	0	3	0.00051
+Pseudomonas synxantha	47883	S	3	0	3	0.00051
+Pseudomonas orientalis	76758	S	3	0	3	0.00051
+Pseudomonas libanensis	75588	S	2	0	2	0.00034
+Pseudomonas rhodesiae	76760	S	2	0	2	0.00034
+Pseudomonas trivialis	200450	S	2	0	2	0.00034
+Pseudomonas mucidolens	46679	S	1	0	1	0.00017
+Pseudomonas aeruginosa	287	S	10	224	234	0.03976
+Pseudomonas alcaligenes	43263	S	2	0	2	0.00034
+Pseudomonas mendocina	300	S	1	0	1	0.00017
+Pseudomonas chlororaphis	587753	S	5	61	66	0.01121
+Pseudomonas fragi	296	S	2	0	2	0.00034
+Pseudomonas lactis	1615674	S	4	0	4	0.00068
+Pseudomonas syringae group genomosp. 3	251701	S	2	0	2	0.00034
+Pseudomonas viridiflava	33069	S	1	0	1	0.00017
+Pseudomonas syringae	317	S	1	0	1	0.00017
+Pseudomonas promysalinigenes	485898	S	3	0	3	0.00051
+Pseudomonas palleroniana	191390	S	3	0	3	0.00051
+Pseudomonas asgharzadehiana	2842349	S	3	0	3	0.00051
+Pseudomonas izuensis	2684212	S	2	0	2	0.00034
+Pseudomonas marincola	437900	S	2	0	2	0.00034
+Pseudomonas putida	303	S	2	0	2	0.00034
+Pseudomonas pohangensis	364197	S	2	0	2	0.00034
+Pseudomonas argentinensis	289370	S	1	0	1	0.00017
+Pseudomonas tritici	2745518	S	1	0	1	0.00017
+Pseudomonas juntendi	2666183	S	1	0	1	0.00017
+Pseudomonas campi	2731681	S	1	0	1	0.00017
+Pseudomonas extremaustralis	359110	S	1	0	1	0.00017
+Pseudomonas alkylphenolica	237609	S	1	0	1	0.00017
+Pseudomonas antarctica	219572	S	1	0	1	0.00017
+Pseudomonas salmasensis	2745514	S	1	0	1	0.00017
+Pseudomonas phenolilytica	2746321	S	1	0	1	0.00017
+Pseudomonas sediminis	1691904	S	1	0	1	0.00017
+Pseudomonas yamanorum	515393	S	1	0	1	0.00017
+Pseudomonas silesiensis	1853130	S	1	0	1	0.00017
+Pseudomonas frederiksbergensis	104087	S	1	0	1	0.00017
+Pseudomonas alcaliphila	101564	S	1	0	1	0.00017
+Pseudomonas thivervalensis	86265	S	1	0	1	0.00017
+Pseudomonas vanderleydeniana	2745495	S	1	0	1	0.00017
+Pseudomonas cavernae	2320867	S	1	0	1	0.00017
+Pseudomonas brassicacearum	930166	S	1	1	2	0.00034
+Stenotrophomonas maltophilia	40324	S	197	0	197	0.03347
+Stenotrophomonas sp. ZAC14D2_NAIMI4_7	2072405	S	1	0	1	0.00017
+Stenotrophomonas sp. YAU14D1_LEIMI4_1	2072407	S	1	0	1	0.00017
+Stenotrophomonas sp. YAU14A_MKIMI4_1	2072408	S	1	0	1	0.00017
+Stenotrophomonas sp. ZAC14A_NAIMI4_1	2072412	S	1	0	1	0.00017
+Stenotrophomonas sp. SAU14A_NAIMI4_5	2072413	S	1	0	1	0.00017
+Stenotrophomonas sp. ESTM1D_MKCIP4_1	2072414	S	1	0	1	0.00017
+Stenotrophomonas sp. LM091	1904944	S	76	0	76	0.01291
+Stenotrophomonas sp. NA06056	2742129	S	38	0	38	0.00646
+Stenotrophomonas sp. DR822	2871174	S	9	0	9	0.00153
+Stenotrophomonas sp. 364	2691571	S	4	0	4	0.00068
+Stenotrophomonas sp. SI-NJAU-1	2886359	S	3	0	3	0.00051
+Stenotrophomonas sp. MYb57	1827305	S	2	0	2	0.00034
+Stenotrophomonas sp. Pemsol	2040586	S	2	0	2	0.00034
+Stenotrophomonas sp. 169	2770322	S	2	0	2	0.00034
+Stenotrophomonas sp. G4	2303750	S	2	0	2	0.00034
+Stenotrophomonas sp. NY11291	2939415	S	1	0	1	0.00017
+Stenotrophomonas rhizophila	216778	S	23	0	23	0.00391
+Stenotrophomonas indicatrix	2045451	S	4	0	4	0.00068
+Stenotrophomonas acidaminiphila	128780	S	1	0	1	0.00017
+Xanthomonas citri	346	S	3	0	3	0.00051
+Xanthomonas euroxanthea	2259622	S	1	0	1	0.00017
+Xanthomonas sacchari	56458	S	1	0	1	0.00017
+Pseudoxanthomonas mexicana	128785	S	1	0	1	0.00017
+Klebsiella pneumoniae	573	S	124	0	124	0.02107
+Raoultella ornithinolytica	54291	S	1	0	1	0.00017
+Enterobacter cloacae	550	S	6	0	6	0.00102
+Enterobacter hormaechei	158836	S	1	3	4	0.00068
+Salmonella enterica	28901	S	4	44	48	0.00815
+Shimwellia blattae	563	S	3	0	3	0.00051
+Escherichia coli	562	S	2	2	4	0.00068
+Leclercia sp. W6	2282310	S	2	0	2	0.00034
+Yersinia enterocolitica	630	S	3	0	3	0.00051
+Aeromonas media	651	S	72	0	72	0.01223
+Aeromonas veronii	654	S	20	0	20	0.00340
+Aeromonas hydrophila	644	S	15	0	15	0.00255
+Aeromonas rivipollensis	948519	S	4	0	4	0.00068
+Aeromonas sp. FDAARGOS 1415	2778064	S	1	0	1	0.00017
+Aeromonas sp. CA23	2033032	S	1	0	1	0.00017
+Aeromonas encheleia	73010	S	2	0	2	0.00034
+Aeromonas salmonicida	645	S	1	0	1	0.00017
+Tolumonas auensis	43948	S	19	0	19	0.00323
+Acinetobacter johnsonii	40214	S	1	0	1	0.00017
+Acinetobacter sp. WCHAc010034	1879049	S	1	0	1	0.00017
+Halomonas sp. PGE1	2730360	S	1	0	1	0.00017
+Venatorbacter cucullus	2661630	S	1	0	1	0.00017
+Methylomicrobium album	39775	S	1	0	1	0.00017
+Acidovorax sp. T1	1858609	S	21	0	21	0.00357
+Acidovorax sp. 1608163	2478662	S	9	0	9	0.00153
+Acidovorax sp. KKS102	358220	S	5	0	5	0.00085
+Acidovorax carolinensis	553814	S	15	0	15	0.00255
+Acidovorax radicis	758826	S	2	0	2	0.00034
+Acidovorax citrulli	80869	S	1	0	1	0.00017
+Diaphorobacter sp. JS3050	2735554	S	3	0	3	0.00051
+Diaphorobacter sp. HDW4B	2714925	S	2	0	2	0.00034
+Diaphorobacter sp. HDW4A	2714924	S	1	0	1	0.00017
+Diaphorobacter sp. JS3051	2792224	S	1	0	1	0.00017
+Diaphorobacter sp. MNS-0	2866628	S	1	0	1	0.00017
+Comamonas aquatica	225991	S	3	0	3	0.00051
+Comamonas kerstersii	225992	S	1	0	1	0.00017
+Comamonas thiooxydans	363952	S	1	0	1	0.00017
+Comamonas odontotermitis	379895	S	1	0	1	0.00017
+Comamonas sp. NLF-7-7	2597701	S	1	0	1	0.00017
+Rhodoferax antarcticus	81479	S	2	0	2	0.00034
+Rhodoferax ferrireducens	192843	S	2	0	2	0.00034
+Rhodoferax sediminis	2509614	S	2	0	2	0.00034
+Variovorax paradoxus	34073	S	3	0	3	0.00051
+Variovorax sp. PAMC 28711	1795631	S	1	0	1	0.00017
+Hydrogenophaga sp. PBC	795665	S	1	0	1	0.00017
+Hydrogenophaga sp. SL48	2806347	S	1	0	1	0.00017
+Hydrogenophaga crassostreae	1763535	S	1	0	1	0.00017
+Alicycliphilus denitrificans	179636	S	2	0	2	0.00034
+Polaromonas naphthalenivorans	216465	S	1	0	1	0.00017
+Serpentinimonas maccroryi	1458426	S	1	0	1	0.00017
+Simplicispira suum	2109915	S	1	0	1	0.00017
+Verminephrobacter eiseniae	364317	S	1	0	1	0.00017
+Polynucleobacter sp. AM-7D1	2689102	S	2	0	2	0.00034
+Polynucleobacter sp. MG-6-Vaara-E2	2576932	S	1	0	1	0.00017
+Polynucleobacter sp. AP-Elch-400A-B2	2576930	S	1	0	1	0.00017
+Burkholderia sp. LA-2-3-30-S1-D2	1637862	S	2	0	2	0.00034
+Cupriavidus pauculus	82633	S	1	0	1	0.00017
+Cupriavidus taiwanensis	164546	S	1	0	1	0.00017
+Ralstonia solanacearum	305	S	1	0	1	0.00017
+Pandoraea pnomenusa	93220	S	1	0	1	0.00017
+Massilia sp. H6	2970464	S	1	0	1	0.00017
+Janthinobacterium sp. PAMC25594	2861284	S	1	0	1	0.00017
+Collimonas pratensis	279113	S	2	0	2	0.00034
+Sphaerotilus sp. FB-5	2914710	S	1	0	1	0.00017
+Aquincola tertiaricarbonis	391953	S	1	0	1	0.00017
+Achromobacter xylosoxidans	85698	S	1	0	1	0.00017
+Laribacter hongkongensis	168471	S	107	0	107	0.01818
+Aquaspirillum sp. LM1	1938604	S	1	0	1	0.00017
+Vitreoscilla massiliensis	1689272	S	2	0	2	0.00034
+Ferribacterium limneticum	76259	S	3	0	3	0.00051
+Azospira oryzae	146939	S	1	0	1	0.00017
+Thauera sp. MZ1T	85643	S	1	0	1	0.00017
+Casimicrobium huifangae	2591109	S	4	0	4	0.00068
+Shinella sp. PSBB067	2715959	S	1	0	1	0.00017
+Shinella oryzae	2871820	S	1	0	1	0.00017
+Mesorhizobium sp. M7D.F.Ca.US.005.01.1.1	2493678	S	1	0	1	0.00017
+Bradyrhizobium diazoefficiens	1355477	S	1	0	1	0.00017
+Rhodoplanes sp. Z2-YC6860	674703	S	1	0	1	0.00017
+Youhaiella tibetensis	1447062	S	1	0	1	0.00017
+Bartonella krasnovii	2267275	S	1	0	1	0.00017
+Paracoccus jeotgali	2065379	S	1	0	1	0.00017
+Brevirhabdus pacifica	1267768	S	1	0	1	0.00017
+Salipiger profundus	1229727	S	1	0	1	0.00017
+Sphingobium amiense	135719	S	1	0	1	0.00017
+Desulfomicrobium baculatum	899	S	1	0	1	0.00017
+Desulfomicrobium sp. ZS1	2952228	S	1	0	1	0.00017
+Desulfohalobium retbaense	45663	S	1	0	1	0.00017
+Bradymonas sediminis	1548548	S	2	0	2	0.00034
+Geobacter sulfurreducens	35554	S	1	0	1	0.00017
+Arcobacter acticola	1849015	S	1	0	1	0.00017
+Sulfurospirillum multivorans	66821	S	1	0	1	0.00017
+Bacteroides caccae	47678	S	7	0	7	0.00119
+Bacteroides sp. M10	2763022	S	1	0	1	0.00017
+Bacteroides sp. DH3716P	2847299	S	1	0	1	0.00017
+Prevotella copri	165179	S	1	0	1	0.00017
+Homo sapiens	9606	S	1700	0	1700	0.28882
+Severe acute respiratory syndrome-related coronavirus	694009	S	264	0	264	0.04485

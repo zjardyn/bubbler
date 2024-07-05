@@ -10,7 +10,7 @@ generate_percentages <- function(N){
 generate_counts <- function(n_smp = 100, n_asv = 20 , size = 1, prob = 0.01 ){
     dat <- rnbinom(n_smp * n_asv, size = size, prob = prob) %>%
         matrix(ncol = n_smp)
-    hist(dat)
+    # hist(dat)
     colnames(dat) <- paste("Smp", 1:n_smp, sep = "")
     rownames(dat) <- paste("ASV", 1:n_asv, sep = "")
     dat %>%
@@ -20,16 +20,11 @@ generate_counts <- function(n_smp = 100, n_asv = 20 , size = 1, prob = 0.01 ){
 }
 generate_counts()
 
-
 # Parameters
-
-
 my_data <- replicate(100, generate_percentages(8)) %>%
     as.data.frame() %>%
     cbind(class = letters[1:8]) %>%
     pivot_longer(cols = !class, names_to = "sample", values_to = "percentage")
-
-my_data
 
 # Don't worry about what happened here. I just simulated some data.
 # Here we have an example data with 100 samples and 8 classes of member.
@@ -42,8 +37,6 @@ no_reorder <- my_data %>%
     scale_fill_manual(values = brewer.pal(8, "Set2")) +
     theme_classic()
     # theme(axis.text.x = element_blank())
-
-no_reorder
 
 # Due to the number of samples and classes, it is very hard to discern anything from this graph without optimizing the order of bars.
 

@@ -12,6 +12,7 @@ RoxygenNote: 7.3.1
 Depends: 
     R (>= 2.10)
 LazyData: true
+biocViews:
 Imports: 
     dplyr,
     forcats,
@@ -26,14 +27,16 @@ Imports:
     stringr,
     tibble,
     tidyr,
-    viridisLite,
-    yaml
+    viridis,
+    yaml,
+    ggnewscale,
+    rhdf5,
+    phyloseq
 Config/testthat/edition: 3
 Suggests: 
+    ggtree,
     knitr,
     patchwork,
-    phyloseq,
-    rhdf5,
     rmarkdown,
     testthat (>= 3.0.0)
 URL: https://zjardyn.github.io/bubbler/
