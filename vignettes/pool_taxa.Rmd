@@ -1,0 +1,70 @@
+---
+title: "3. Pooling and arranging" 
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{pool_taxa}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+# Pooling 
+
+```{r setup, message=FALSE, warning=FALSE}
+library(bubbler)
+library(dplyr)
+```
+
+```{r load_qiime, echo=FALSE}
+# path to qiime-formatted asv counts 
+counts_q <- system.file("extdata", "qiime", "table-dada2.qza", package = "bubbler")
+
+# path to qiime-formatted taxonomy data 
+taxa_q <- system.file("extdata", "qiime", "taxonomy.qza", package = "bubbler")
+
+# path to qiime-formatted metadata
+metadata_q <- system.file("extdata", "qiime", "sample-metadata.tsv", package = "bubbler")
+```
+
+The taxonomic level can be selected with the `taxa_level` argument, when generating 
+the relative abundance table. 
+
+```{r}
+rel_abund <- rel_abund_qiime(counts_q, taxa_q, metadata_q, taxa_level = "Genus")
+
+rel_abund %>%
+    summarise(unique_taxa = n_distinct(taxon)) # see how many unique taxa there are 
+```
+
+There are 196 unique taxa in the relative abundance table. If we attempt to plot this 
+right away, the legend will include all these taxa. The table must be filtered 
+to pool taxa below a given threshold. The `pool_taxa` function can be given a numerical
+threshold or the number of taxa that should be displayed. In the latter case, the
+threshold is determined automatically. 
+
+```{r}
+rel_abund %>%
+    pool_taxa(n_taxa = 12) %>% # threshold set to 0.0038
+    bar_plot(position = "fill")
+```
+
+
+Pooling, by default will remove any meta data that was attached to the relative abundance table. Specify `keep_metadata` to keep it.
+
+```{r}
+rel_abund %>% 
+    pool_taxa(n_taxa = 16,
+              keep_metadata = TRUE) %>%
+    bar_plot(position = "fill", x_var = "body_site")
+    
+```
+
+# Arranging 
+
+

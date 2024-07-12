@@ -32,6 +32,7 @@ Where $x_i$ is the count of a given asv, divided by the sum of all asv counts, a
 
 It is useful to visualize your data in this form to see the proportional counts between samples. 
 
+
 ```{r load_qiime, echo=FALSE}
 # path to qiime-formatted asv counts 
 counts_q <- system.file("extdata", "qiime", "table-dada2.qza", package = "bubbler")
@@ -64,7 +65,10 @@ rel_abund_pool %>%
     facet_wrap(~body_site, scales = "free_x" ) 
 
 ```
+
+
 Subject proportions in most cases are different, which would not be captured in a filled barplot. 
+
 
 ```{r}
 rel_abund_pool %>%
@@ -72,7 +76,10 @@ rel_abund_pool %>%
     # group samples by body site. free_x removes unwanted white space
     facet_wrap(~body_site, scales = "free_x")
 ```
+
+
 By filling the plot, the relative abundance is being scaled to one, within each sample. We can also precompute this in our table:
+
 
 ```{r, eval=FALSE}
 rel_abund_qiime(counts_q, 
@@ -89,6 +96,7 @@ Our relative abundances "stack" to one in this scenario. By filling the plotting
 
 Bubbler can easily allow you to visualize relative abundances by another variable of interest. Imagine you wanted to look at relative abundance across `body_site`, rather than `sample_id` on the x-axis. This can be done by modifying the `x_var` argument of `bubbler::bar_plot`.
 
+
 ```{r}
 rel_abund_qiime(counts_q,
                 taxa_q,
@@ -99,6 +107,8 @@ rel_abund_qiime(counts_q,
     arrange_taxa() %>%
     bar_plot(x_var = "body_site")
 ```
+
+
 Again, this plot could be scaled in two ways: 
 
 
@@ -126,10 +136,11 @@ rel_abund_qiime(counts_q,
 
 ```
 
+
 The grouped relative abundance is calculated as: 
 
 $\text{Grouped relative abundance} = \frac{x_i}{\sum_{j=1}^{k} x_j}$
 
-Where $k$ is the levels of grouping variable. 
+Where $k$ is the levels of the grouping variable. 
 
 
