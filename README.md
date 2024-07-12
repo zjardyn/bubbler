@@ -52,7 +52,6 @@ rel_abund_phy(physeq, taxa_level = "Genus") %>%
     
     # 3. plot
     bar_plot(position = "fill")
-#> Loading required package: phyloseq
 ```
 
 <img src="man/figures/README-unnamed-chunk-3-1.png" width="100%" /> The

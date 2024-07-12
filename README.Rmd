@@ -45,7 +45,7 @@ library(magrittr)
 
 Here, I am using `tidyverse` notation:
 
-```{r, warning=FALSE}
+```{r, warning=FALSE, message=FALSE}
 library(bubbler)
 # 1. import data into rel_abund.
 rel_abund_phy(physeq, taxa_level = "Genus") %>%
