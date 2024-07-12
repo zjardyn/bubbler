@@ -35,9 +35,9 @@ bubbler
 
 A bubbler workflow has three steps: 
 
-    1. Import data into a relative abundance table.
-    2. Modify the `rel_abund` table. 
-    3. Make a `ggplot2` object, with stacked-bar or bubble plot aesthetics.
+1. Import data into a relative abundance table.
+2. Modify the `rel_abund` table. 
+3. Make a `ggplot2` object, with stacked-bar or bubble plot aesthetics.
     
 ```{r, echo=FALSE, message=FALSE}
 library(magrittr)
@@ -62,6 +62,8 @@ rel_abund_phy(physeq, taxa_level = "Genus") %>%
 
     
 ```
+
+
 The [bubbler documentation](https://zjardyn.github.io/bubbler/) has examples for importing data, constructing rel_abund tables, and other aspects of the package. 
 
 

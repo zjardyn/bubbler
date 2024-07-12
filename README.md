@@ -32,9 +32,9 @@ bubbler
 
 A bubbler workflow has three steps:
 
-    1. Import data into a relative abundance table.
-    2. Modify the `rel_abund` table. 
-    3. Make a `ggplot2` object, with stacked-bar or bubble plot aesthetics.
+1.  Import data into a relative abundance table.
+2.  Modify the `rel_abund` table.
+3.  Make a `ggplot2` object, with stacked-bar or bubble plot aesthetics.
 
 Here, I am using `tidyverse` notation:
 
@@ -54,10 +54,11 @@ rel_abund_phy(physeq, taxa_level = "Genus") %>%
     bar_plot(position = "fill")
 ```
 
-<img src="man/figures/README-unnamed-chunk-3-1.png" width="100%" /> The
-[bubbler documentation](https://zjardyn.github.io/bubbler/) has examples
-for importing data, constructing rel_abund tables, and other aspects of
-the package.
+<img src="man/figures/README-unnamed-chunk-3-1.png" width="100%" />
+
+The [bubbler documentation](https://zjardyn.github.io/bubbler/) has
+examples for importing data, constructing rel_abund tables, and other
+aspects of the package.
 
 <!-- You'll still need to render `README.Rmd` regularly, to keep `README.md` up-to-date. `devtools::build_readme()` is handy for this. -->
 <!-- In that case, don't forget to commit and push the resulting figure files, so they display on GitHub and CRAN. -->
