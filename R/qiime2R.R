@@ -6,9 +6,10 @@
 #' @param tmp a temporary directory that the object will be decompressed to (default="tempdir()")
 #' @param rm should the decompressed object be removed at completion of function (T/F default=TRUE)
 #' @return a named list.
-#' @examples \dontrun{SVs<-read_qza("data/table.qza")}
+#' @examples
+#' fpath <- system.file("extdata/qiime", "table-dada2.qza", package = "bubbler")
+#' read_qza(fpath)
 #' @export
-
 read_qza <- function(file, tmp, rm) {
 
     if(missing(tmp)){tmp <- tempdir()}
@@ -41,13 +42,19 @@ read_qza <- function(file, tmp, rm) {
 #' Loads a version 2.1 spec biom file (http://biom-format.org/documentation/format_versions/biom-2.1.html) as expected to be found within a qiime2 artifact.
 #'
 #' @param file path to the input file, ex: file="~/Downloads/3372d9e0-3f1c-43d8-838b-35c7ad6dac89/data/feature-table.biom"
-
 #' @return a matrix of values
 #'
-#' @examples \dontrun{metadata<-read_q2biom("feature-table.biom")}
 #' @export
-#'
-#'
+#' @examples
+#' file <- system.file("extdata/qiime", "table-dada2.qza", package = "bubbler")
+#' tmp <- tempdir()
+#' unzip(file, exdir=tmp)
+#' unpacked<-unzip(file, exdir=tmp, list=TRUE)
+#' artifact<-yaml::read_yaml(paste0(tmp,"/", paste0(gsub("/..+","", unpacked$Name[1]),"/metadata.yaml")))
+#' artifact$contents<-data.frame(files=unpacked)
+#' artifact$contents$size=sapply(paste0(tmp, "/", artifact$contents$files), file.size)
+#' artifact$version=read.table(paste0(tmp,"/",artifact$uuid, "/VERSION"))
+#' read_q2biom(paste0(tmp, "/", artifact$uui,"/data/feature-table.biom"))
 
 read_q2biom <- function(file) {
     if(missing(file)){stop("Path to biom file given")}
@@ -74,11 +81,11 @@ read_q2biom <- function(file) {
 #' @param file path to the input file, ex: file="~/data/moving_pictures/table.qza"
 
 #' @return a data.frame wherein the first column is SampleID
-#'
-#' @examples \dontrun{metadata<-read_q2metadata("q2metadata.tsv")}
 #' @export
-#'
-#'
+
+#' @examples
+#' fpath <- system.file("extdata/qiime", "sample-metadata.tsv", package = "bubbler")
+#' read_q2metadata(fpath)
 
 read_q2metadata <- function(file) {
     if(missing(file)){stop("Path to metadata file not found")}
@@ -107,11 +114,11 @@ read_q2metadata <- function(file) {
 #' @param file path to the input file, ex: file="~/data/moving_pictures/table.qza"
 
 #' @return TRUE/FALSE
-#'
-#' @examples \dontrun{metadata<-is_q2metadata("q2metadata.tsv")}
 #' @export
 #'
-#'
+#' @examples
+#' fpath <- system.file("extdata/qiime", "sample-metadata.tsv", package = "bubbler")
+#' is_q2metadata(fpath)
 
 is_q2metadata <- function(file){
 

@@ -16,5 +16,13 @@ a matrix of values
 Loads a version 2.1 spec biom file (http://biom-format.org/documentation/format_versions/biom-2.1.html) as expected to be found within a qiime2 artifact.
 }
 \examples{
-\dontrun{metadata<-read_q2biom("feature-table.biom")}
+file <- system.file("extdata/qiime", "table-dada2.qza", package = "bubbler")
+tmp <- tempdir()
+unzip(file, exdir=tmp)
+unpacked<-unzip(file, exdir=tmp, list=TRUE)
+artifact<-yaml::read_yaml(paste0(tmp,"/", paste0(gsub("/..+","", unpacked$Name[1]),"/metadata.yaml")))
+artifact$contents<-data.frame(files=unpacked)
+artifact$contents$size=sapply(paste0(tmp, "/", artifact$contents$files), file.size)
+artifact$version=read.table(paste0(tmp,"/",artifact$uuid, "/VERSION"))
+read_q2biom(paste0(tmp, "/", artifact$uui,"/data/feature-table.biom"))
 }

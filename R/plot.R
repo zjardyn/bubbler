@@ -1,12 +1,22 @@
-#' @importFrom ggplot2 ggplot aes geom_bar theme element_text
+#' Generate a ggplot2 stacked barplot from a relative abundance table.
+#'
+#' @param rel_abund_tb A relative abundance table in tibble format.
+#' @param x_var The x variable for plotting.
+#' @param position "fill" or "stack", should the plotting area be filled in.
+#' @param width The width of the bar.
+#'
+#' @return A ggplot object.
 #' @export
-bar_plot <- function(rel_abund_tab, x_var, position, width){
-    if(missing(rel_abund_tab)){stop("Please provide rel_abund table.")}
-    if(missing(x_var)){x_var = "sample_id"}
-    if(missing(position)) {position = "stack"}
-    if(missing(width)){width = 1}
+#'
+#' @examples
+#' rel_abund_phy(physeq1) %>% bar_plot()
+#' @importFrom ggplot2 ggplot aes geom_bar theme element_text
+bar_plot <- function(rel_abund_tb, x_var = "sample_id", position = "stack", width = 1){
+    if(missing(rel_abund_tb)){stop("Please provide rel_abund table.")}
 
-    p <- ggplot(rel_abund_tab, aes(x = !!rlang::sym(x_var), y = rel_abund, fill = taxon))
+    position <- match.arg(position, c("stack", "fill"))
+
+    p <- ggplot(rel_abund_tb, aes(x = !!rlang::sym(x_var), y = rel_abund, fill = taxon))
 
     position <- match.arg(position, c("stack", "fill"))
     if(position == "stack") {

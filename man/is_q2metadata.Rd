@@ -16,5 +16,6 @@ TRUE/FALSE
 Checks to see if a file is in qiime2 metadata format, ie contains #q2:types line dictating the type of variable (categorical/numeric)
 }
 \examples{
-\dontrun{metadata<-is_q2metadata("q2metadata.tsv")}
+fpath <- system.file("extdata/qiime", "sample-metadata.tsv", package = "bubbler")
+is_q2metadata(fpath)
 }

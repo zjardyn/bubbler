@@ -20,5 +20,6 @@ a named list.
 extracts embedded data and object metadata into an R session
 }
 \examples{
-\dontrun{SVs<-read_qza("data/table.qza")}
+fpath <- system.file("extdata/qiime", "table-dada2.qza", package = "bubbler")
+read_qza(fpath)
 }

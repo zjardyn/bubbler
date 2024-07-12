@@ -16,5 +16,6 @@ a data.frame wherein the first column is SampleID
 Loads a qiime2 metadata file wherein the 2nd line contains the #q2:types line dictating the type of variable (categorical/numeric)
 }
 \examples{
-\dontrun{metadata<-read_q2metadata("q2metadata.tsv")}
+fpath <- system.file("extdata/qiime", "sample-metadata.tsv", package = "bubbler")
+read_q2metadata(fpath)
 }

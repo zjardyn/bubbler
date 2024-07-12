@@ -60,11 +60,10 @@ choose_n_taxa <- function(rel_abund_tab, n_taxa = 8) {
 #' @export
 #'
 #' @examples
-#' \dontrun{pool_taxa(rel_abund_tab, threshold = 0.2, var = "Location")}
-pool_taxa <- function(rel_abund_tab, threshold, n_taxa, keep_metadata = FALSE, label = TRUE) {
+#' rel_abund_phy(physeq1) %>% pool_taxa()
+pool_taxa <- function(rel_abund_tab, threshold, n_taxa = 12, keep_metadata = FALSE, label = TRUE) {
     if(missing(rel_abund_tab)){stop("Provide a relative abundance table.")}
     if(!("taxon" %in% colnames(rel_abund_tab))){stop('variable taxon not found in colnames' )}
-    if(missing(n_taxa)){n_taxa = 12}
     if(missing(threshold)){threshold = choose_n_taxa(rel_abund_tab, n_taxa)}
 
     taxon_pool <- rel_abund_tab %>%
@@ -103,7 +102,15 @@ pool_taxa <- function(rel_abund_tab, threshold, n_taxa, keep_metadata = FALSE, l
     }
 }
 
+#' Detect the label used for threshold from a pooled relative_abundance table
+#'
+#' @param rel_abund_tb A relative abundance table in tibble format.
+#'
+#' @return A character vector of length one.
 #' @export
+#'
+#' @examples
+#' rel_abund_phy(physeq1) %>% detect_threshold()
 detect_threshold <- function(rel_abund_tb){
     threshold <- grep("<", rel_abund_tb[["taxon"]], value = TRUE, fixed = TRUE, useBytes = TRUE)[1]
 
@@ -115,7 +122,15 @@ detect_threshold <- function(rel_abund_tb){
 }
 
 
+#' Detect the label used in a character vector.
+#'
+#' @param vector The character vector of taxon.
+#'
+#' @return A character vector of length one.
 #' @export
+#'
+#' @examples
+#' rel_abund_phy(physeq1) %>% all_taxa() %>% dplyr::pull(taxon) %>% detect_threshold_vec()
 detect_threshold_vec <- function(vector){
     threshold <- grep("<", vector, value = TRUE, fixed = TRUE, useBytes = TRUE)[1]
 
