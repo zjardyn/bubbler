@@ -37,7 +37,6 @@
   <ul class="dropdown-menu" aria-labelledby="dropdown-articles">
 <li><a class="dropdown-item" href="articles/calc_rel_abund.html">1.1 Calculate relative abundance</a></li>
     <li><a class="dropdown-item" href="articles/data_import.html">1. Data Import</a></li>
-    <li><a class="dropdown-item" href="articles/introduction.html">introduction</a></li>
   </ul>
 </li>
       </ul>
@@ -57,7 +56,7 @@
 </h1></div>
 <!-- badges: start -->
 <!-- badges: end -->
-<p>Bubbler makes relative abundance tables for visualization of amplicon-sequencing (16S/18S rRNA) datasets. Bubbler combines asv counts, taxonomic information, and optionally, meta data to create stacked barcharts, or bubble plots. Bubbler works with <a href="https://github.com/benjjneb/dada2" class="external-link">dada2</a>, <a href="https://github.com/qiime2/qiime2" class="external-link">qiime2</a>, and <a href="https://joey711.github.io/phyloseq/" class="external-link">phyloseq</a> output.</p>
+<p>Bubbler is a tidy approach to amplicon sequencing visualization. Bubbler makes relative abundance tables from amplicon-sequencing (16S/18S rRNA) datasets. Bubbler combines asv counts, taxonomic information, and optionally, meta data to create stacked barcharts, or bubble plots. Bubbler can import data from <a href="https://github.com/benjjneb/dada2" class="external-link">dada2</a>, <a href="https://github.com/qiime2/qiime2" class="external-link">qiime2</a>, <a href="https://joey711.github.io/phyloseq/" class="external-link">phyloseq</a> and <a href="https://github.com/jenniferlu717/Bracken" class="external-link">Bracken</a> output. Relative abundance tables can be modified, with various methods implemented in bubbler.</p>
 <div class="section level2">
 <h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
 </h2>
@@ -68,18 +67,27 @@
 <span><span class="op">}</span></span>
 <span><span class="fu">devtools</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"zjardyn/bubbler"</span><span class="op">)</span></span></code></pre></div>
 <p>bubbler</p>
-<p>A bubbler workflow typically has three steps: 1. Importing data into a relative abundance table. 2. Modifying the <code>rel_abund</code> table. 3. Making a <code>ggplot</code>, with stacked-bar or bubble plot aesthetics.</p>
-<p>Here are all three steps, using <code>tidyverse</code> notation:</p>
+<p>A bubbler workflow has three steps:</p>
+<ol style="list-style-type: decimal">
+<li>Import data into a relative abundance table.</li>
+<li>Modify the <code>rel_abund</code> table.</li>
+<li>Make a <code>ggplot2</code> object, with stacked-bar or bubble plot aesthetics.</li>
+</ol>
+<p>Here, I am using <code>tidyverse</code> notation:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://zjardyn.github.io/bubbler/">bubbler</a></span><span class="op">)</span></span>
-<span><span class="co"># 1. Import data into rel_abund</span></span>
-<span><span class="fu"><a href="reference/rel_abund_phy.html">rel_abund_phy</a></span><span class="op">(</span><span class="va">physeq1</span><span class="op">)</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span></span>
-<span>    <span class="co"># 2. Modify  rel_abund; choose a threshold to pool taxa, for plotting</span></span>
-<span>    <span class="fu"><a href="reference/pool_taxa.html">pool_taxa</a></span><span class="op">(</span>threshold <span class="op">=</span> <span class="fl">0.01</span><span class="op">)</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span></span>
-<span>    <span class="co"># 3. Plot</span></span>
-<span>    <span class="fu"><a href="reference/bar_plot.html">bar_plot</a></span><span class="op">(</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Loading required package: phyloseq</span></span></code></pre></div>
+<span></span>
+<span><span class="co"># 1. import data into rel_abund.</span></span>
+<span><span class="fu"><a href="reference/rel_abund_phy.html">rel_abund_phy</a></span><span class="op">(</span><span class="va">physeq</span>, taxa_level <span class="op">=</span> <span class="st">"Genus"</span><span class="op">)</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span></span>
+<span>    <span class="co"># 2. modify  rel_abund</span></span>
+<span>    <span class="fu"><a href="reference/pool_taxa.html">pool_taxa</a></span><span class="op">(</span>n_taxa <span class="op">=</span> <span class="fl">16</span><span class="op">)</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span></span>
+<span>    <span class="co"># arrange plotting variables by most abundant taxa.</span></span>
+<span>    <span class="fu"><a href="reference/arrange_taxa.html">arrange_taxa</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span></span>
+<span>    <span class="fu"><a href="reference/arrange_sample_by_taxa.html">arrange_sample_by_taxa</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span></span>
+<span>    <span class="co"># 3. plot</span></span>
+<span>    <span class="fu"><a href="reference/bar_plot.html">bar_plot</a></span><span class="op">(</span>position <span class="op">=</span> <span class="st">"fill"</span><span class="op">)</span></span></code></pre></div>
 <p><img src="reference/figures/README-unnamed-chunk-3-1.png" width="100%"></p>
+<p>The <a href="https://zjardyn.github.io/bubbler/">bubbler documentation</a> has examples for importing data, constructing rel_abund tables, and other aspects of the package.</p>
 <!-- You'll still need to render `README.Rmd` regularly, to keep `README.md` up-to-date. `devtools::build_readme()` is handy for this. -->
 <!-- In that case, don't forget to commit and push the resulting figure files, so they display on GitHub and CRAN. -->
 </div>
