@@ -141,6 +141,8 @@ The grouped relative abundance is calculated as:
 
 $\text{Grouped relative abundance} = \frac{x_i}{\sum_{j=1}^{k} x_j}$
 
-Where $k$ is the levels of the grouping variable. 
+Where $k$ is the levels of the grouping variable. Within each level of the grouping
+variable, the sum of relative abundance equals one. 
+
 
 
