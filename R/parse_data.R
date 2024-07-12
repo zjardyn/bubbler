@@ -52,7 +52,7 @@ meta_data_tsv <- function(tsv){
         dplyr::rename_with(~ "sample_id", 1)
 }
 
-# PHY
+# PHYLOSEQ
 
 #' Grab metadata from a physeq object and format to tibble
 #'
@@ -110,7 +110,16 @@ asv_data_phy <- function(phy){
 
 # QIIME2
 
+#' Grab asv table from a .qza file and format to tibble.
+#'
+#' @param qza  Path to .qza file containing otu counts.
+#'
+#' @return A tibble.
 #' @export
+#'
+#' @examples
+#' fpath <- system.file("extdata/qiime", "table-dada2.qza", package = "bubbler")
+#' asv_data_qiime(fpath)
 asv_data_qiime <- function(qza){
     read_qza(qza)[["data"]] %>%
         t() %>%
@@ -119,7 +128,16 @@ asv_data_qiime <- function(qza){
         tibble::as_tibble()
 }
 
+#' Grab taxonomy table from a .qza file and format to tibble.
+#'
+#' @param qza  Path to .qza file containing a taxonomy table.
+#'
+#' @return A tibble.
 #' @export
+#'
+#' @examples
+#' fpath <- system.file("extdata/qiime", "taxonomy.qza", package = "bubbler")
+#' taxa_data_qiime(fpath)
 taxa_data_qiime <- function(qza){
     read_qza(qza)[["data"]] %>%
         {purrr::quietly(tidyr::separate)}(Taxon, into = c("Domain", "Phylum", "Class", "Order", "Family", "Genus", "Species"), sep = "; ") %>% magrittr::extract2("result") %>%
@@ -133,9 +151,18 @@ taxa_data_qiime <- function(qza){
 }
 
 
+#' Grab metadata table from a .tsv QIIME2-formatted file and format to tibble.
+#'
+#' @param tsv Path to .tsv file in QIIME2 format.
+#'
+#' @return A tibble.
 #' @export
-meta_data_qiime <- function(qza){
-    metadata <- read_q2metadata(qza) %>%
+#'
+#' @examples
+#' fpath <- system.file("extdata/qiime", "sample-metadata.tsv", package = "bubbler")
+#' meta_data_qiime(fpath)
+meta_data_qiime <- function(tsv){
+    metadata <- read_q2metadata(tsv) %>%
         dplyr::rename_with(~"sample_id", 1) %>%
         tibble::as_tibble()
 
@@ -151,7 +178,16 @@ meta_data_qiime <- function(qza){
 
 ## BRACKEN
 
+#' Grab bracken data and format to tibble.
+#'
+#' @param filepath
+#'
+#' @return A tibble.
 #' @export
+#'
+#' @examples
+#' fpath <- system.file("extdata/bracken", "1_S73_kraken2_report_bracken_output.txt", package = "bubbler")
+#' read_bracken_file(fpath)
 read_bracken_file <- function(filepath) {
     sample_id <- basename(filepath)
     readr::read_tsv(filepath, show_col_types = FALSE) %>%
