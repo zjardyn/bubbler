@@ -1,5 +1,5 @@
 ---
-title: "1.1 Calculate relative abundance"
+title: "2. Calculate relative abundance"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{calc_rel_abund}
@@ -21,11 +21,16 @@ library(bubbler)
 ```
 # Relative abundance
  
-By default, bubbler will calculate relative abundance across all samples, where $N$ is the total count of all ASVs across all samples, and $n_i$ is the count of a given ASV, such that:
+For a given group of samples, relative abundance is calculated as:
 
-$\text{Relative Abundance} = \frac{1}{N} \sum_{i=1}^{N} \frac{n_i}{N}$
 
-It is often useful to visualize your data in this form, as to see the proportional counts between samples.  Consider the following plot: 
+$\text{Relative abundance} = \frac{x_i}{\sum x}$
+
+
+Where $x_i$ is the count of a given asv, divided by the sum of all asv counts, across all samples. This way, the sum of all relative abundances equal one. 
+
+
+It is useful to visualize your data in this form to see the proportional counts between samples. 
 
 ```{r load_qiime, echo=FALSE}
 # path to qiime-formatted asv counts 
@@ -39,7 +44,7 @@ metadata_q <- system.file("extdata", "qiime", "sample-metadata.tsv", package = "
 ```
 
 ```{r fig.height= 6 }
-# 1 make rel_abund
+# 1. make rel_abund
 rel_abund  <-  rel_abund_qiime(counts_q, 
                                taxa_q, 
                                metadata_q,
@@ -54,28 +59,77 @@ library(ggplot2)
 
 # 3. plot rel_abund
 rel_abund_pool %>%
-    bar_plot()  + 
+    bar_plot(color = "subject")  + 
     # group samples by body site. free_x removes unwanted white space
-    facet_wrap(~body_site, scales = "free_x" )
+    facet_wrap(~body_site, scales = "free_x" ) 
 
 ```
+Subject proportions in most cases are different, which would not be captured in a filled barplot. 
 
-When we keep the samples proportional to the total count, certain samples remain dominant over others, which would affect how downstream analysis is interpreted. Maybe it is time to rarefy the data. 
-
-# Scaling plots 
-
-We can also fill up the plotting area, which better displays the within-sample composition, but obfuscates our between-sample proportions.
-
-```{r fig.height= 5}
+```{r}
 rel_abund_pool %>%
-    bar_plot(position = "fill")  
+    bar_plot(position = "fill", color = "subject")  + 
+    # group samples by body site. free_x removes unwanted white space
+    facet_wrap(~body_site, scales = "free_x")
 ```
-# Grouped relative abundance
+By filling the plot, the relative abundance is being scaled to one, within each sample. We can also precompute this in our table:
 
-Filling the plotting area is equivalent to calculating relative abundance between groups, where $J$ represents the various levels of our grouping variable,  such that: 
+```{r, eval=FALSE}
+rel_abund_qiime(counts_q, 
+                taxa_q,
+                metadata_q,
+                taxa_level = "Genus",
+                var = "sample_id") # set the grouping variable to sample_id
+```
 
-$\text{Relative Abundance in Groups} = \sum_{j=1}^{J} \left( \frac{1}{N_j} \sum_{i \in G_j} \frac{n_i}{N} \right)$
 
-When calculating a grouped relative abundance, the proportions within each element of that grouping sum to 1, as shown in the above plot, which, in this case is sample_id.
+Our relative abundances "stack" to one in this scenario. By filling the plotting area, we get a better representation of the between-sample composition, at the cost of obfuscating the between-sample proportions.
+
+## Visualizing variables 
+
+Bubbler can easily allow you to visualize relative abundances by another variable of interest. Imagine you wanted to look at relative abundance across `body_site`, rather than `sample_id` on the x-axis. This can be done by modifying the `x_var` argument of `bubbler::bar_plot`.
+
+```{r}
+rel_abund_qiime(counts_q,
+                taxa_q,
+                metadata_q,
+                taxa_level = "Genus") %>%
+    pool_taxa(n_taxa = 12,
+              keep_metadata = TRUE) %>%
+    arrange_taxa() %>%
+    bar_plot(x_var = "body_site")
+```
+Again, this plot could be scaled in two ways: 
+
+
+```{r, eval=FALSE}
+# compute in rel_abund
+rel_abund_qiime(counts_q,
+                taxa_q,
+                metadata_q,
+                taxa_level = "Genus",
+                var = "body_site") %>% #  scaling by body_site
+    pool_taxa(n_taxa = 12,
+              keep_metadata = TRUE) %>%
+    arrange_taxa() %>%
+    bar_plot(x_var = "body_site") # setting body_site as x_var
+
+# scale in plot
+rel_abund_qiime(counts_q,
+                taxa_q,
+                metadata_q,
+                taxa_level = "Genus") %>%
+    pool_taxa(n_taxa = 12,
+              keep_metadata = TRUE) %>%
+    arrange_taxa() %>%
+    bar_plot(position = "fill", x_var = "body_site") # setting position as fill
+
+```
+
+The grouped relative abundance is calculated as: 
+
+$\text{Grouped relative abundance} = \frac{x_i}{\sum_{j=1}^{k} x_j}$
+
+Where $k$ is the levels of grouping variable. 
 
 

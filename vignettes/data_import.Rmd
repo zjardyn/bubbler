@@ -14,13 +14,13 @@ knitr::opts_chunk$set(
 )
 ```
 
-Amplicon sequencing input can be variable so `bubbler` has many data import options. 
+Amplicon sequencing input can be variable so `bubbler` has several data import methods. 
 
-```{r setup}
+```{r setup, echo=FALSE}
 library(bubbler)
 ```
 
-## Qiime2
+## QIIME2
 
 [qiime2](https://qiime2.org/) asv-table and taxonomy artifacts (.qza), and optionally, the qiime-formatted metadata (.tsv) can be imported. This example uses data from the "Moving Pictures" Qiime2 [tutorial](https://docs.qiime2.org/2024.5/tutorials/moving-pictures/).
 
@@ -36,7 +36,7 @@ metadata_q <- system.file("extdata", "qiime", "sample-metadata.tsv", package = "
 rel_abund_qiime(counts_q, taxa_q, metadata_q)
 ```
 
-## DADA2/TSV
+## DADA2/tsv
 
 DADA2 outputs can be an asv-table and taxonomic classifications as .tsv files. An asv-table has ASVs as columns (variables) and samples as rows (observations), with the cells being counts. A taxonomy table has taxonomic levels as columns and ASVs as rows. 
 ```{r}

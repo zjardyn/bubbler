@@ -23,14 +23,6 @@ rel_abund_h <- pooled_all %>%
 pooled_h <- rel_abund_h %>%
     pool_taxa(threshold = choose_n_taxa(rel_abund_h, 20), label = F)
 
-
-add_other <- function(rel_abund_tb){
-rel_abund_tb %>%
-    dplyr::mutate(taxon = as.factor(taxon),
-           taxon = forcats::fct_expand(taxon, "Other")) %>%
-    tibble::add_row(taxon = "Other")
-}
-
 unique_taxa_all <- rel_abund %>%
     add_other() %>%
     all_taxa()

@@ -4,7 +4,13 @@
 \alias{bar_plot}
 \title{Generate a ggplot2 stacked barplot from a relative abundance table.}
 \usage{
-bar_plot(rel_abund_tb, x_var = "sample_id", position = "stack", width = 1)
+bar_plot(
+  rel_abund_tb,
+  x_var = "sample_id",
+  position = "stack",
+  width = 1,
+  color = NULL
+)
 }
 \arguments{
 \item{rel_abund_tb}{A relative abundance table in tibble format.}
@@ -14,6 +20,8 @@ bar_plot(rel_abund_tb, x_var = "sample_id", position = "stack", width = 1)
 \item{position}{"fill" or "stack", should the plotting area be filled in.}
 
 \item{width}{The width of the bar.}
+
+\item{color}{A variable to color bars by.}
 }
 \value{
 A ggplot object.
