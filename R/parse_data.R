@@ -154,9 +154,9 @@ meta_data_qiime <- function(qza){
 #' @export
 read_bracken_file <- function(filepath) {
     sample_id <- basename(filepath)
-    read_tsv(filepath, show_col_types = FALSE) %>%
-        mutate(sample_id = sample_id) %>%
-        relocate(sample_id)
+    readr::read_tsv(filepath, show_col_types = FALSE) %>%
+        dplyr::mutate(sample_id = sample_id) %>%
+        dplyr::relocate(sample_id)
 }
 
 

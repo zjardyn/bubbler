@@ -4,7 +4,13 @@
 \alias{rel_abund_phy}
 \title{Generate a relative abundance table in tibble format from a phyloseq object.}
 \usage{
-rel_abund_phy(phy, taxa_data, meta_data, taxa_level, var)
+rel_abund_phy(
+  phy,
+  taxa_data = TRUE,
+  meta_data = FALSE,
+  taxa_level = "Phylum",
+  var = NULL
+)
 }
 \arguments{
 \item{phy}{A phyloseq object containing an otu_table and tax_table.}

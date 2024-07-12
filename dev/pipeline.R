@@ -251,8 +251,9 @@ generate_shades <- function(phylum, n) {
 
 # order my sample read abundance, plot as line
 
-asv_qiime <- "inst/extdata/qiime/table-dada2.qza"
-taxa_qiime <- "inst/extdata/qiime/taxonomy.qza"
+
+asv_qiime <- "extdata/qiime/table-dada2.qza"
+taxa_qiime <- "extdata/qiime/taxonomy.qza"
 metadata_qiime <- "inst/extdata/qiime/sample-metadata.tsv"
 
 # sample_id, asv, rel_abund, level, taxon

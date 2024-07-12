@@ -12,12 +12,8 @@ utils::globalVariables(c("sample_id", "count", ".", "asv", "level"))
 #'
 #' @examples
 #' rel_abund_phy(phy = physeq1, taxa_level = "Phylum", var = NULL , meta_data = FALSE)
-rel_abund_phy <- function(phy, taxa_data, meta_data, taxa_level, var) {
+rel_abund_phy <- function(phy, taxa_data = TRUE, meta_data = FALSE, taxa_level = "Phylum", var = NULL) {
    if(missing(phy)){stop("rel_abund_phy needs a physeq object with a asv/otu table.")}
-   if(missing(taxa_data)){taxa_data = TRUE}
-   if(missing(meta_data)){meta_data = FALSE}
-   if(missing(taxa_level)){taxa_level = "Phylum"}
-   if(missing(var)){var = NULL}
 
    if(!is.null(var) & meta_data == TRUE) {
 
@@ -108,14 +104,8 @@ rel_abund_phy <- function(phy, taxa_data, meta_data, taxa_level, var) {
 #' taxa <- system.file("extdata/tsv", "taxa.tsv", package = "bubbler")
 #' meta_data <- system.file("extdata/tsv", "metadata.tsv", package = "bubbler")
 #' rel_abund_tsv(asv, taxa, meta_data)
-rel_abund_tsv <- function(asv, taxa_data, meta_data, taxa_level, var) {
+rel_abund_tsv <- function(asv, taxa_data = NULL, meta_data = NULL, taxa_level = "Phylum", var = NULL) {
    if(missing(asv)){stop("rel_abund_tsv needs a .tsv asv/otu table filepath.")}
-   if(missing(taxa_data)){taxa_data = NULL}
-   if(missing(taxa_level)){taxa_level = "Phylum"}
-   if(missing(meta_data)){meta_data = NULL}
-   if(missing(var)){var = NULL}
-
-
 
     if(!is.null(var) & !is.null(meta_data)){
 
@@ -189,13 +179,25 @@ rel_abund_tsv <- function(asv, taxa_data, meta_data, taxa_level, var) {
     }
 }
 
+#' Generate a relative abundance table in tibble form, from QIIME2 artifacts.
+#'
+#' @param asv_qiime A count table in .qza format.
+#' @param taxa_qiime A taxonomy table in .qza format.
+#' @param metadata_qiime A metadata table in .tsv format. With second row as commented variable descriptions.
+#' @param taxa_level The level to set the taxa, from Domain:Species.
+#' @param var A variable to group by when computing relative abundance.
+#'
+#' @return A tibble.
 #' @export
-rel_abund_qiime <- function(asv_qiime, taxa_qiime, metadata_qiime, taxa_level, var) {
+#'
+#' @examples
+#' asv_q <- system.file("extdata/qiime", "table-dada2.qza", package = "bubbler")
+#' taxa_q <- system.file("extdata/qiime", "taxonomy.qza", package = "bubbler")
+#' meta_q <- system.file("extdata/qiime", "sample-metadata.tsv", package = "bubbler")
+#' rel_abund_qiime(asv_q, taxa_q, meta_q)
+
+rel_abund_qiime <- function(asv_qiime, taxa_qiime = NULL, metadata_qiime = NULL, taxa_level = "Phylum", var = NULL) {
    if(missing(asv_qiime)){stop("rel_abund_qiime needs an .asv filepath.")}
-   if(missing(taxa_qiime)){taxa_qiime = NULL}
-   if(missing(metadata_qiime)){metadata_qiime = NULL}
-   if(missing(taxa_level)){taxa_level = "Phylum"}
-   if(missing(var)){var = NULL}
 
     if(!is.null(var) & !is.null(metadata_qiime)){
 
@@ -269,7 +271,17 @@ rel_abund_qiime <- function(asv_qiime, taxa_qiime, metadata_qiime, taxa_level, v
     }
 }
 
+#' Generate a relative abundance table using kracken2/bracken data.
+#'
+#' @param path The filepath to bracken data in .txt format.
+#' @param remove_human Logical. Choose to remove human samples.
+#'
+#' @return A tibble.
 #' @export
+#'
+#' @examples
+#' bracken <- system.file("extdata/bracken", package = "bubbler")
+#' rel_abund_bracken(bracken)
 rel_abund_bracken <- function(path, remove_human){
     if(missing(path)){stop("rel_abund_bracken needs a folder of bracken output files.")}
     if(missing(remove_human)){remove_human = TRUE}
@@ -279,16 +291,16 @@ rel_abund_bracken <- function(path, remove_human){
     combined_data <- dplyr::bind_rows(bracken_data)
 
     data <- combined_data %>%
-        mutate(sample_id = str_split(sample_id, "_kraken2") %>% map_chr(1)) %>%
-        select(sample_id, name, taxonomy_lvl, kraken_assigned_reads)
+        dplyr::mutate(sample_id = stringr::str_split(sample_id, "_kraken2") %>% purrr::map_chr(1)) %>%
+        dplyr::select(sample_id, name, taxonomy_lvl, kraken_assigned_reads)
 
     if(remove_human == TRUE) {
         data <- data %>%
-            filter(name != "Homo sapiens")
+            dplyr::filter(name != "Homo sapiens")
     }
     # TODO: Check to make sure taxonomy_lvl is all S
     data %>%
-        mutate(rel_abund = kraken_assigned_reads/sum(kraken_assigned_reads)) %>%
-        rename('taxon' = name) %>%
-        select(sample_id, taxon, rel_abund)
+        dplyr::mutate(rel_abund = kraken_assigned_reads/sum(kraken_assigned_reads)) %>%
+        dplyr::rename('taxon' = name) %>%
+        dplyr::select(sample_id, taxon, rel_abund)
 }
