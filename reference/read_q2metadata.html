@@ -61,7 +61,78 @@
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="va">metadata</span><span class="op">&lt;-</span><span class="fu">read_q2metadata</span><span class="op">(</span><span class="st">"q2metadata.tsv"</span><span class="op">)</span> <span class="co"># \dontrun{}</span></span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">fpath</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata/qiime"</span>, <span class="st">"sample-metadata.tsv"</span>, package <span class="op">=</span> <span class="st">"bubbler"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">read_q2metadata</span><span class="op">(</span><span class="va">fpath</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    SampleID barcode-sequence  body-site year month day   subject</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1      L1S8     AGCTGACTAGTC        gut 2008    10  28 subject-1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2     L1S57     ACACACTATGGC        gut 2009     1  20 subject-1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3     L1S76     ACTACGTGTGGT        gut 2009     2  17 subject-1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4    L1S105     AGTGCGATGCGT        gut 2009     3  17 subject-1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5    L2S155     ACGATGCGACCA  left palm 2009     1  20 subject-1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6    L2S175     AGCTATCCACGA  left palm 2009     2  17 subject-1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 7    L2S204     ATGCAGCTCAGT  left palm 2009     3  17 subject-1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 8    L2S222     CACGTGACATGT  left palm 2009     4  14 subject-1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 9    L3S242     ACAGTTGCGCGA right palm 2008    10  28 subject-1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 10   L3S294     CACGACAGGCTA right palm 2009     1  20 subject-1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 11   L3S313     AGTGTCACGGTG right palm 2009     2  17 subject-1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 12   L3S341     CAAGTGAGAGAG right palm 2009     3  17 subject-1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 13   L3S360     CATCGTATCAAC right palm 2009     4  14 subject-1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 14   L5S104     CAGTGTCAGGAC     tongue 2008    10  28 subject-1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 15   L5S155     ATCTTAGACTGC     tongue 2009     1  20 subject-1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 16   L5S174     CAGACATTGCGT     tongue 2009     2  17 subject-1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 17   L5S203     CGATGCACCAGA     tongue 2009     3  17 subject-1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 18   L5S222     CTAGAGACTCTT     tongue 2009     4  14 subject-1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 19   L1S140     ATGGCAGCTCTA        gut 2008    10  28 subject-2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 20   L1S208     CTGAGATACGCG        gut 2009     1  20 subject-2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 21   L1S257     CCGACTGAGATG        gut 2009     3  17 subject-2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 22   L1S281     CCTCTCGTGATC        gut 2009     4  14 subject-2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 23   L2S240     CATATCGCAGTT  left palm 2008    10  28 subject-2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 24   L2S309     CGTGCATTATCA  left palm 2009     1  20 subject-2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 25   L2S357     CTAACGCAGTCA  left palm 2009     3  17 subject-2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 26   L2S382     CTCAATGACTCA  left palm 2009     4  14 subject-2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 27   L3S378     ATCGATCTGTGG right palm 2008    10  28 subject-2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 28    L4S63     CTCGTGGAGTAG right palm 2009     1  20 subject-2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 29   L4S112     GCGTTACACACA right palm 2009     3  17 subject-2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 30   L4S137     GAACTGTATCTC right palm 2009     4  14 subject-2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 31   L5S240     CTGGACTCATAG     tongue 2008    10  28 subject-2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 32    L6S20     GAGGCTCATCAT     tongue 2009     1  20 subject-2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 33    L6S68     GATACGTCCTGA     tongue 2009     3  17 subject-2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 34    L6S93     GATTAGCACTCT     tongue 2009     4  14 subject-2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    reported-antibiotic-usage days-since-experiment-start</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1                        Yes                           0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2                         No                          84</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3                         No                         112</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4                         No                         140</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5                         No                          84</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6                         No                         112</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 7                         No                         140</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 8                         No                         168</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 9                        Yes                           0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 10                        No                          84</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 11                        No                         112</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 12                        No                         140</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 13                        No                         168</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 14                       Yes                           0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 15                        No                          84</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 16                        No                         112</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 17                        No                         140</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 18                        No                         168</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 19                       Yes                           0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 20                        No                          84</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 21                        No                         140</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 22                        No                         168</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 23                       Yes                           0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 24                        No                          84</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 25                        No                         140</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 26                        No                         168</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 27                       Yes                           0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 28                        No                          84</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 29                        No                         140</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 30                        No                         168</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 31                       Yes                           0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 32                        No                          84</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 33                        No                         140</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 34                        No                         168</span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
