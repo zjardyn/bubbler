@@ -14,6 +14,7 @@ knitr::opts_chunk$set(
 )
 ```
 
+
 # Pooling 
 
 ```{r setup, message=FALSE, warning=FALSE}
@@ -65,6 +66,35 @@ rel_abund %>%
     
 ```
 
+
 # Arranging 
 
+
+## Taxa
+
+By default taxa are in alphabetical order, which can be seen in the legend of the plot.  Sorting the taxa by their abundance is a more meaningful sorting strategy. By default, taxa are arranged in ascending order but this can be switched with the `order` argument. The threshold position can also be modified with the `pooled` argument. With this ordering, it becomes clear that *Bacteroides* is the most abundant taxon in the gut, and *Streptococcus* among the other samples.
+
+```{r}
+rel_abund %>% 
+    pool_taxa(n_taxa = 8,
+              keep_metadata = TRUE) %>%
+    arrange_taxa(pooled = "top", order = "bottom") %>% # arrange by abundance
+    bar_plot(position = "fill", x_var = "body_site")
+```
+
+
+## Variable
+
+Another option is to arrange the samples by a variable, which can be useful when the data includes metadata. Observe the similarities between the above and below plots. 
+
+
+```{r}
+rel_abund %>% 
+    pool_taxa(n_taxa = 8,
+              keep_metadata = TRUE) %>%
+    arrange_taxa(pooled = "top", order = "bottom") %>% # arrange by abundance
+    arrange_variable(variable = "sample_id", levels = "body_site") %>%
+    bar_plot(position = "fill", color = "body_site")
+```
+## Samples by abundance
 

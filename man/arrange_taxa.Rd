@@ -4,12 +4,14 @@
 \alias{arrange_taxa}
 \title{Arrange taxa by abundance.}
 \usage{
-arrange_taxa(rel_abund_tb, pooled = "top")
+arrange_taxa(rel_abund_tb, pooled = "top", order = "bottom")
 }
 \arguments{
 \item{rel_abund_tb}{A relative abundance table in tibble form.}
 
-\item{pooled}{The order of taxa, either "top" or "bottom".}
+\item{pooled}{The order of pooled threshold, either "top" or "bottom".}
+
+\item{order}{The order of taxa, either "top" or "bottom".}
 }
 \value{
 A tibble with ordered taxon.

@@ -30,7 +30,8 @@ arrange_sample_by_taxa <- function(rel_abund_tb){
 #' Arrange taxa by abundance.
 #'
 #' @param rel_abund_tb A relative abundance table in tibble form.
-#' @param pooled The order of taxa, either "top" or "bottom".
+#' @param pooled The order of pooled threshold, either "top" or "bottom".
+#' @param order The order of taxa, either "top" or "bottom".
 #'
 #' @return A tibble with ordered taxon.
 #' @export
@@ -38,9 +39,10 @@ arrange_sample_by_taxa <- function(rel_abund_tb){
 #' @examples
 #' rel_abund_phy(phy = physeq) %>%
 #'      arrange_taxa(pooled = "bottom")
-arrange_taxa <- function(rel_abund_tb, pooled = "top") {
+arrange_taxa <- function(rel_abund_tb, pooled = "top", order = "bottom") {
    if(missing(rel_abund_tb)){stop("Provide a relative abundance table.")}
    pooled <- match.arg(pooled,  c("top", "bottom"))
+   order <- match.arg(order,  c("top", "bottom"))
 
    grouping <- rel_abund_tb %>%
         dplyr::group_by(taxon) %>%
@@ -48,23 +50,49 @@ arrange_taxa <- function(rel_abund_tb, pooled = "top") {
 
     threshold <- detect_threshold(rel_abund_tb)
 
-    if(pooled == "top"){
+    if(order == "top"){
+
+        if(pooled == "top"){
 
         rel_abund_arranged <- dplyr::inner_join(rel_abund_tb, grouping, by = "taxon") %>%
             dplyr::mutate(taxon = as.factor(taxon)) %>%
             dplyr::mutate(taxon = forcats::fct_reorder(taxon, mean)) %>%
+            dplyr::mutate(taxon = forcats::fct_rev(taxon)) %>% # new
             dplyr::select(-mean) %>%
             dplyr::mutate(taxon = forcats::fct_relevel(taxon, threshold, after = 0),
                           taxon = forcats::fct_relevel(taxon, "Unclassified", after = 1))
-    }
-    if (pooled == "bottom"){
+        }
+        if (pooled == "bottom"){
 
-        rel_abund_arranged <- dplyr::inner_join(rel_abund_tb, grouping, by = "taxon") %>%
-            dplyr::mutate(taxon = as.factor(taxon)) %>%
-            dplyr::mutate(taxon = forcats::fct_reorder(taxon, mean)) %>%
-            dplyr::select(-mean) %>%
-            dplyr::mutate(taxon = forcats::fct_relevel(taxon, "Unclassified", after = Inf),
-                          taxon = forcats::fct_relevel(taxon, threshold, after =  Inf))
+            rel_abund_arranged <- dplyr::inner_join(rel_abund_tb, grouping, by = "taxon") %>%
+                dplyr::mutate(taxon = as.factor(taxon)) %>%
+                dplyr::mutate(taxon = forcats::fct_reorder(taxon, mean)) %>%
+                dplyr::mutate(taxon = forcats::fct_rev(taxon)) %>% # new
+                dplyr::select(-mean) %>%
+                dplyr::mutate(taxon = forcats::fct_relevel(taxon, "Unclassified", after = Inf),
+                              taxon = forcats::fct_relevel(taxon, threshold, after =  Inf))
+        }
+
+    } else if (order  == "bottom"){
+
+        if(pooled == "top"){
+
+            rel_abund_arranged <- dplyr::inner_join(rel_abund_tb, grouping, by = "taxon") %>%
+                dplyr::mutate(taxon = as.factor(taxon)) %>%
+                dplyr::mutate(taxon = forcats::fct_reorder(taxon, mean)) %>%
+                dplyr::select(-mean) %>%
+                dplyr::mutate(taxon = forcats::fct_relevel(taxon, threshold, after = 0),
+                              taxon = forcats::fct_relevel(taxon, "Unclassified", after = 1))
+        }
+        if (pooled == "bottom"){
+
+            rel_abund_arranged <- dplyr::inner_join(rel_abund_tb, grouping, by = "taxon") %>%
+                dplyr::mutate(taxon = as.factor(taxon)) %>%
+                dplyr::mutate(taxon = forcats::fct_reorder(taxon, mean)) %>%
+                dplyr::select(-mean) %>%
+                dplyr::mutate(taxon = forcats::fct_relevel(taxon, "Unclassified", after = Inf),
+                              taxon = forcats::fct_relevel(taxon, threshold, after =  Inf))
+        }
 
     }
 
