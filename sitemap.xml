@@ -14,6 +14,7 @@
 <url><loc>https://zjardyn.github.io/bubbler/reference/arrange_taxa.html</loc></url>
 <url><loc>https://zjardyn.github.io/bubbler/reference/arrange_variable.html</loc></url>
 <url><loc>https://zjardyn.github.io/bubbler/reference/asv_data_phy.html</loc></url>
+<url><loc>https://zjardyn.github.io/bubbler/reference/asv_data_qiime.html</loc></url>
 <url><loc>https://zjardyn.github.io/bubbler/reference/asv_data_tsv.html</loc></url>
 <url><loc>https://zjardyn.github.io/bubbler/reference/choose_n_taxa.html</loc></url>
 <url><loc>https://zjardyn.github.io/bubbler/reference/combine_dataframes.html</loc></url>
@@ -22,9 +23,11 @@
 <url><loc>https://zjardyn.github.io/bubbler/reference/index.html</loc></url>
 <url><loc>https://zjardyn.github.io/bubbler/reference/is_q2metadata.html</loc></url>
 <url><loc>https://zjardyn.github.io/bubbler/reference/meta_data_phy.html</loc></url>
+<url><loc>https://zjardyn.github.io/bubbler/reference/meta_data_qiime.html</loc></url>
 <url><loc>https://zjardyn.github.io/bubbler/reference/meta_data_tsv.html</loc></url>
 <url><loc>https://zjardyn.github.io/bubbler/reference/pipe.html</loc></url>
 <url><loc>https://zjardyn.github.io/bubbler/reference/pool_taxa.html</loc></url>
+<url><loc>https://zjardyn.github.io/bubbler/reference/read_bracken_file.html</loc></url>
 <url><loc>https://zjardyn.github.io/bubbler/reference/read_q2biom.html</loc></url>
 <url><loc>https://zjardyn.github.io/bubbler/reference/read_q2metadata.html</loc></url>
 <url><loc>https://zjardyn.github.io/bubbler/reference/read_qza.html</loc></url>
@@ -36,6 +39,7 @@
 <url><loc>https://zjardyn.github.io/bubbler/reference/subset_high_low.html</loc></url>
 <url><loc>https://zjardyn.github.io/bubbler/reference/subset_rel_abund.html</loc></url>
 <url><loc>https://zjardyn.github.io/bubbler/reference/taxa_data_phy.html</loc></url>
+<url><loc>https://zjardyn.github.io/bubbler/reference/taxa_data_qiime.html</loc></url>
 <url><loc>https://zjardyn.github.io/bubbler/reference/taxa_data_tsv.html</loc></url>
 </urlset>
 
