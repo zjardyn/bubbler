@@ -352,9 +352,9 @@ pool_taxa(q2, threshold = choose_n_taxa(q2, 8)) %>%
 
 # new dataset
 library(tidyverse)
-asv <- system.file("extdata", "seqtab.tsv", package = "bubbler")
-taxa <- system.file("extdata", "taxa.tsv", package = "bubbler")
-meta_data <- system.file("extdata", "metadata.tsv", package = "bubbler")
+asv <- system.file("extdata/tsv", "seqtab.tsv", package = "bubbler")
+taxa <- system.file("extdata/tsv", "taxa.tsv", package = "bubbler")
+meta_data <- system.file("extdata/tsv", "metadata.tsv", package = "bubbler")
 
 rel_abund <- rel_abund_tsv(asv, taxa , meta_data = meta_data,  taxa_level = "Genus")
 # rel_abund_o <- arrange_taxa(rel_abund_o)
