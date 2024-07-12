@@ -35,6 +35,7 @@
   <ul class="dropdown-menu" aria-labelledby="dropdown-articles">
 <li><a class="dropdown-item" href="../articles/calc_rel_abund.html">2. Calculate relative abundance</a></li>
     <li><a class="dropdown-item" href="../articles/data_import.html">1. Data Import</a></li>
+    <li><a class="dropdown-item" href="../articles/pool_taxa.html">3. Pooling and arranging</a></li>
   </ul>
 </li>
       </ul>
@@ -98,16 +99,16 @@ proportional counts between samples.</p>
 <span>    <span class="fu"><a href="../reference/bar_plot.html">bar_plot</a></span><span class="op">(</span>color <span class="op">=</span> <span class="st">"subject"</span><span class="op">)</span>  <span class="op">+</span> </span>
 <span>    <span class="co"># group samples by body site. free_x removes unwanted white space</span></span>
 <span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/facet_wrap.html" class="external-link">facet_wrap</a></span><span class="op">(</span><span class="op">~</span><span class="va">body_site</span>, scales <span class="op">=</span> <span class="st">"free_x"</span> <span class="op">)</span> </span></code></pre></div>
-<p><img src="calc_rel_abund_files/figure-html/unnamed-chunk-2-1.png" width="672">
-Subject proportions in most cases are different, which would not be
+<p><img src="calc_rel_abund_files/figure-html/unnamed-chunk-2-1.png" width="672"></p>
+<p>Subject proportions in most cases are different, which would not be
 captured in a filled barplot.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">rel_abund_pool</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
 <span>    <span class="fu"><a href="../reference/bar_plot.html">bar_plot</a></span><span class="op">(</span>position <span class="op">=</span> <span class="st">"fill"</span>, color <span class="op">=</span> <span class="st">"subject"</span><span class="op">)</span>  <span class="op">+</span> </span>
 <span>    <span class="co"># group samples by body site. free_x removes unwanted white space</span></span>
 <span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/facet_wrap.html" class="external-link">facet_wrap</a></span><span class="op">(</span><span class="op">~</span><span class="va">body_site</span>, scales <span class="op">=</span> <span class="st">"free_x"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="calc_rel_abund_files/figure-html/unnamed-chunk-3-1.png" width="672">
-By filling the plot, the relative abundance is being scaled to one,
+<p><img src="calc_rel_abund_files/figure-html/unnamed-chunk-3-1.png" width="672"></p>
+<p>By filling the plot, the relative abundance is being scaled to one,
 within each sample. We can also precompute this in our table:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/rel_abund_qiime.html">rel_abund_qiime</a></span><span class="op">(</span><span class="va">counts_q</span>, </span>
@@ -136,8 +137,8 @@ abundance across <code>body_site</code>, rather than
 <span>              keep_metadata <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
 <span>    <span class="fu"><a href="../reference/arrange_taxa.html">arrange_taxa</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
 <span>    <span class="fu"><a href="../reference/bar_plot.html">bar_plot</a></span><span class="op">(</span>x_var <span class="op">=</span> <span class="st">"body_site"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="calc_rel_abund_files/figure-html/unnamed-chunk-5-1.png" width="672">
-Again, this plot could be scaled in two ways:</p>
+<p><img src="calc_rel_abund_files/figure-html/unnamed-chunk-5-1.png" width="672"></p>
+<p>Again, this plot could be scaled in two ways:</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># compute in rel_abund</span></span>
 <span><span class="fu"><a href="../reference/rel_abund_qiime.html">rel_abund_qiime</a></span><span class="op">(</span><span class="va">counts_q</span>,</span>
@@ -163,7 +164,7 @@ Again, this plot could be scaled in two ways:</p>
 <p><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext mathvariant="normal">Grouped relative abundance</mtext><mo>=</mo><mfrac><msub><mi>x</mi><mi>i</mi></msub><mrow><msubsup><mo>∑</mo><mrow><mi>j</mi><mo>=</mo><mn>1</mn></mrow><mi>k</mi></msubsup><msub><mi>x</mi><mi>j</mi></msub></mrow></mfrac></mrow><annotation encoding="application/x-tex">\text{Grouped relative abundance} = \frac{x_i}{\sum_{j=1}^{k} x_j}</annotation></semantics></math></p>
 <p>Where
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>k</mi><annotation encoding="application/x-tex">k</annotation></semantics></math>
-is the levels of grouping variable.</p>
+is the levels of the grouping variable.</p>
 </div>
 </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
