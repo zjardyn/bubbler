@@ -1,12 +1,11 @@
 pandoc: 3.1.11
-pkgdown: 2.0.9
+pkgdown: 2.1.0
 pkgdown_sha: ~
 articles:
   calc_rel_abund: calc_rel_abund.html
   data_import: data_import.html
-  introduction: introduction.html
-last_built: 2024-07-05T22:14Z
+  articles/introduction: introduction.html
+last_built: 2024-07-12T00:22Z
 urls:
   reference: https://zjardyn.github.io/bubbler/reference
   article: https://zjardyn.github.io/bubbler/articles
-
