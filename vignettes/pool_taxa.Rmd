@@ -97,6 +97,7 @@ rel_abund %>%
     bar_plot(position = "fill")
 ```
 
+
 ## Samples by abundance
 
 Samples can be arranged by taxa abundance. This is a good preliminary plot to generate to visualize the abundance of taxa within all the samples. 
