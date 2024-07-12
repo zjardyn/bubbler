@@ -94,7 +94,19 @@ rel_abund %>%
               keep_metadata = TRUE) %>%
     arrange_taxa(pooled = "top", order = "bottom") %>% # arrange by abundance
     arrange_variable(variable = "sample_id", levels = "body_site") %>%
-    bar_plot(position = "fill", color = "body_site")
+    bar_plot(position = "fill")
 ```
+
 ## Samples by abundance
+
+Samples can be arranged by taxa abundance. This is a good preliminary plot to generate to visualize the abundance of taxa within all the samples. 
+
+```{r}
+rel_abund %>% 
+    pool_taxa(n_taxa = 16) %>%
+    arrange_taxa() %>% 
+    arrange_sample_by_taxa() %>%
+    bar_plot(position = "fill")
+```
+
 
