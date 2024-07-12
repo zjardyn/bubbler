@@ -1,4 +1,4 @@
-utils::globalVariables(c("sample_id", "count", ".", "asv", "level"))
+utils::globalVariables(c("sample_id", "count", ".", "asv", "level", "name", "taxonomy_lvl", "kraken_assigned_reads"))
 
 #' Generate a relative abundance table in tibble format from a phyloseq object.
 #'
@@ -6,6 +6,7 @@ utils::globalVariables(c("sample_id", "count", ".", "asv", "level"))
 #' @param taxa_level A character value specifying the taxa level from Domain to species.
 #' @param var A character value of a variable to sum by.
 #' @param meta_data A logical value specifying if metadata should be included from phy.
+#' @param taxa_data Logical. Whether to include taxonomic information.
 #'
 #' @return A tibble.
 #' @export

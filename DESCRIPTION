@@ -29,11 +29,11 @@ Imports:
     tidyr,
     viridis,
     yaml,
-    ggnewscale,
-    rhdf5,
-    phyloseq
+    rhdf5
 Config/testthat/edition: 3
 Suggests: 
+    ggnewscale,
+    phyloseq,
     ggtree,
     knitr,
     patchwork,

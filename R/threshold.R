@@ -55,6 +55,9 @@ choose_n_taxa <- function(rel_abund_tab, n_taxa = 8) {
 #'
 #' @param rel_abund_tab A rel_abund table in tibble format.
 #' @param threshold A numeric vector for the threshold.
+#' @param n_taxa The number of taxa to display.
+#' @param keep_metadata Logical. Whether to keep metadata or not.
+#' @param label Logical. Whether to show threshold in label.
 #'
 #' @return A tibble.
 #' @export

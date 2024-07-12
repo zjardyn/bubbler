@@ -9,9 +9,9 @@ arrange_variable(rel_abund_tb, variable = "sample_id", levels)
 \arguments{
 \item{rel_abund_tb}{A relative abundance table in tibble form.}
 
-\item{variable}{The  variable to be sorted}
+\item{variable}{The variable to be sorted.}
 
-\item{levels}{}
+\item{levels}{The variable to sort with.}
 }
 \value{
 A tibble with a sorted variable.

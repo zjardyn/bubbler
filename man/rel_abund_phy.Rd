@@ -15,6 +15,8 @@ rel_abund_phy(
 \arguments{
 \item{phy}{A phyloseq object containing an otu_table and tax_table.}
 
+\item{taxa_data}{Logical. Whether to include taxonomic information.}
+
 \item{meta_data}{A logical value specifying if metadata should be included from phy.}
 
 \item{taxa_level}{A character value specifying the taxa level from Domain to species.}

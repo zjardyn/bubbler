@@ -1,6 +1,5 @@
 utils::globalVariables(c("rel_abund", "top_taxon"))
 
-
 #' Arrange samples by the most abundant taxa.
 #'
 #' @param rel_abund_tb A relative abundance table in tibble form.
@@ -11,7 +10,6 @@ utils::globalVariables(c("rel_abund", "top_taxon"))
 #' @examples
 #' rel_abund_phy(phy = physeq1) %>%
 #'      arrange_sample_by_taxa()
-
 arrange_sample_by_taxa <- function(rel_abund_tb){
     if(missing(rel_abund_tb)){stop("Provide a relative abundance table.")}
    grouping <- rel_abund_tb %>%
@@ -40,7 +38,6 @@ arrange_sample_by_taxa <- function(rel_abund_tb){
 #' @examples
 #' rel_abund_phy(phy = physeq1) %>%
 #'      arrange_taxa(pooled = "bottom")
-
 arrange_taxa <- function(rel_abund_tb, pooled = "top") {
    if(missing(rel_abund_tb)){stop("Provide a relative abundance table.")}
    pooled <- match.arg(pooled,  c("top", "bottom"))
@@ -78,8 +75,8 @@ arrange_taxa <- function(rel_abund_tb, pooled = "top") {
 #' Arrange a variable by the ordering of another variable
 #'
 #' @param rel_abund_tb A relative abundance table in tibble form.
-#' @param variable The  variable to be sorted
-#' @param levels
+#' @param variable The variable to be sorted.
+#' @param levels The variable to sort with.
 #'
 #' @return A tibble with a sorted variable.
 #' @export

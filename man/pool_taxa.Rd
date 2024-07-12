@@ -7,7 +7,7 @@
 pool_taxa(
   rel_abund_tab,
   threshold,
-  n_taxa,
+  n_taxa = 12,
   keep_metadata = FALSE,
   label = TRUE
 )
@@ -16,6 +16,12 @@ pool_taxa(
 \item{rel_abund_tab}{A rel_abund table in tibble format.}
 
 \item{threshold}{A numeric vector for the threshold.}
+
+\item{n_taxa}{The number of taxa to display.}
+
+\item{keep_metadata}{Logical. Whether to keep metadata or not.}
+
+\item{label}{Logical. Whether to show threshold in label.}
 }
 \value{
 A tibble.

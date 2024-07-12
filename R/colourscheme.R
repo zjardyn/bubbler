@@ -108,7 +108,7 @@ global_colour_scheme <- function(all_taxa, unique_taxa) {
 
     lvs <- levels(global_factor_lvs[["taxon"]])
     colors <- viridis::turbo(n = nrow(global_factor_lvs))
-    taxa_colors <- setNames(colors, lvs)
+    taxa_colors <- stats::setNames(colors, lvs)
     taxa_colors
 }
 

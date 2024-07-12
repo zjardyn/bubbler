@@ -16,6 +16,7 @@ A tibble.
 Grab bracken data and format to tibble.
 }
 \examples{
-fpath <- system.file("extdata/bracken", "1_S73_kraken2_report_bracken_output.txt", package = "bubbler")
+fpath <- system.file("extdata/bracken",
+"7_S79_kraken2_report_bracken_output.txt", package = "bubbler")
 read_bracken_file(fpath)
 }

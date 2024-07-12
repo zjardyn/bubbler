@@ -40,7 +40,7 @@ subset_high_low <- function(rel_abund_tb, subset = "low", n = 10, flip = FALSE){
         dplyr::group_by(sample_id) %>%
         dplyr::summarise(sum = sum(rel_abund)) %>%
         dplyr::arrange(sum) %>%
-        head(n = n) %>% dplyr::select(sample_id) %>% dplyr::pull()
+        utils::head(n = n) %>% dplyr::select(sample_id) %>% dplyr::pull()
 
     } else {
 
@@ -48,7 +48,7 @@ subset_high_low <- function(rel_abund_tb, subset = "low", n = 10, flip = FALSE){
         dplyr::group_by(sample_id) %>%
         dplyr::summarise(sum = sum(rel_abund)) %>%
         dplyr::arrange(dplyr::desc(sum)) %>%
-        head(n = n) %>% dplyr::select(sample_id) %>% dplyr::pull()
+        utils::head(n = n) %>% dplyr::select(sample_id) %>% dplyr::pull()
 
     }
         if(flip){

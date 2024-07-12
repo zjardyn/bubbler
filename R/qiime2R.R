@@ -18,19 +18,19 @@ read_qza <- function(file, tmp, rm) {
     if(missing(rm)){rm=TRUE} #remove the decompressed object from tmp
     if(!grepl("qza$", file)){stop("Provided file is not qiime2 artifact (.qza).")}
 
-    unzip(file, exdir=tmp)
-    unpacked<-unzip(file, exdir=tmp, list=TRUE)
+    utils::unzip(file, exdir=tmp)
+    unpacked<-utils::unzip(file, exdir=tmp, list=TRUE)
 
     artifact<-yaml::read_yaml(paste0(tmp,"/", paste0(gsub("/..+","", unpacked$Name[1]),"/metadata.yaml")))
     artifact$contents<-data.frame(files=unpacked)
     artifact$contents$size=sapply(paste0(tmp, "/", artifact$contents$files), file.size)
-    artifact$version=read.table(paste0(tmp,"/",artifact$uuid, "/VERSION"))
+    artifact$version=utils::read.table(paste0(tmp,"/",artifact$uuid, "/VERSION"))
 
 
     if(grepl("BIOMV", artifact$format)){
         artifact$data<-read_q2biom(paste0(tmp, "/", artifact$uui,"/data/feature-table.biom"))
     } else if (artifact$format=="TSVTaxonomyDirectoryFormat"){
-        artifact$data<-read.table(paste0(tmp,"/", artifact$uuid, "/data/taxonomy.tsv"), sep='\t', header=TRUE, quote="", comment="")
+        artifact$data<-utils::read.table(paste0(tmp,"/", artifact$uuid, "/data/taxonomy.tsv"), sep='\t', header=TRUE, quote="", comment="")
     }
 
     if(rm==TRUE){unlink(paste0(tmp,"/", artifact$uuid), recursive=TRUE)}
@@ -50,7 +50,8 @@ read_qza <- function(file, tmp, rm) {
 #' tmp <- tempdir()
 #' unzip(file, exdir=tmp)
 #' unpacked<-unzip(file, exdir=tmp, list=TRUE)
-#' artifact<-yaml::read_yaml(paste0(tmp,"/", paste0(gsub("/..+","", unpacked$Name[1]),"/metadata.yaml")))
+#' artifact<-yaml::read_yaml(paste0(tmp,"/",
+#'     paste0(gsub("/..+","", unpacked$Name[1]),"/metadata.yaml")))
 #' artifact$contents<-data.frame(files=unpacked)
 #' artifact$contents$size=sapply(paste0(tmp, "/", artifact$contents$files), file.size)
 #' artifact$version=read.table(paste0(tmp,"/",artifact$uuid, "/VERSION"))
@@ -99,7 +100,7 @@ read_q2metadata <- function(file) {
     defline[defline==""]<-"factor"
 
     coltitles<-strsplit(suppressWarnings(readLines(file)[1]), split='\t')[[1]]
-    metadata<-read.table(file, header=F, col.names=coltitles, skip=2, sep='\t', colClasses = defline, check.names = FALSE)
+    metadata<-utils::read.table(file, header=F, col.names=coltitles, skip=2, sep='\t', colClasses = defline, check.names = FALSE)
     colnames(metadata)[1]<-"SampleID"
 
     return(metadata)

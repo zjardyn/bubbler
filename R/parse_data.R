@@ -1,3 +1,5 @@
+utils::globalVariables(c("Domain", "Phylum", "Class", "Order", "Family", "Genus", "Species", "Taxon", "Confidence"))
+
 ## .TSV
 
 #' Grab asv table from a tsv file and format to tibble
@@ -186,7 +188,8 @@ meta_data_qiime <- function(tsv){
 #' @export
 #'
 #' @examples
-#' fpath <- system.file("extdata/bracken", "1_S73_kraken2_report_bracken_output.txt", package = "bubbler")
+#' fpath <- system.file("extdata/bracken",
+#' "7_S79_kraken2_report_bracken_output.txt", package = "bubbler")
 #' read_bracken_file(fpath)
 read_bracken_file <- function(filepath) {
     sample_id <- basename(filepath)
