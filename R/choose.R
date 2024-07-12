@@ -1,8 +1,8 @@
-#' Subset samples from a rel_abund tibble and recompute rel_abund
+#' Subset samples from a relative abundance table.
 #'
-#' @param rel_abund_tab A tibble.
-#' @param var A character vector of the variable to subset from.
-#' @param selection A character vector of elements to select.
+#' @param rel_abund_tb A tibble.
+#' @param var The variable to subset from.
+#' @param selection The elements to select.
 #'
 #' @return A tibble.
 #' @export
@@ -16,7 +16,19 @@ subset_rel_abund <- function(rel_abund_tb, var, selection) {
             dplyr::mutate(rel_abund = rel_abund/sum(rel_abund))
 }
 
+#' Subset the highest or lowest abundance samples from a relative abundance table.
+#'
+#' @param rel_abund_tb A relative abundance table in tibble form.
+#' @param subset The subset choice, of "high" or "low"
+#' @param n The number of samples.
+#' @param flip Subset the opposite set of samples, logical.
+#'
+#' @return A tibble.
 #' @export
+#'
+#' @examples
+#' rel_abund_phy(phy = physeq1) %>%
+#'   subset_high_low(n = 5)
 subset_high_low <- function(rel_abund_tb, subset = "low", n = 10, flip = FALSE){
     if(missing(rel_abund_tb)){stop("Needs a rel_abund table")}
 
@@ -42,11 +54,11 @@ subset_high_low <- function(rel_abund_tb, subset = "low", n = 10, flip = FALSE){
         if(flip){
 
         rel_abund_tb %>%
-            filter(!sample_id %in% subset_samples)
+            dplyr::filter(!sample_id %in% subset_samples)
 
         } else {
 
         rel_abund_tb %>%
-            filter(sample_id %in% subset_samples)
+            dplyr::filter(sample_id %in% subset_samples)
         }
 }

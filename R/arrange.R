@@ -1,14 +1,26 @@
 utils::globalVariables(c("rel_abund", "top_taxon"))
 
+
+#' Arrange samples by the most abundant taxa.
+#'
+#' @param rel_abund_tb A relative abundance table in tibble form.
+#'
+#' @return A tibble with ordered samples.
 #' @export
-arrange_sample_by_taxa <- function(rel_abund_tab){
-   grouping <- rel_abund_tab %>%
+#'
+#' @examples
+#' rel_abund_phy(phy = physeq1) %>%
+#'      arrange_sample_by_taxa()
+
+arrange_sample_by_taxa <- function(rel_abund_tb){
+    if(missing(rel_abund_tb)){stop("Provide a relative abundance table.")}
+   grouping <- rel_abund_tb %>%
        dplyr::group_by(sample_id) %>%
        dplyr::slice_max(order_by = rel_abund, with_ties = FALSE) %>%
        dplyr::select(taxon, sample_id) %>%
        dplyr::rename(top_taxon = taxon)
 
-    dplyr::inner_join(rel_abund_tab, grouping, by = "sample_id") %>%
+    dplyr::inner_join(rel_abund_tb, grouping, by = "sample_id") %>%
         dplyr::group_by(top_taxon) %>%
         dplyr::mutate(rank = rank(rel_abund)) %>%
         dplyr::mutate(sample_id = stats::reorder(sample_id, -rank)) %>%
@@ -17,20 +29,31 @@ arrange_sample_by_taxa <- function(rel_abund_tab){
 
 }
 
+#' Arrange taxa by abundance.
+#'
+#' @param rel_abund_tb A relative abundance table in tibble form.
+#' @param pooled The order of taxa, either "top" or "bottom".
+#'
+#' @return A tibble with ordered taxon.
 #' @export
-arrange_taxa <- function(rel_abund_tab, pooled = "top") {
+#'
+#' @examples
+#' rel_abund_phy(phy = physeq1) %>%
+#'      arrange_taxa(pooled = "bottom")
 
+arrange_taxa <- function(rel_abund_tb, pooled = "top") {
+   if(missing(rel_abund_tb)){stop("Provide a relative abundance table.")}
    pooled <- match.arg(pooled,  c("top", "bottom"))
 
-   grouping <- rel_abund_tab %>%
+   grouping <- rel_abund_tb %>%
         dplyr::group_by(taxon) %>%
         dplyr::summarise(mean = mean(rel_abund))
 
-    threshold <- detect_threshold(rel_abund_tab)
+    threshold <- detect_threshold(rel_abund_tb)
 
     if(pooled == "top"){
 
-        rel_abund_arranged <- dplyr::inner_join(rel_abund_tab, grouping, by = "taxon") %>%
+        rel_abund_arranged <- dplyr::inner_join(rel_abund_tb, grouping, by = "taxon") %>%
             dplyr::mutate(taxon = as.factor(taxon)) %>%
             dplyr::mutate(taxon = forcats::fct_reorder(taxon, mean)) %>%
             dplyr::select(-mean) %>%
@@ -39,7 +62,7 @@ arrange_taxa <- function(rel_abund_tab, pooled = "top") {
     }
     if (pooled == "bottom"){
 
-        rel_abund_arranged <- dplyr::inner_join(rel_abund_tab, grouping, by = "taxon") %>%
+        rel_abund_arranged <- dplyr::inner_join(rel_abund_tb, grouping, by = "taxon") %>%
             dplyr::mutate(taxon = as.factor(taxon)) %>%
             dplyr::mutate(taxon = forcats::fct_reorder(taxon, mean)) %>%
             dplyr::select(-mean) %>%
@@ -52,24 +75,34 @@ arrange_taxa <- function(rel_abund_tab, pooled = "top") {
 
 }
 
+#' Arrange a variable by the ordering of another variable
+#'
+#' @param rel_abund_tb A relative abundance table in tibble form.
+#' @param variable The  variable to be sorted
+#' @param levels
+#'
+#' @return A tibble with a sorted variable.
 #' @export
-arrange_taxa_colour <- function(rel_abund_tb, taxa_colours){
-
-    threshold <- detect_threshold(rel_abund_tb)
-
-
-    rel_abund_tb  %>% mutate(taxon = factor(taxon, levels = n))
-
-
-
-}
-
-#' @export
-arrange_variable <- function(rel_abund_tab, variable, levels){
-   if(missing(variable)){variable <- "sample_id"}
+#'
+#' @examples
+#' rel_abund_phy(phy = physeq1, meta_data = TRUE) %>%
+#'     arrange_variable(levels = "Location")
+arrange_variable <- function(rel_abund_tb, variable = "sample_id", levels){
+   if(missing(rel_abund_tb)){stop("Provide a relative abundance table.")}
    if(missing(levels)){stop("levels not provided.")}
 
-   rel_abund_tab %>%
+   rel_abund_tb %>%
    dplyr::mutate(!!rlang::sym(variable) := as.factor(!!rlang::sym(variable)),
                  !!rlang::sym(variable) := forcats::fct_relevel(!!rlang::sym(variable), levels))
 }
+
+# arrange_taxa_colour <- function(rel_abund_tb, taxa_colours){
+#
+#     threshold <- detect_threshold(rel_abund_tb)
+#
+#
+#     rel_abund_tb  %>% mutate(taxon = factor(taxon, levels = n))
+#
+#
+#
+# }
