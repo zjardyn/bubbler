@@ -40,16 +40,14 @@ Here, I am using `tidyverse` notation:
 
 ``` r
 library(bubbler)
+
 # 1. import data into rel_abund.
 rel_abund_phy(physeq, taxa_level = "Genus") %>%
-    
     # 2. modify  rel_abund
     pool_taxa(n_taxa = 16) %>%
-    
     # arrange plotting variables by most abundant taxa.
     arrange_taxa() %>%
     arrange_sample_by_taxa() %>%
-    
     # 3. plot
     bar_plot(position = "fill")
 ```
