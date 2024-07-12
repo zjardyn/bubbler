@@ -22,6 +22,6 @@ A tibble.
 Subset the highest or lowest abundance samples from a relative abundance table.
 }
 \examples{
-rel_abund_phy(phy = physeq1) \%>\%
+rel_abund_phy(phy = physeq) \%>\%
   subset_high_low(n = 5)
 }

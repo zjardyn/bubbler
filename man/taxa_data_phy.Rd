@@ -16,5 +16,5 @@ A tibble.
 Grab taxa table from a physeq object and format to tibble
 }
 \examples{
-taxa_data_phy(physeq1)
+taxa_data_phy(physeq)
 }

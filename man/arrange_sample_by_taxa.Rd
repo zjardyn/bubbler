@@ -16,6 +16,6 @@ A tibble with ordered samples.
 Arrange samples by the most abundant taxa.
 }
 \examples{
-rel_abund_phy(phy = physeq1) \%>\%
+rel_abund_phy(phy = physeq) \%>\%
      arrange_sample_by_taxa()
 }

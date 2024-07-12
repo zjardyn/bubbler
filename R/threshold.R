@@ -11,7 +11,7 @@ utils::globalVariables(c("taxon", "pool", ":="))
 #' @export
 #'
 #' @examples
-#' show_top_taxa(rel_abund_phy(physeq1))
+#' show_top_taxa(rel_abund_phy(physeq))
 show_top_taxa <- function(rel_abund_tab) {
 
     rel_abund_tab %>%
@@ -31,7 +31,7 @@ show_top_taxa <- function(rel_abund_tab) {
 #' @export
 #'
 #' @examples
-#' choose_n_taxa(rel_abund_phy(physeq1), n_taxa = 8)
+#' choose_n_taxa(rel_abund_phy(physeq), n_taxa = 8)
 choose_n_taxa <- function(rel_abund_tab, n_taxa = 8) {
 
     unique_taxa <- show_top_taxa(rel_abund_tab) %>% nrow()
@@ -63,7 +63,7 @@ choose_n_taxa <- function(rel_abund_tab, n_taxa = 8) {
 #' @export
 #'
 #' @examples
-#' rel_abund_phy(physeq1) %>% pool_taxa()
+#' rel_abund_phy(physeq) %>% pool_taxa()
 pool_taxa <- function(rel_abund_tab, threshold, n_taxa = 12, keep_metadata = FALSE, label = TRUE) {
     if(missing(rel_abund_tab)){stop("Provide a relative abundance table.")}
     if(!("taxon" %in% colnames(rel_abund_tab))){stop('variable taxon not found in colnames' )}
@@ -113,7 +113,7 @@ pool_taxa <- function(rel_abund_tab, threshold, n_taxa = 12, keep_metadata = FAL
 #' @export
 #'
 #' @examples
-#' rel_abund_phy(physeq1) %>% detect_threshold()
+#' rel_abund_phy(physeq) %>% detect_threshold()
 detect_threshold <- function(rel_abund_tb){
     threshold <- grep("<", rel_abund_tb[["taxon"]], value = TRUE, fixed = TRUE, useBytes = TRUE)[1]
 
@@ -133,7 +133,7 @@ detect_threshold <- function(rel_abund_tb){
 #' @export
 #'
 #' @examples
-#' rel_abund_phy(physeq1) %>% all_taxa() %>% dplyr::pull(taxon) %>% detect_threshold_vec()
+#' rel_abund_phy(physeq) %>% all_taxa() %>% dplyr::pull(taxon) %>% detect_threshold_vec()
 detect_threshold_vec <- function(vector){
     threshold <- grep("<", vector, value = TRUE, fixed = TRUE, useBytes = TRUE)[1]
 

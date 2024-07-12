@@ -18,6 +18,6 @@ A tibble with ordered taxon.
 Arrange taxa by abundance.
 }
 \examples{
-rel_abund_phy(phy = physeq1) \%>\%
+rel_abund_phy(phy = physeq) \%>\%
      arrange_taxa(pooled = "bottom")
 }

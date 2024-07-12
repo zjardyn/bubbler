@@ -8,7 +8,7 @@ utils::globalVariables(c("rel_abund", "top_taxon"))
 #' @export
 #'
 #' @examples
-#' rel_abund_phy(phy = physeq1) %>%
+#' rel_abund_phy(phy = physeq) %>%
 #'      arrange_sample_by_taxa()
 arrange_sample_by_taxa <- function(rel_abund_tb){
     if(missing(rel_abund_tb)){stop("Provide a relative abundance table.")}
@@ -36,7 +36,7 @@ arrange_sample_by_taxa <- function(rel_abund_tb){
 #' @export
 #'
 #' @examples
-#' rel_abund_phy(phy = physeq1) %>%
+#' rel_abund_phy(phy = physeq) %>%
 #'      arrange_taxa(pooled = "bottom")
 arrange_taxa <- function(rel_abund_tb, pooled = "top") {
    if(missing(rel_abund_tb)){stop("Provide a relative abundance table.")}
@@ -82,7 +82,7 @@ arrange_taxa <- function(rel_abund_tb, pooled = "top") {
 #' @export
 #'
 #' @examples
-#' rel_abund_phy(phy = physeq1, meta_data = TRUE) %>%
+#' rel_abund_phy(phy = physeq, meta_data = TRUE) %>%
 #'     arrange_variable(levels = "Location")
 arrange_variable <- function(rel_abund_tb, variable = "sample_id", levels){
    if(missing(rel_abund_tb)){stop("Provide a relative abundance table.")}
@@ -92,14 +92,3 @@ arrange_variable <- function(rel_abund_tb, variable = "sample_id", levels){
    dplyr::mutate(!!rlang::sym(variable) := as.factor(!!rlang::sym(variable)),
                  !!rlang::sym(variable) := forcats::fct_relevel(!!rlang::sym(variable), levels))
 }
-
-# arrange_taxa_colour <- function(rel_abund_tb, taxa_colours){
-#
-#     threshold <- detect_threshold(rel_abund_tb)
-#
-#
-#     rel_abund_tb  %>% mutate(taxon = factor(taxon, levels = n))
-#
-#
-#
-# }

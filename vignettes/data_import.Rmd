@@ -14,9 +14,7 @@ knitr::opts_chunk$set(
 )
 ```
 
-Data import can be a frustrating first step. bubbler tries to alleviate this by giving the user flexibility with how they can get their data into R. 
-
-Load bubbler and import some data. 
+Amplicon sequencing input can be variable so `bubbler` has many data import options. 
 
 ```{r setup}
 library(bubbler)
@@ -24,34 +22,28 @@ library(bubbler)
 
 ## Qiime2
 
-If you have just ran your amplicon sequencing data through [qiime2](https://qiime2.org/), you can import the asv-table and taxonomy artifacts (.qza), and optionally, the qiime-formatted metadata (.tsv). Here, I show importing, using data from the "Moving Pictures" Qiime2 [tutorial](https://docs.qiime2.org/2024.5/tutorials/moving-pictures/).
+[qiime2](https://qiime2.org/) asv-table and taxonomy artifacts (.qza), and optionally, the qiime-formatted metadata (.tsv) can be imported. This example uses data from the "Moving Pictures" Qiime2 [tutorial](https://docs.qiime2.org/2024.5/tutorials/moving-pictures/).
 
 ```{r}
 # path to qiime-formatted asv counts 
 counts_q <- system.file("extdata", "qiime", "table-dada2.qza", package = "bubbler")
-
 # path to qiime-formatted taxonomy data 
 taxa_q <- system.file("extdata", "qiime", "taxonomy.qza", package = "bubbler")
-
 # path to qiime-formatted metadata
 metadata_q <- system.file("extdata", "qiime", "sample-metadata.tsv", package = "bubbler")
 
 # make a relative abundance table 
 rel_abund_qiime(counts_q, taxa_q, metadata_q)
-
 ```
 
-## DADA2 
+## DADA2/TSV
 
-DADA2 allows you to generate an asv-table and taxonomic classifications from amplicon sequencing data, all within R. An asv-table has ASVs as columns (variables) and samples as rows (observations). A taxonomy table has taxonomic levels as columns and ASVs as rows. `bubbler` can import these files in the form of .tsv files, with optional metadata as a .tsv as well. 
-
+DADA2 outputs can be an asv-table and taxonomic classifications as .tsv files. An asv-table has ASVs as columns (variables) and samples as rows (observations), with the cells being counts. A taxonomy table has taxonomic levels as columns and ASVs as rows. 
 ```{r}
 # path to asv counts in tab-separated format
 counts <- system.file("extdata", "tsv", "seqtab.tsv", package = "bubbler")
-
 # path to taxonomy data in tab-separated format
 taxa <- system.file("extdata", "tsv", "taxa.tsv", package = "bubbler")
-
 # path to metadata in tab-seperated format 
 metadata <- system.file("extdata", "tsv", "metadata.tsv", package = "bubbler")
 
@@ -61,16 +53,23 @@ rel_abund_tsv(counts, taxa, metadata)
 
 ## Phyloseq
 
-If you can get your data into a phyloseq object, it is possible to import that as well. `bubbler` expects to see a otu_table and tax_table, and optionally, sam_data within the phyloseq object. 
+If your data is in the form of a `phyloseq` object, you can import it. `bubbler` expects to see a otu_table and tax_table, and optionally, sam_data.
 
 ```{r}
 # example phyloseq
-rel_abund_phy(physeq1,
-              taxa_data = TRUE,
-              meta_data = TRUE)
+rel_abund_phy(physeq, taxa_data = TRUE, meta_data = TRUE)
 ```
 
 
+## Kracken2/Bracken 
+
+The .txt files from a [Bracken](https://github.com/jenniferlu717/Bracken) workflow can be imported.
 
 
+```{r}
+# path to bracken-formatted .txt files
+path <- system.file("extdata", "bracken", package = "bubbler")
+
+rel_abund_bracken(path)
+```
 

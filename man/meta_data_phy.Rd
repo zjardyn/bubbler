@@ -16,5 +16,5 @@ A tibble.
 Grab metadata from a physeq object and format to tibble
 }
 \examples{
-meta_data_phy(physeq1)
+meta_data_phy(physeq)
 }

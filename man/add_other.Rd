@@ -16,5 +16,5 @@ A tibble.
 Add an "Other" observation to a relative abundance table.
 }
 \examples{
-rel_abund_phy(physeq1) \%>\% add_other()
+rel_abund_phy(physeq) \%>\% add_other()
 }

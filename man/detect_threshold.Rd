@@ -16,5 +16,5 @@ A character vector of length one.
 Detect the label used for threshold from a pooled relative_abundance table
 }
 \examples{
-rel_abund_phy(physeq1) \%>\% detect_threshold()
+rel_abund_phy(physeq) \%>\% detect_threshold()
 }

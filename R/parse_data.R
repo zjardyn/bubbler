@@ -64,7 +64,7 @@ meta_data_tsv <- function(tsv){
 #' @export
 #'
 #' @examples
-#' meta_data_phy(physeq1)
+#' meta_data_phy(physeq)
 meta_data_phy <- function(phy) {
     meta <- phy@sam_data
     sample_id <- rownames(meta)
@@ -82,7 +82,7 @@ meta_data_phy <- function(phy) {
 #' @export
 #'
 #' @examples
-#' taxa_data_phy(physeq1)
+#' taxa_data_phy(physeq)
 taxa_data_phy <- function(phy){
     phy@tax_table %>%
         as.data.frame() %>%
@@ -98,7 +98,7 @@ taxa_data_phy <- function(phy){
 #' @export
 #'
 #' @examples
-#' asv_data_phy(physeq1)
+#' asv_data_phy(physeq)
 asv_data_phy <- function(phy){
 
     counts <- phy@otu_table %>% t()

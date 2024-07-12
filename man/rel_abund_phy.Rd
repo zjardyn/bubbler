@@ -30,5 +30,5 @@ A tibble.
 Generate a relative abundance table in tibble format from a phyloseq object.
 }
 \examples{
-rel_abund_phy(phy = physeq1, taxa_level = "Phylum", var = NULL , meta_data = FALSE)
+rel_abund_phy(phy = physeq, taxa_level = "Phylum", var = NULL , meta_data = FALSE)
 }

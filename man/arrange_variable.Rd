@@ -20,6 +20,6 @@ A tibble with a sorted variable.
 Arrange a variable by the ordering of another variable
 }
 \examples{
-rel_abund_phy(phy = physeq1, meta_data = TRUE) \%>\%
+rel_abund_phy(phy = physeq, meta_data = TRUE) \%>\%
     arrange_variable(levels = "Location")
 }

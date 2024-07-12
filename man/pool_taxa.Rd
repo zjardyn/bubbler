@@ -31,5 +31,5 @@ Applies a threshold and pools any taxa below this threshold, across samples
 and optionally, across a variable.
 }
 \examples{
-rel_abund_phy(physeq1) \%>\% pool_taxa()
+rel_abund_phy(physeq) \%>\% pool_taxa()
 }

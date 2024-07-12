@@ -6,7 +6,7 @@
 #' @export
 #'
 #' @examples
-#' rel_abund_phy(phy = physeq1) %>%
+#' rel_abund_phy(phy = physeq) %>%
 #'     all_taxa()
 all_taxa <- function(rel_abund_tb){
 
@@ -120,7 +120,7 @@ global_colour_scheme <- function(all_taxa, unique_taxa) {
 #' @export
 #'
 #' @examples
-#' rel_abund_phy(physeq1) %>% add_other()
+#' rel_abund_phy(physeq) %>% add_other()
 add_other <- function(rel_abund_tb){
     rel_abund_tb %>%
         dplyr::mutate(taxon = as.factor(taxon),

@@ -16,5 +16,5 @@ A tibble.
 Grab asv table from a physeq object and format to tibble
 }
 \examples{
-asv_data_phy(physeq1)
+asv_data_phy(physeq)
 }

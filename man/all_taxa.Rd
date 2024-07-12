@@ -16,6 +16,6 @@ A vector arranged by abundance.
 Return a character vector of unique taxa from a relative abundance table.
 }
 \examples{
-rel_abund_phy(phy = physeq1) \%>\%
+rel_abund_phy(phy = physeq) \%>\%
     all_taxa()
 }

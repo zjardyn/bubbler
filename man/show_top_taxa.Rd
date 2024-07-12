@@ -17,5 +17,5 @@ Finds the top taxa and arranges in descending order. Uses max() to
 find the maximum taxon.
 }
 \examples{
-show_top_taxa(rel_abund_phy(physeq1))
+show_top_taxa(rel_abund_phy(physeq))
 }

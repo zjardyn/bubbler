@@ -9,7 +9,7 @@
 #' @export
 #'
 #' @examples
-#' rel_abund_phy(physeq1) %>% bar_plot()
+#' rel_abund_phy(physeq) %>% bar_plot()
 #' @importFrom ggplot2 ggplot aes geom_bar theme element_text
 bar_plot <- function(rel_abund_tb, x_var = "sample_id", position = "stack", width = 1){
     if(missing(rel_abund_tb)){stop("Please provide rel_abund table.")}

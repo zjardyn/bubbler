@@ -1,14 +1,5 @@
 utils::globalVariables(c("sample_id", "count", ".", "asv", "level", "name", "taxonomy_lvl", "kraken_assigned_reads"))
 
-#' This is data to be included in my package
-#'
-#' @name physeq1
-#' @docType data
-#' @author Zjardyn Liera-Hood \email{zlieraho@uwaterloo.ca}
-#' @keywords data
-NULL
-
-
 #' Generate a relative abundance table in tibble format from a phyloseq object.
 #'
 #' @param phy A phyloseq object containing an otu_table and tax_table.
@@ -21,7 +12,7 @@ NULL
 #' @export
 #'
 #' @examples
-#' rel_abund_phy(phy = physeq1, taxa_level = "Phylum", var = NULL , meta_data = FALSE)
+#' rel_abund_phy(phy = physeq, taxa_level = "Phylum", var = NULL , meta_data = FALSE)
 rel_abund_phy <- function(phy, taxa_data = TRUE, meta_data = FALSE, taxa_level = "Phylum", var = NULL) {
    if(missing(phy)){stop("rel_abund_phy needs a physeq object with a asv/otu table.")}
 

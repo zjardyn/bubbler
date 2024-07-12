@@ -16,5 +16,5 @@ A character vector of length one.
 Detect the label used in a character vector.
 }
 \examples{
-rel_abund_phy(physeq1) \%>\% all_taxa() \%>\% dplyr::pull(taxon) \%>\% detect_threshold_vec()
+rel_abund_phy(physeq) \%>\% all_taxa() \%>\% dplyr::pull(taxon) \%>\% detect_threshold_vec()
 }

@@ -22,5 +22,5 @@ A ggplot object.
 Generate a ggplot2 stacked barplot from a relative abundance table.
 }
 \examples{
-rel_abund_phy(physeq1) \%>\% bar_plot()
+rel_abund_phy(physeq) \%>\% bar_plot()
 }
