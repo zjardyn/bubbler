@@ -1,5 +1,14 @@
 utils::globalVariables(c("sample_id", "count", ".", "asv", "level", "name", "taxonomy_lvl", "kraken_assigned_reads"))
 
+#' This is data to be included in my package
+#'
+#' @name physeq1
+#' @docType data
+#' @author Zjardyn Liera-Hood \email{zlieraho@uwaterloo.ca}
+#' @keywords data
+NULL
+
+
 #' Generate a relative abundance table in tibble format from a phyloseq object.
 #'
 #' @param phy A phyloseq object containing an otu_table and tax_table.

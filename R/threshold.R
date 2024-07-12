@@ -11,7 +11,7 @@ utils::globalVariables(c("taxon", "pool", ":="))
 #' @export
 #'
 #' @examples
-#' show_top_taxa(rel_abund_tab)
+#' show_top_taxa(rel_abund_phy(physeq1))
 show_top_taxa <- function(rel_abund_tab) {
 
     rel_abund_tab %>%
@@ -31,7 +31,7 @@ show_top_taxa <- function(rel_abund_tab) {
 #' @export
 #'
 #' @examples
-#' choose_n_taxa(rel_abund_tab, n_taxa = 8)
+#' choose_n_taxa(rel_abund_phy(physeq1), n_taxa = 8)
 choose_n_taxa <- function(rel_abund_tab, n_taxa = 8) {
 
     unique_taxa <- show_top_taxa(rel_abund_tab) %>% nrow()

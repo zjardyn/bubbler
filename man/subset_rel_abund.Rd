@@ -21,5 +21,5 @@ Subset samples from a relative abundance table.
 }
 \examples{
 smp_selection <- c("Smp1", "Smp2", "Smp3", "Smp4", "Smp5")
-subset_rel_abund(rel_abund_tab, var = "sample_id", selection = smp_selection)
+subset_rel_abund(rel_abund_phy(physeq1), var = "sample_id", selection = smp_selection)
 }

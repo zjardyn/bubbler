@@ -18,5 +18,5 @@ A numeric vector.
 Generates a numeric vector as the threshold to display n taxa.
 }
 \examples{
-choose_n_taxa(rel_abund_tab, n_taxa = 8)
+choose_n_taxa(rel_abund_phy(physeq1), n_taxa = 8)
 }

@@ -7,7 +7,7 @@
 read_bracken_file(filepath)
 }
 \arguments{
-\item{filepath}{}
+\item{filepath}{Path to bracken .txt files.}
 }
 \value{
 A tibble.

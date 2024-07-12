@@ -182,7 +182,7 @@ meta_data_qiime <- function(tsv){
 
 #' Grab bracken data and format to tibble.
 #'
-#' @param filepath
+#' @param filepath Path to bracken .txt files.
 #'
 #' @return A tibble.
 #' @export
