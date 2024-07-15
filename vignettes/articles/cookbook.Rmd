@@ -2,6 +2,9 @@
 title: "CookBook"
 ---
 
+These are rough implementations of future features. They are intended to extend `bubblers` base functionality using various packages. If you want to help implement these I will accept PRs.
+
+
 ```{r, include = FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
@@ -17,12 +20,14 @@ library(phyloseq)
 # library(tidyverse)
 library(dplyr)
 library(tibble)
+library(tidyr)
 library(ggplot2)
 library(vegan)
 library(ape)
 library(patchwork)
 library(viridis)
 # library(ggtree) loading ggtree causes namespace issues
+library(ggnewscale)
 ```
 
 
@@ -81,3 +86,147 @@ p2 <- q %>%
 
 p1 | p2
 ```
+
+# Technique 2: Nested legend and colourscheme within taxa
+
+
+```{r}
+
+# Function to display a vector of colors with 10 colors per row using ggplot2
+display_colors_ggplot <- function(color_vector, colors_per_row = 10) {
+    n <- length(color_vector)
+    rows <- ceiling(n / colors_per_row)
+    data <- data.frame(
+        x = rep(1:colors_per_row, length.out = n),
+        y = rep(1:rows, each = colors_per_row)[1:n],
+        color = color_vector
+    )
+
+    ggplot(data, aes(x = factor(x), y = factor(y), fill = color)) +
+        geom_tile() +
+        scale_fill_identity() +
+        theme_void() +
+        theme(
+            axis.text.x = element_blank(),
+            axis.text.y = element_blank(),
+            axis.ticks = element_blank()
+        )
+        # geom_text(aes(label = color), angle = 90, hjust = 1, vjust = 0.5, size = 3)
+}
+
+###~%~ trying to get a nested colour scheme for phylum ~%~###
+
+taxa_qiime <- system.file("extdata", "qiime", "taxonomy.qza", package = "bubbler")
+
+tx <- taxa_data_qiime(taxa_qiime)
+
+asv_qiime <- system.file("extdata", "qiime", "table-dada2.qza", package = "bubbler")
+taxa_qiime <- system.file("extdata", "qiime", "taxonomy.qza", package = "bubbler")
+metadata_qiime <- system.file("extdata", "qiime", "sample-metadata.tsv", package = "bubbler")
+
+# generate rel_abund
+q <- rel_abund_qiime(
+    asv_qiime = asv_qiime,
+    taxa_qiime = taxa_qiime,
+    metadata_qiime = metadata_qiime,
+    taxa_level = "Genus", )
+
+# pool taxa, rename taxon to Genus (its true level) and select it.
+qp <- pool_taxa(q, 0.0035)
+
+taxa_pooled <- qp %>%
+    rename(Genus = "taxon") %>%
+    select(Genus) %>%
+    distinct()
+
+# merge the filtered
+taxa_full <- inner_join(tx, taxa_pooled, by = "Genus" )
+
+phylum_genus <- taxa_full %>%
+    select(Phylum, Genus) %>%
+    arrange(Phylum, Genus ) %>%
+    distinct()
+
+pg_nest <- phylum_genus %>%
+    group_by(Phylum) %>%
+    nest()
+
+base_colours <- turbo(n = nrow(pg_nest), begin = 0.2, end = 0.8)
+# cutoff <- ceiling(n_rows * 0.7)
+2 * 0.8
+
+# taxon is Genus actually.
+tb <- tibble(taxon = character(), color = character())
+for(i in 1:nrow(pg_nest)){
+    phylum <- pg_nest$Phylum[i]
+    genera <- pg_nest$data[[i]]
+
+    phylum_shades_pal <- colorRampPalette(c(base_colours[i], "black"))
+    cutoff <- ceiling(nrow(genera) * 0.5)
+    phylum_shades <- phylum_shades_pal(nrow(genera) + cutoff)
+    phylum_shades <- phylum_shades[1:(length(phylum_shades) - cutoff)]
+
+    pgc <- tibble(taxon = pull(genera),
+                 color = phylum_shades)
+
+    tb <- bind_rows(tb, pgc)
+}
+
+qpc <- left_join(qp, tb, by = "taxon")
+
+idx <- grepl("^<", qpc$taxon)
+qpc[idx,"color"] <- "#999999"
+
+qpc[qpc[["taxon"]] == "Unclassified", "color"] <- "#555555"
+
+
+names(qpc$color) <- qpc$taxon
+
+# colours are now set, now time to group by phylum for plotting!
+
+cols <- qpc$color
+
+tx2 <- tx %>%
+    select(Genus, Phylum) %>%
+    rename(taxon = "Genus") %>%
+    na.omit() %>%
+    distinct()
+
+qpc2 <- left_join(qpc, tx2, by = "taxon")
+
+idx <- grepl("^<", qpc2$taxon)
+qpc2[idx,"Phylum"] <- "Other"
+
+qpc2[qpc2[["taxon"]] == "Unclassified", "Phylum"] <- "Other"
+
+groups <- qpc2 %>%
+    distinct(Phylum, taxon) %>%
+    mutate(order = as.numeric(forcats::fct_inorder(Phylum))) %>%
+    split(.$Phylum)
+
+qpc %>%
+    arrange_taxa(pooled = "top") %>%
+    arrange_sample_by_taxa() %>%
+ggplot() +
+    lapply(groups, function(x){
+        list(
+            geom_col(aes(x = sample_id, y = rel_abund, fill = taxon), position = "fill"),
+            scale_fill_manual(name = unique(x$Phylum),
+                              values = cols, limits = x$taxon, na.value = "transparent",
+                              guide = guide_legend(order = unique(x$order))),
+            new_scale_fill()
+
+        )
+    }) + guides(fill=guide_legend(ncol=3)) +
+    theme(
+        # legend.position = "bottom"
+         plot.margin=margin(t=30),
+         legend.key.size = unit(10, "pt"),
+         # legend.position = "bottom"
+         # legend.box = "vertical"
+        )
+
+
+```
+
+
