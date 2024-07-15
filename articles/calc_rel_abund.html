@@ -34,6 +34,7 @@
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
   <ul class="dropdown-menu" aria-labelledby="dropdown-articles">
 <li><a class="dropdown-item" href="../articles/calc_rel_abund.html">2. Calculate relative abundance</a></li>
+    <li><a class="dropdown-item" href="../articles/cookbook.html">CookBook</a></li>
     <li><a class="dropdown-item" href="../articles/data_import.html">1. Data Import</a></li>
     <li><a class="dropdown-item" href="../articles/pool_taxa.html">3. Pooling and arranging</a></li>
   </ul>
@@ -70,17 +71,26 @@
 <div class="section level2">
 <h2 id="relative-abundance">Relative abundance<a class="anchor" aria-label="anchor" href="#relative-abundance"></a>
 </h2>
-<p>For a given group of samples, relative abundance is calculated
-as:</p>
+<p>For a given set of samples, relative abundance is calculated as:</p>
 <p><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext mathvariant="normal">Relative abundance</mtext><mo>=</mo><mfrac><msub><mi>x</mi><mi>i</mi></msub><mrow><mo>∑</mo><mi>x</mi></mrow></mfrac></mrow><annotation encoding="application/x-tex">\text{Relative abundance} = \frac{x_i}{\sum x}</annotation></semantics></math></p>
 <p>Where
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>x</mi><mi>i</mi></msub><annotation encoding="application/x-tex">x_i</annotation></semantics></math>
-is the count of a given asv, divided by the sum of all asv counts,
-across all samples. This way, the sum of all relative abundances equal
-one.</p>
+is the count of a given asv, divided by the sum of all asv counts. This
+way, the sum of all relative abundances equal one.</p>
 <p>It is useful to visualize your data in this form to see the
 proportional counts between samples.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org" class="external-link">ggplot2</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://sjmgarnier.github.io/viridis/" class="external-link">viridis</a></span><span class="op">)</span></span>
+<span><span class="co"># path to qiime-formatted asv counts </span></span>
+<span><span class="va">counts_q</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>, <span class="st">"qiime"</span>, <span class="st">"table-dada2.qza"</span>, package <span class="op">=</span> <span class="st">"bubbler"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># path to qiime-formatted taxonomy data </span></span>
+<span><span class="va">taxa_q</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>, <span class="st">"qiime"</span>, <span class="st">"taxonomy.qza"</span>, package <span class="op">=</span> <span class="st">"bubbler"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># path to qiime-formatted metadata</span></span>
+<span><span class="va">metadata_q</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>, <span class="st">"qiime"</span>, <span class="st">"sample-metadata.tsv"</span>, package <span class="op">=</span> <span class="st">"bubbler"</span><span class="op">)</span></span></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># 1. make rel_abund</span></span>
 <span><span class="va">rel_abund</span>  <span class="op">&lt;-</span>  <span class="fu"><a href="../reference/rel_abund_qiime.html">rel_abund_qiime</a></span><span class="op">(</span><span class="va">counts_q</span>, </span>
 <span>                               <span class="va">taxa_q</span>, </span>
@@ -92,43 +102,44 @@ proportional counts between samples.</p>
 <span>    <span class="co"># pool taxa so that only the 12 most abundant taxa are displayed </span></span>
 <span>    <span class="fu"><a href="../reference/pool_taxa.html">pool_taxa</a></span><span class="op">(</span>n_taxa <span class="op">=</span> <span class="fl">12</span>, keep_metadata <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> </span>
 <span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org" class="external-link">ggplot2</a></span><span class="op">)</span></span>
-<span></span>
 <span><span class="co"># 3. plot rel_abund</span></span>
 <span><span class="va">rel_abund_pool</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
-<span>    <span class="fu"><a href="../reference/bar_plot.html">bar_plot</a></span><span class="op">(</span>color <span class="op">=</span> <span class="st">"subject"</span><span class="op">)</span>  <span class="op">+</span> </span>
+<span>    <span class="fu"><a href="../reference/bar_plot.html">bar_plot</a></span><span class="op">(</span><span class="op">)</span>  <span class="op">+</span> </span>
 <span>    <span class="co"># group samples by body site. free_x removes unwanted white space</span></span>
-<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/facet_wrap.html" class="external-link">facet_wrap</a></span><span class="op">(</span><span class="op">~</span><span class="va">body_site</span>, scales <span class="op">=</span> <span class="st">"free_x"</span> <span class="op">)</span> </span></code></pre></div>
+<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/facet_wrap.html" class="external-link">facet_wrap</a></span><span class="op">(</span><span class="op">~</span><span class="va">body_site</span>, scales <span class="op">=</span> <span class="st">"free_x"</span> <span class="op">)</span> <span class="op">+</span></span>
+<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_viridis.html" class="external-link">scale_fill_viridis_d</a></span><span class="op">(</span>option <span class="op">=</span> <span class="st">"turbo"</span><span class="op">)</span></span></code></pre></div>
 <p><img src="calc_rel_abund_files/figure-html/unnamed-chunk-2-1.png" width="672"></p>
-<p>Subject proportions in most cases are different, which would not be
-captured in a filled barplot.</p>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">rel_abund_pool</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
-<span>    <span class="fu"><a href="../reference/bar_plot.html">bar_plot</a></span><span class="op">(</span>position <span class="op">=</span> <span class="st">"fill"</span>, color <span class="op">=</span> <span class="st">"subject"</span><span class="op">)</span>  <span class="op">+</span> </span>
-<span>    <span class="co"># group samples by body site. free_x removes unwanted white space</span></span>
-<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/facet_wrap.html" class="external-link">facet_wrap</a></span><span class="op">(</span><span class="op">~</span><span class="va">body_site</span>, scales <span class="op">=</span> <span class="st">"free_x"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="calc_rel_abund_files/figure-html/unnamed-chunk-3-1.png" width="672"></p>
-<p>By filling the plot, the relative abundance is being scaled to one,
-within each sample. We can also precompute this in our table:</p>
+<p>Subject proportions on the right palm are vastly different, which
+would not be captured in a filled barplot.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">rel_abund_pool</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
+<span>    <span class="fu"><a href="../reference/bar_plot.html">bar_plot</a></span><span class="op">(</span>position <span class="op">=</span> <span class="st">"fill"</span><span class="op">)</span>  <span class="op">+</span> </span>
+<span>    <span class="co"># group samples by body site. free_x removes unwanted white space</span></span>
+<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/facet_wrap.html" class="external-link">facet_wrap</a></span><span class="op">(</span><span class="op">~</span><span class="va">body_site</span>, scales <span class="op">=</span> <span class="st">"free_x"</span><span class="op">)</span> <span class="op">+</span> </span>
+<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_viridis.html" class="external-link">scale_fill_viridis_d</a></span><span class="op">(</span>option <span class="op">=</span> <span class="st">"turbo"</span><span class="op">)</span> </span></code></pre></div>
+<p><img src="calc_rel_abund_files/figure-html/unnamed-chunk-3-1.png" width="672"></p>
+<p>This is the effect of calculating rel_abund separately so that each
+sample sums to one. We can scale our relative abundances to one within
+<code>bar_plot</code> using the position argument. We can also
+precompute the grouped relative abundances in our table:</p>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/rel_abund_qiime.html">rel_abund_qiime</a></span><span class="op">(</span><span class="va">counts_q</span>, </span>
 <span>                <span class="va">taxa_q</span>,</span>
 <span>                <span class="va">metadata_q</span>,</span>
 <span>                taxa_level <span class="op">=</span> <span class="st">"Genus"</span>,</span>
 <span>                var <span class="op">=</span> <span class="st">"sample_id"</span><span class="op">)</span> <span class="co"># set the grouping variable to sample_id</span></span></code></pre></div>
-<p>Our relative abundances “stack” to one in this scenario. By filling
-the plotting area, we get a better representation of the between-sample
-composition, at the cost of obfuscating the between-sample
-proportions.</p>
+<p>Our relative abundances “stack” to one. By filling the plotting area,
+we get a better representation of the between-sample composition, at the
+cost of obfuscating the between-sample proportions.</p>
 <div class="section level3">
 <h3 id="visualizing-variables">Visualizing variables<a class="anchor" aria-label="anchor" href="#visualizing-variables"></a>
 </h3>
-<p>Bubbler can easily allow you to visualize relative abundances by
-another variable of interest. Imagine you wanted to look at relative
+<p><code>bubbler</code> allows you to focus on any metadata variable in
+your relative abundance table. Say you wanted to look at relative
 abundance across <code>body_site</code>, rather than
 <code>sample_id</code> on the x-axis. This can be done by modifying the
-<code>x_var</code> argument of <code><a href="../reference/bar_plot.html">bubbler::bar_plot</a></code>.</p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code>x_var</code> argument of <code>bar_plot</code>.</p>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/rel_abund_qiime.html">rel_abund_qiime</a></span><span class="op">(</span><span class="va">counts_q</span>,</span>
 <span>                <span class="va">taxa_q</span>,</span>
 <span>                <span class="va">metadata_q</span>,</span>
@@ -136,10 +147,11 @@ abundance across <code>body_site</code>, rather than
 <span>    <span class="fu"><a href="../reference/pool_taxa.html">pool_taxa</a></span><span class="op">(</span>n_taxa <span class="op">=</span> <span class="fl">12</span>,</span>
 <span>              keep_metadata <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
 <span>    <span class="fu"><a href="../reference/arrange_taxa.html">arrange_taxa</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
-<span>    <span class="fu"><a href="../reference/bar_plot.html">bar_plot</a></span><span class="op">(</span>x_var <span class="op">=</span> <span class="st">"body_site"</span><span class="op">)</span></span></code></pre></div>
+<span>    <span class="fu"><a href="../reference/bar_plot.html">bar_plot</a></span><span class="op">(</span>x_var <span class="op">=</span> <span class="st">"body_site"</span><span class="op">)</span> <span class="op">+</span> </span>
+<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_viridis.html" class="external-link">scale_fill_viridis_d</a></span><span class="op">(</span>option <span class="op">=</span> <span class="st">"turbo"</span><span class="op">)</span> </span></code></pre></div>
 <p><img src="calc_rel_abund_files/figure-html/unnamed-chunk-5-1.png" width="672"></p>
 <p>Again, this plot could be scaled in two ways:</p>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># compute in rel_abund</span></span>
 <span><span class="fu"><a href="../reference/rel_abund_qiime.html">rel_abund_qiime</a></span><span class="op">(</span><span class="va">counts_q</span>,</span>
 <span>                <span class="va">taxa_q</span>,</span>
@@ -160,12 +172,97 @@ abundance across <code>body_site</code>, rather than
 <span>              keep_metadata <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
 <span>    <span class="fu"><a href="../reference/arrange_taxa.html">arrange_taxa</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
 <span>    <span class="fu"><a href="../reference/bar_plot.html">bar_plot</a></span><span class="op">(</span>position <span class="op">=</span> <span class="st">"fill"</span>, x_var <span class="op">=</span> <span class="st">"body_site"</span><span class="op">)</span> <span class="co"># setting position as fill</span></span></code></pre></div>
+<p>Whether you choose to scale your plots or leave them as true
+abundance will depend on the purpose of the graphs. There are no
+hard-fast rules and you may run into both situations where you need
+scaled and unscaled relative abundances.</p>
 <p>The grouped relative abundance is calculated as:</p>
 <p><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext mathvariant="normal">Grouped relative abundance</mtext><mo>=</mo><mfrac><msub><mi>x</mi><mi>i</mi></msub><mrow><msubsup><mo>∑</mo><mrow><mi>j</mi><mo>=</mo><mn>1</mn></mrow><mi>k</mi></msubsup><msub><mi>x</mi><mi>j</mi></msub></mrow></mfrac></mrow><annotation encoding="application/x-tex">\text{Grouped relative abundance} = \frac{x_i}{\sum_{j=1}^{k} x_j}</annotation></semantics></math></p>
 <p>Where
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>k</mi><annotation encoding="application/x-tex">k</annotation></semantics></math>
 is the levels of the grouping variable. Within each level of the
 grouping variable, the sum of relative abundance equals one.</p>
+</div>
+<div class="section level3">
+<h3 id="showing-both-scaled-and-unscaled-information-">Showing both scaled and unscaled information.<a class="anchor" aria-label="anchor" href="#showing-both-scaled-and-unscaled-information-"></a>
+</h3>
+<p>If you want the best of both worlds, you can create a scaled
+bargraph, and superimpose the proportional abundances. To do this, we
+create two relative abundance tables. The code becomes a little involved
+because we are also splitting by antibiotic usage.</p>
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># order by sample read abundance, plot as line</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a></span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">counts_q</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>, <span class="st">"qiime"</span>, <span class="st">"table-dada2.qza"</span>, package <span class="op">=</span> <span class="st">"bubbler"</span><span class="op">)</span></span>
+<span><span class="va">taxa_q</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>, <span class="st">"qiime"</span>, <span class="st">"taxonomy.qza"</span>, package <span class="op">=</span> <span class="st">"bubbler"</span><span class="op">)</span></span>
+<span><span class="va">metadata_q</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>, <span class="st">"qiime"</span>, <span class="st">"sample-metadata.tsv"</span>, package <span class="op">=</span> <span class="st">"bubbler"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">q</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/rel_abund_qiime.html">rel_abund_qiime</a></span><span class="op">(</span></span>
+<span>    asv_qiime <span class="op">=</span> <span class="va">counts_q</span>,</span>
+<span>    taxa_qiime <span class="op">=</span> <span class="va">taxa_q</span>,</span>
+<span>    metadata_qiime <span class="op">=</span> <span class="va">metadata_q</span>,</span>
+<span>    taxa_level <span class="op">=</span> <span class="st">"Genus"</span>, <span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> </span>
+<span>    <span class="fu"><a href="../reference/pool_taxa.html">pool_taxa</a></span><span class="op">(</span>n_taxa <span class="op">=</span> <span class="fl">8</span>, keep_metadata <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
+<span>    <span class="fu"><a href="../reference/arrange_taxa.html">arrange_taxa</a></span><span class="op">(</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># only the rows where antibiotic usage is no, same for yes</span></span>
+<span><span class="va">no_unscaled</span> <span class="op">&lt;-</span> <span class="va">q</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
+<span>    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">reported_antibiotic_usage</span> <span class="op">==</span> <span class="st">"No"</span><span class="op">)</span></span>
+<span><span class="va">yes_unscaled</span> <span class="op">&lt;-</span> <span class="va">q</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
+<span>    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">reported_antibiotic_usage</span> <span class="op">==</span> <span class="st">"Yes"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># we need to generate the points by summing across the grouped variable</span></span>
+<span><span class="va">points_no</span> <span class="op">&lt;-</span> <span class="va">no_unscaled</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
+<span>    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html" class="external-link">group_by</a></span><span class="op">(</span><span class="va">body_site</span>, <span class="va">reported_antibiotic_usage</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
+<span>    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html" class="external-link">summarise</a></span><span class="op">(</span>sum <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="va">rel_abund</span><span class="op">)</span>, .groups <span class="op">=</span> <span class="st">"drop"</span> <span class="op">)</span> </span>
+<span></span>
+<span><span class="va">points_yes</span> <span class="op">&lt;-</span> <span class="va">yes_unscaled</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
+<span>    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html" class="external-link">group_by</a></span><span class="op">(</span><span class="va">body_site</span>, <span class="va">reported_antibiotic_usage</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
+<span>    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html" class="external-link">summarise</a></span><span class="op">(</span>sum <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="va">rel_abund</span><span class="op">)</span>, .groups <span class="op">=</span> <span class="st">"drop"</span> <span class="op">)</span> </span>
+<span></span>
+<span><span class="co"># this one is scaled</span></span>
+<span><span class="va">q2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/rel_abund_qiime.html">rel_abund_qiime</a></span><span class="op">(</span></span>
+<span>    asv_qiime <span class="op">=</span> <span class="va">counts_q</span>,</span>
+<span>    taxa_qiime <span class="op">=</span> <span class="va">taxa_q</span>,</span>
+<span>    metadata_qiime <span class="op">=</span> <span class="va">metadata_q</span>,</span>
+<span>    taxa_level <span class="op">=</span> <span class="st">"Genus"</span>,</span>
+<span>    var <span class="op">=</span> <span class="st">"body_site"</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> <span class="co"># grouping variable</span></span>
+<span>    <span class="fu"><a href="../reference/pool_taxa.html">pool_taxa</a></span><span class="op">(</span>n_taxa <span class="op">=</span> <span class="fl">8</span>, keep_metadata <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
+<span>    <span class="fu"><a href="../reference/arrange_taxa.html">arrange_taxa</a></span><span class="op">(</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">colors</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">" "</span> <span class="op">=</span> <span class="st">"black"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">p1</span> <span class="op">&lt;-</span> <span class="va">q2</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
+<span>    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">reported_antibiotic_usage</span> <span class="op">==</span> <span class="st">"No"</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
+<span>    <span class="fu"><a href="../reference/bar_plot.html">bar_plot</a></span><span class="op">(</span>x_var <span class="op">=</span> <span class="st">"body_site"</span>, position <span class="op">=</span> <span class="st">"fill"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>    <span class="co"># ggplot(aes(x = body_site, y = rel_abund, fill = taxon)) +</span></span>
+<span>    <span class="co"># geom_bar(stat = "identity", position = "fill") +</span></span>
+<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html" class="external-link">geom_point</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">points_no</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">body_site</span>, y <span class="op">=</span> <span class="va">sum</span>, color <span class="op">=</span> <span class="st">" "</span><span class="op">)</span>,</span>
+<span>               inherit.aes <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="op">+</span></span>
+<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_path.html" class="external-link">geom_line</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">points_no</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">body_site</span>, y <span class="op">=</span> <span class="va">sum</span>, group <span class="op">=</span> <span class="fl">1</span>, color <span class="op">=</span> <span class="st">" "</span><span class="op">)</span>,</span>
+<span>               inherit.aes <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_manual.html" class="external-link">scale_color_manual</a></span><span class="op">(</span>values <span class="op">=</span> <span class="va">colors</span><span class="op">)</span> <span class="op">+</span></span>
+<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>x <span class="op">=</span> <span class="st">"Body Site"</span>,</span>
+<span>         y <span class="op">=</span> <span class="st">"Mean relative abundance"</span>,</span>
+<span>         color <span class="op">=</span> <span class="st">"X-var relative abundance"</span><span class="op">)</span> <span class="op">+</span> </span>
+<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_viridis.html" class="external-link">scale_fill_viridis_d</a></span><span class="op">(</span>option <span class="op">=</span> <span class="st">"turbo"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">p2</span> <span class="op">&lt;-</span> <span class="va">q2</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
+<span>    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">reported_antibiotic_usage</span> <span class="op">==</span> <span class="st">"Yes"</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
+<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">body_site</span>, y <span class="op">=</span> <span class="va">rel_abund</span>, fill <span class="op">=</span> <span class="va">taxon</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_bar.html" class="external-link">geom_bar</a></span><span class="op">(</span>stat <span class="op">=</span> <span class="st">"identity"</span>, position <span class="op">=</span> <span class="st">"fill"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html" class="external-link">geom_point</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">points_yes</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">body_site</span>, y <span class="op">=</span> <span class="va">sum</span><span class="op">)</span>,</span>
+<span>               inherit.aes <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="op">+</span></span>
+<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_path.html" class="external-link">geom_line</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">points_yes</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">body_site</span>, y <span class="op">=</span> <span class="va">sum</span>, group <span class="op">=</span> <span class="fl">1</span><span class="op">)</span>,</span>
+<span>               inherit.aes <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="op">+</span></span>
+<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>x <span class="op">=</span> <span class="st">"Body Site"</span>,</span>
+<span>         y <span class="op">=</span> <span class="st">"Mean relative abundance"</span> <span class="op">)</span> <span class="op">+</span> </span>
+<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_viridis.html" class="external-link">scale_fill_viridis_d</a></span><span class="op">(</span>option <span class="op">=</span> <span class="st">"turbo"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://patchwork.data-imaginist.com" class="external-link">patchwork</a></span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">p1</span> <span class="op">+</span> <span class="va">p2</span> <span class="op">+</span> <span class="fu"><a href="https://patchwork.data-imaginist.com/reference/plot_layout.html" class="external-link">plot_layout</a></span><span class="op">(</span>guides <span class="op">=</span> <span class="st">"collect"</span>, axes <span class="op">=</span> <span class="st">"collect"</span><span class="op">)</span></span></code></pre></div>
+<p><img src="calc_rel_abund_files/figure-html/unnamed-chunk-7-1.png" width="672"></p>
 </div>
 </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>

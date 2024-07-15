@@ -36,6 +36,7 @@
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
   <ul class="dropdown-menu" aria-labelledby="dropdown-articles">
 <li><a class="dropdown-item" href="articles/calc_rel_abund.html">2. Calculate relative abundance</a></li>
+    <li><a class="dropdown-item" href="articles/cookbook.html">CookBook</a></li>
     <li><a class="dropdown-item" href="articles/data_import.html">1. Data Import</a></li>
     <li><a class="dropdown-item" href="articles/pool_taxa.html">3. Pooling and arranging</a></li>
   </ul>
@@ -57,7 +58,7 @@
 </h1></div>
 <!-- badges: start -->
 <!-- badges: end -->
-<p>Bubbler is a tidy approach to amplicon sequencing visualization. Bubbler makes relative abundance tables from amplicon-sequencing (16S/18S rRNA) datasets. Bubbler combines asv counts, taxonomic information, and optionally, meta data to create stacked barcharts, or bubble plots. Bubbler can import data from <a href="https://github.com/benjjneb/dada2" class="external-link">dada2</a>, <a href="https://github.com/qiime2/qiime2" class="external-link">qiime2</a>, <a href="https://joey711.github.io/phyloseq/" class="external-link">phyloseq</a> and <a href="https://github.com/jenniferlu717/Bracken" class="external-link">Bracken</a> output. Relative abundance tables can be modified, with various methods implemented in bubbler.</p>
+<p>Bubbler is a tidy approach to amplicon sequencing visualization. Bubbler makes relative abundance tables from amplicon-sequencing (16S/18S rRNA) datasets. Bubbler combines asv counts, taxonomic information, and optionally, metadata to create stacked barcharts, or bubble plots. Bubbler can import from <a href="https://github.com/benjjneb/dada2" class="external-link">dada2</a>, <a href="https://github.com/qiime2/qiime2" class="external-link">qiime2</a>, <a href="https://joey711.github.io/phyloseq/" class="external-link">phyloseq</a> and <a href="https://github.com/jenniferlu717/Bracken" class="external-link">Bracken</a> output. Relative abundance tables can be modified, with various methods implemented in bubbler.</p>
 <div class="section level2">
 <h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
 </h2>
@@ -86,7 +87,7 @@
 <span>    <span class="fu"><a href="reference/arrange_taxa.html">arrange_taxa</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span></span>
 <span>    <span class="fu"><a href="reference/arrange_sample_by_taxa.html">arrange_sample_by_taxa</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span></span>
 <span>    <span class="co"># 3. plot</span></span>
-<span>    <span class="fu"><a href="reference/bar_plot.html">bar_plot</a></span><span class="op">(</span>position <span class="op">=</span> <span class="st">"fill"</span><span class="op">)</span></span></code></pre></div>
+<span>    <span class="fu"><a href="reference/bar_plot.html">bar_plot</a></span><span class="op">(</span>position <span class="op">=</span> <span class="st">"fill"</span><span class="op">)</span> </span></code></pre></div>
 <p><img src="reference/figures/README-unnamed-chunk-3-1.png" width="100%"></p>
 <p>The <a href="https://zjardyn.github.io/bubbler/">bubbler documentation</a> has examples for importing data, constructing rel_abund tables, and other aspects of the package.</p>
 <!-- You'll still need to render `README.Rmd` regularly, to keep `README.md` up-to-date. `devtools::build_readme()` is handy for this. -->
