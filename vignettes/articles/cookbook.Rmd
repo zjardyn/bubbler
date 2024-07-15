@@ -1,0 +1,53 @@
+---
+title: "cookbook"
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+## Technique 1: Adding a Bray-Curtis tree to a bar plot
+
+```{r setup}
+library(bubbler)
+library(phyloseq)
+library(tidyverse)
+library(vegan)
+library(ape)
+# library(ggtree) loading ggtree causes namespace issues
+```
+
+
+
+```{r}
+# import from phyloseq
+otufile = system.file("extdata", "GP_otu_table_rand_short.txt.gz", package="phyloseq")
+mapfile = system.file("extdata", "master_map.txt", package="phyloseq")
+trefile = system.file("extdata", "GP_tree_rand_short.newick.gz", package="phyloseq")
+rs_file = system.file("extdata", "qiime500-refseq.fasta", package="phyloseq")
+
+qiimedata = import_qiime(otufile, mapfile, trefile, rs_file)
+
+asv <- data.frame(phyloseq::otu_table(qiimedata))
+asv <- t(asv)
+bc_dist <- vegan::vegdist(asv, method = "bray")
+hc <- hclust(bc_dist, method = "average")
+
+
+phylo_tree <- as.phylo(hc)
+
+# Use ggtree to get the tip order
+ggtree_plot <- ggtree::ggtree(phylo_tree)
+
+
+tip_order <- ggtree_plot$data %>%
+    filter(isTip == TRUE) %>%
+    arrange(y) %>%
+    select(label) %>%
+    rev() %>%
+    pull()
+```
+

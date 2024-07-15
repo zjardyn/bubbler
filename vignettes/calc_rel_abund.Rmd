@@ -21,19 +21,21 @@ library(bubbler)
 ```
 # Relative abundance
  
-For a given group of samples, relative abundance is calculated as:
+For a given set of samples, relative abundance is calculated as:
 
 
 $\text{Relative abundance} = \frac{x_i}{\sum x}$
 
 
-Where $x_i$ is the count of a given asv, divided by the sum of all asv counts, across all samples. This way, the sum of all relative abundances equal one. 
+Where $x_i$ is the count of a given asv, divided by the sum of all asv counts. This way, the sum of all relative abundances equal one. 
 
 
 It is useful to visualize your data in this form to see the proportional counts between samples. 
 
 
-```{r load_qiime, echo=FALSE}
+```{r load_qiime, message=FALSE, warning=FALSE }
+library(ggplot2)
+library(viridis)
 # path to qiime-formatted asv counts 
 counts_q <- system.file("extdata", "qiime", "table-dada2.qza", package = "bubbler")
 
@@ -42,6 +44,7 @@ taxa_q <- system.file("extdata", "qiime", "taxonomy.qza", package = "bubbler")
 
 # path to qiime-formatted metadata
 metadata_q <- system.file("extdata", "qiime", "sample-metadata.tsv", package = "bubbler")
+
 ```
 
 ```{r fig.height= 6 }
@@ -56,29 +59,28 @@ rel_abund_pool <- rel_abund %>%
     # pool taxa so that only the 12 most abundant taxa are displayed 
     pool_taxa(n_taxa = 12, keep_metadata = TRUE) 
 
-library(ggplot2)
-
 # 3. plot rel_abund
 rel_abund_pool %>%
-    bar_plot(color = "subject")  + 
+    bar_plot()  + 
     # group samples by body site. free_x removes unwanted white space
-    facet_wrap(~body_site, scales = "free_x" ) 
+    facet_wrap(~body_site, scales = "free_x" ) +
+    scale_fill_viridis_d(option = "turbo")
 
 ```
 
 
-Subject proportions in most cases are different, which would not be captured in a filled barplot. 
+Subject proportions on the right palm are vastly different, which would not be captured in a filled barplot. 
 
 
 ```{r}
 rel_abund_pool %>%
-    bar_plot(position = "fill", color = "subject")  + 
+    bar_plot(position = "fill")  + 
     # group samples by body site. free_x removes unwanted white space
-    facet_wrap(~body_site, scales = "free_x")
+    facet_wrap(~body_site, scales = "free_x") + 
+    scale_fill_viridis_d(option = "turbo") 
 ```
 
-
-By filling the plot, the relative abundance is being scaled to one, within each sample. We can also precompute this in our table:
+This is the effect of calculating rel_abund separately so that each sample sums to one. We can scale our relative abundances to one within `bar_plot` using the position argument. We can also precompute the grouped relative abundances in our table:
 
 
 ```{r, eval=FALSE}
@@ -90,11 +92,11 @@ rel_abund_qiime(counts_q,
 ```
 
 
-Our relative abundances "stack" to one in this scenario. By filling the plotting area, we get a better representation of the between-sample composition, at the cost of obfuscating the between-sample proportions.
+Our relative abundances "stack" to one. By filling the plotting area, we get a better representation of the between-sample composition, at the cost of obfuscating the between-sample proportions. 
 
 ## Visualizing variables 
 
-Bubbler can easily allow you to visualize relative abundances by another variable of interest. Imagine you wanted to look at relative abundance across `body_site`, rather than `sample_id` on the x-axis. This can be done by modifying the `x_var` argument of `bubbler::bar_plot`.
+`bubbler`  allows you to focus on any metadata variable in your relative abundance table. Say you wanted to look at relative abundance across `body_site`, rather than `sample_id` on the x-axis. This can be done by modifying the `x_var` argument of `bar_plot`.
 
 
 ```{r}
@@ -105,7 +107,8 @@ rel_abund_qiime(counts_q,
     pool_taxa(n_taxa = 12,
               keep_metadata = TRUE) %>%
     arrange_taxa() %>%
-    bar_plot(x_var = "body_site")
+    bar_plot(x_var = "body_site") + 
+    scale_fill_viridis_d(option = "turbo") 
 ```
 
 
@@ -135,7 +138,7 @@ rel_abund_qiime(counts_q,
     bar_plot(position = "fill", x_var = "body_site") # setting position as fill
 
 ```
-
+Whether you choose to scale your plots or leave them as true abundance will depend on the purpose of the graphs. There are no hard-fast rules and you may run into both situations where you need scaled and unscaled relative abundances. 
 
 The grouped relative abundance is calculated as: 
 

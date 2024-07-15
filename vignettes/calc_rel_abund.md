@@ -19,7 +19,7 @@ By default, bubbler will calculate relative abundance across all samples, where 
 
 $\text{Relative Abundance} = \frac{1}{N} \sum_{i=1}^{N} \frac{n_i}{N}$
 
-It is often useful to visualize your data in this form, as to see the proportional counts between samples.  Consider the following plot: 
+It is often useful to visualize your data in this proportional form, as to see the differences between samples.  Consider the following plot, where right palm data is 
 
 
 

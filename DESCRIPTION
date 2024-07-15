@@ -32,6 +32,9 @@ Imports:
     rhdf5
 Config/testthat/edition: 3
 Suggests: 
+    ggtree,
+    ape,
+    vegan, 
     ggnewscale,
     phyloseq,
     ggtree,
