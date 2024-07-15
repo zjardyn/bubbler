@@ -66,21 +66,26 @@
 
     
     
-<div class="section level2">
-<h2 id="technique-1-adding-a-bray-curtis-tree-to-a-bar-plot">Technique 1: Adding a bray-curtis tree to a bar plot<a class="anchor" aria-label="anchor" href="#technique-1-adding-a-bray-curtis-tree-to-a-bar-plot"></a>
-</h2>
+<p>These are rough implementations of future features. They are intended
+to extend <code>bubblers</code> base functionality using various
+packages. If you want to help implement these I will accept PRs.</p>
+<div class="section level3">
+<h3 id="technique-1-adding-a-bray-curtis-tree-to-a-bar-plot">Technique 1: Adding a bray-curtis tree to a bar plot<a class="anchor" aria-label="anchor" href="#technique-1-adding-a-bray-curtis-tree-to-a-bar-plot"></a>
+</h3>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://zjardyn.github.io/bubbler/">bubbler</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="http://dx.plos.org/10.1371/journal.pone.0061217" class="external-link">phyloseq</a></span><span class="op">)</span></span>
 <span><span class="co"># library(tidyverse)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://tibble.tidyverse.org/" class="external-link">tibble</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyr.tidyverse.org" class="external-link">tidyr</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org" class="external-link">ggplot2</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/vegandevs/vegan" class="external-link">vegan</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/emmanuelparadis/ape" class="external-link">ape</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://patchwork.data-imaginist.com" class="external-link">patchwork</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://sjmgarnier.github.io/viridis/" class="external-link">viridis</a></span><span class="op">)</span></span>
-<span><span class="co"># library(ggtree) loading ggtree causes namespace issues</span></span></code></pre></div>
+<span><span class="co"># library(ggtree) loading ggtree causes namespace issues</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://eliocamp.github.io/ggnewscale/" class="external-link">ggnewscale</a></span><span class="op">)</span></span></code></pre></div>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># otufile = system.file("extdata", "gp_otu_table_rand_short.txt.gz", package="phyloseq")</span></span>
 <span><span class="co"># mapfile = system.file("extdata", "master_map.txt", package="phyloseq")</span></span>
@@ -137,7 +142,149 @@
 <span><span class="va">p1</span> <span class="op">|</span> <span class="va">p2</span></span></code></pre></div>
 <p><img src="cookbook_files/figure-html/unnamed-chunk-2-1.png" width="700"></p>
 </div>
-  </main>
+<div class="section level2">
+<h2 id="technique-2-nested-legend-and-colourscheme-within-taxa">Technique 2: Nested legend and colourscheme within taxa<a class="anchor" aria-label="anchor" href="#technique-2-nested-legend-and-colourscheme-within-taxa"></a>
+</h2>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span></span>
+<span><span class="co"># Function to display a vector of colors with 10 colors per row using ggplot2</span></span>
+<span><span class="va">display_colors_ggplot</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">color_vector</span>, <span class="va">colors_per_row</span> <span class="op">=</span> <span class="fl">10</span><span class="op">)</span> <span class="op">{</span></span>
+<span>    <span class="va">n</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">color_vector</span><span class="op">)</span></span>
+<span>    <span class="va">rows</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">ceiling</a></span><span class="op">(</span><span class="va">n</span> <span class="op">/</span> <span class="va">colors_per_row</span><span class="op">)</span></span>
+<span>    <span class="va">data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span></span>
+<span>        x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="va">colors_per_row</span>, length.out <span class="op">=</span> <span class="va">n</span><span class="op">)</span>,</span>
+<span>        y <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="va">rows</span>, each <span class="op">=</span> <span class="va">colors_per_row</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="va">n</span><span class="op">]</span>,</span>
+<span>        color <span class="op">=</span> <span class="va">color_vector</span></span>
+<span>    <span class="op">)</span></span>
+<span></span>
+<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">data</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">factor</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span>, y <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">factor</a></span><span class="op">(</span><span class="va">y</span><span class="op">)</span>, fill <span class="op">=</span> <span class="va">color</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>        <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_tile.html" class="external-link">geom_tile</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>        <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_identity.html" class="external-link">scale_fill_identity</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>        <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html" class="external-link">theme_void</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>        <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html" class="external-link">theme</a></span><span class="op">(</span></span>
+<span>            axis.text.x <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">element_blank</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>            axis.text.y <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">element_blank</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>            axis.ticks <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">element_blank</a></span><span class="op">(</span><span class="op">)</span></span>
+<span>        <span class="op">)</span></span>
+<span>        <span class="co"># geom_text(aes(label = color), angle = 90, hjust = 1, vjust = 0.5, size = 3)</span></span>
+<span><span class="op">}</span></span>
+<span></span>
+<span><span class="co">###~%~ trying to get a nested colour scheme for phylum ~%~###</span></span>
+<span></span>
+<span><span class="va">taxa_qiime</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>, <span class="st">"qiime"</span>, <span class="st">"taxonomy.qza"</span>, package <span class="op">=</span> <span class="st">"bubbler"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">tx</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/taxa_data_qiime.html">taxa_data_qiime</a></span><span class="op">(</span><span class="va">taxa_qiime</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">asv_qiime</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>, <span class="st">"qiime"</span>, <span class="st">"table-dada2.qza"</span>, package <span class="op">=</span> <span class="st">"bubbler"</span><span class="op">)</span></span>
+<span><span class="va">taxa_qiime</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>, <span class="st">"qiime"</span>, <span class="st">"taxonomy.qza"</span>, package <span class="op">=</span> <span class="st">"bubbler"</span><span class="op">)</span></span>
+<span><span class="va">metadata_qiime</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>, <span class="st">"qiime"</span>, <span class="st">"sample-metadata.tsv"</span>, package <span class="op">=</span> <span class="st">"bubbler"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># generate rel_abund</span></span>
+<span><span class="va">q</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/rel_abund_qiime.html">rel_abund_qiime</a></span><span class="op">(</span></span>
+<span>    asv_qiime <span class="op">=</span> <span class="va">asv_qiime</span>,</span>
+<span>    taxa_qiime <span class="op">=</span> <span class="va">taxa_qiime</span>,</span>
+<span>    metadata_qiime <span class="op">=</span> <span class="va">metadata_qiime</span>,</span>
+<span>    taxa_level <span class="op">=</span> <span class="st">"Genus"</span>, <span class="op">)</span></span>
+<span></span>
+<span><span class="co"># pool taxa, rename taxon to Genus (its true level) and select it.</span></span>
+<span><span class="va">qp</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/pool_taxa.html">pool_taxa</a></span><span class="op">(</span><span class="va">q</span>, <span class="fl">0.0035</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">taxa_pooled</span> <span class="op">&lt;-</span> <span class="va">qp</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
+<span>    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/rename.html" class="external-link">rename</a></span><span class="op">(</span>Genus <span class="op">=</span> <span class="st">"taxon"</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
+<span>    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">Genus</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
+<span>    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/distinct.html" class="external-link">distinct</a></span><span class="op">(</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># merge the filtered</span></span>
+<span><span class="va">taxa_full</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate-joins.html" class="external-link">inner_join</a></span><span class="op">(</span><span class="va">tx</span>, <span class="va">taxa_pooled</span>, by <span class="op">=</span> <span class="st">"Genus"</span> <span class="op">)</span></span>
+<span></span>
+<span><span class="va">phylum_genus</span> <span class="op">&lt;-</span> <span class="va">taxa_full</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
+<span>    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">Phylum</span>, <span class="va">Genus</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
+<span>    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/arrange.html" class="external-link">arrange</a></span><span class="op">(</span><span class="va">Phylum</span>, <span class="va">Genus</span> <span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
+<span>    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/distinct.html" class="external-link">distinct</a></span><span class="op">(</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">pg_nest</span> <span class="op">&lt;-</span> <span class="va">phylum_genus</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
+<span>    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html" class="external-link">group_by</a></span><span class="op">(</span><span class="va">Phylum</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
+<span>    <span class="fu"><a href="https://tidyr.tidyverse.org/reference/nest.html" class="external-link">nest</a></span><span class="op">(</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">base_colours</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://sjmgarnier.github.io/viridisLite/reference/viridis.html" class="external-link">turbo</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">pg_nest</span><span class="op">)</span>, begin <span class="op">=</span> <span class="fl">0.2</span>, end <span class="op">=</span> <span class="fl">0.8</span><span class="op">)</span></span>
+<span><span class="co"># cutoff &lt;- ceiling(n_rows * 0.7)</span></span>
+<span><span class="fl">2</span> <span class="op">*</span> <span class="fl">0.8</span></span>
+<span><span class="co">#&gt; [1] 1.6</span></span>
+<span></span>
+<span><span class="co"># taxon is Genus actually.</span></span>
+<span><span class="va">tb</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble</a></span><span class="op">(</span>taxon <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/character.html" class="external-link">character</a></span><span class="op">(</span><span class="op">)</span>, color <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/character.html" class="external-link">character</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="kw">for</span><span class="op">(</span><span class="va">i</span> <span class="kw">in</span> <span class="fl">1</span><span class="op">:</span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">pg_nest</span><span class="op">)</span><span class="op">)</span><span class="op">{</span></span>
+<span>    <span class="va">phylum</span> <span class="op">&lt;-</span> <span class="va">pg_nest</span><span class="op">$</span><span class="va">Phylum</span><span class="op">[</span><span class="va">i</span><span class="op">]</span></span>
+<span>    <span class="va">genera</span> <span class="op">&lt;-</span> <span class="va">pg_nest</span><span class="op">$</span><span class="va">data</span><span class="op">[[</span><span class="va">i</span><span class="op">]</span><span class="op">]</span></span>
+<span></span>
+<span>    <span class="va">phylum_shades_pal</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/grDevices/colorRamp.html" class="external-link">colorRampPalette</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">base_colours</span><span class="op">[</span><span class="va">i</span><span class="op">]</span>, <span class="st">"black"</span><span class="op">)</span><span class="op">)</span></span>
+<span>    <span class="va">cutoff</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">ceiling</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">genera</span><span class="op">)</span> <span class="op">*</span> <span class="fl">0.5</span><span class="op">)</span></span>
+<span>    <span class="va">phylum_shades</span> <span class="op">&lt;-</span> <span class="fu">phylum_shades_pal</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">genera</span><span class="op">)</span> <span class="op">+</span> <span class="va">cutoff</span><span class="op">)</span></span>
+<span>    <span class="va">phylum_shades</span> <span class="op">&lt;-</span> <span class="va">phylum_shades</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">phylum_shades</span><span class="op">)</span> <span class="op">-</span> <span class="va">cutoff</span><span class="op">)</span><span class="op">]</span></span>
+<span></span>
+<span>    <span class="va">pgc</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble</a></span><span class="op">(</span>taxon <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/pull.html" class="external-link">pull</a></span><span class="op">(</span><span class="va">genera</span><span class="op">)</span>,</span>
+<span>                 color <span class="op">=</span> <span class="va">phylum_shades</span><span class="op">)</span></span>
+<span></span>
+<span>    <span class="va">tb</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/bind_rows.html" class="external-link">bind_rows</a></span><span class="op">(</span><span class="va">tb</span>, <span class="va">pgc</span><span class="op">)</span></span>
+<span><span class="op">}</span></span>
+<span></span>
+<span><span class="va">qpc</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate-joins.html" class="external-link">left_join</a></span><span class="op">(</span><span class="va">qp</span>, <span class="va">tb</span>, by <span class="op">=</span> <span class="st">"taxon"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">idx</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/grep.html" class="external-link">grepl</a></span><span class="op">(</span><span class="st">"^&lt;"</span>, <span class="va">qpc</span><span class="op">$</span><span class="va">taxon</span><span class="op">)</span></span>
+<span><span class="va">qpc</span><span class="op">[</span><span class="va">idx</span>,<span class="st">"color"</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="st">"#999999"</span></span>
+<span></span>
+<span><span class="va">qpc</span><span class="op">[</span><span class="va">qpc</span><span class="op">[[</span><span class="st">"taxon"</span><span class="op">]</span><span class="op">]</span> <span class="op">==</span> <span class="st">"Unclassified"</span>, <span class="st">"color"</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="st">"#555555"</span></span>
+<span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">qpc</span><span class="op">$</span><span class="va">color</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="va">qpc</span><span class="op">$</span><span class="va">taxon</span></span>
+<span></span>
+<span><span class="co"># colours are now set, now time to group by phylum for plotting!</span></span>
+<span></span>
+<span><span class="va">cols</span> <span class="op">&lt;-</span> <span class="va">qpc</span><span class="op">$</span><span class="va">color</span></span>
+<span></span>
+<span><span class="va">tx2</span> <span class="op">&lt;-</span> <span class="va">tx</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
+<span>    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">Genus</span>, <span class="va">Phylum</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
+<span>    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/rename.html" class="external-link">rename</a></span><span class="op">(</span>taxon <span class="op">=</span> <span class="st">"Genus"</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
+<span>    <span class="fu"><a href="https://rdrr.io/r/stats/na.fail.html" class="external-link">na.omit</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
+<span>    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/distinct.html" class="external-link">distinct</a></span><span class="op">(</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">qpc2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate-joins.html" class="external-link">left_join</a></span><span class="op">(</span><span class="va">qpc</span>, <span class="va">tx2</span>, by <span class="op">=</span> <span class="st">"taxon"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">idx</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/grep.html" class="external-link">grepl</a></span><span class="op">(</span><span class="st">"^&lt;"</span>, <span class="va">qpc2</span><span class="op">$</span><span class="va">taxon</span><span class="op">)</span></span>
+<span><span class="va">qpc2</span><span class="op">[</span><span class="va">idx</span>,<span class="st">"Phylum"</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="st">"Other"</span></span>
+<span></span>
+<span><span class="va">qpc2</span><span class="op">[</span><span class="va">qpc2</span><span class="op">[[</span><span class="st">"taxon"</span><span class="op">]</span><span class="op">]</span> <span class="op">==</span> <span class="st">"Unclassified"</span>, <span class="st">"Phylum"</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="st">"Other"</span></span>
+<span></span>
+<span><span class="va">groups</span> <span class="op">&lt;-</span> <span class="va">qpc2</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
+<span>    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/distinct.html" class="external-link">distinct</a></span><span class="op">(</span><span class="va">Phylum</span>, <span class="va">taxon</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
+<span>    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>order <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/numeric.html" class="external-link">as.numeric</a></span><span class="op">(</span><span class="fu">forcats</span><span class="fu">::</span><span class="fu"><a href="https://forcats.tidyverse.org/reference/fct_inorder.html" class="external-link">fct_inorder</a></span><span class="op">(</span><span class="va">Phylum</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
+<span>    <span class="fu"><a href="https://rdrr.io/r/base/split.html" class="external-link">split</a></span><span class="op">(</span><span class="va">.</span><span class="op">$</span><span class="va">Phylum</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">qpc</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
+<span>    <span class="fu"><a href="../reference/arrange_taxa.html">arrange_taxa</a></span><span class="op">(</span>pooled <span class="op">=</span> <span class="st">"top"</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
+<span>    <span class="fu"><a href="../reference/arrange_sample_by_taxa.html">arrange_sample_by_taxa</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
+<span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>    <span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">lapply</a></span><span class="op">(</span><span class="va">groups</span>, <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">{</span></span>
+<span>        <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span>
+<span>            <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_bar.html" class="external-link">geom_col</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">sample_id</span>, y <span class="op">=</span> <span class="va">rel_abund</span>, fill <span class="op">=</span> <span class="va">taxon</span><span class="op">)</span>, position <span class="op">=</span> <span class="st">"fill"</span><span class="op">)</span>,</span>
+<span>            <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_manual.html" class="external-link">scale_fill_manual</a></span><span class="op">(</span>name <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/unique.html" class="external-link">unique</a></span><span class="op">(</span><span class="va">x</span><span class="op">$</span><span class="va">Phylum</span><span class="op">)</span>,</span>
+<span>                              values <span class="op">=</span> <span class="va">cols</span>, limits <span class="op">=</span> <span class="va">x</span><span class="op">$</span><span class="va">taxon</span>, na.value <span class="op">=</span> <span class="st">"transparent"</span>,</span>
+<span>                              guide <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/guide_legend.html" class="external-link">guide_legend</a></span><span class="op">(</span>order <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/unique.html" class="external-link">unique</a></span><span class="op">(</span><span class="va">x</span><span class="op">$</span><span class="va">order</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>            <span class="fu"><a href="https://eliocamp.github.io/ggnewscale/reference/new_scale.html" class="external-link">new_scale_fill</a></span><span class="op">(</span><span class="op">)</span></span>
+<span></span>
+<span>        <span class="op">)</span></span>
+<span>    <span class="op">}</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/guides.html" class="external-link">guides</a></span><span class="op">(</span>fill<span class="op">=</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/guide_legend.html" class="external-link">guide_legend</a></span><span class="op">(</span>ncol<span class="op">=</span><span class="fl">3</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html" class="external-link">theme</a></span><span class="op">(</span></span>
+<span>        <span class="co"># legend.position = "bottom"</span></span>
+<span>         plot.margin<span class="op">=</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">margin</a></span><span class="op">(</span>t<span class="op">=</span><span class="fl">30</span><span class="op">)</span>,</span>
+<span>         legend.key.size <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/grid/unit.html" class="external-link">unit</a></span><span class="op">(</span><span class="fl">10</span>, <span class="st">"pt"</span><span class="op">)</span>,</span>
+<span>         <span class="co"># legend.position = "bottom"</span></span>
+<span>         <span class="co"># legend.box = "vertical"</span></span>
+<span>        <span class="op">)</span></span></code></pre></div>
+<p><img src="cookbook_files/figure-html/unnamed-chunk-3-1.png" width="700"></p>
+</div>
+  </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
+    </nav></aside>
 </div>
 
 
