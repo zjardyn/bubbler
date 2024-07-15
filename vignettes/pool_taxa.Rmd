@@ -20,6 +20,7 @@ knitr::opts_chunk$set(
 ```{r setup, message=FALSE, warning=FALSE}
 library(bubbler)
 library(dplyr)
+library(ggplot2)
 ```
 
 ```{r load_qiime, echo=FALSE}
@@ -52,7 +53,8 @@ threshold is determined automatically.
 ```{r}
 rel_abund %>%
     pool_taxa(n_taxa = 12) %>% # threshold set to 0.0038
-    bar_plot(position = "fill")
+    bar_plot(position = "fill") + 
+    scale_fill_viridis_d(option = "turbo")
 ```
 
 
@@ -62,7 +64,8 @@ Pooling, by default will remove any meta data that was attached to the relative 
 rel_abund %>% 
     pool_taxa(n_taxa = 16,
               keep_metadata = TRUE) %>%
-    bar_plot(position = "fill", x_var = "body_site")
+    bar_plot(position = "fill", x_var = "body_site") + 
+   scale_fill_viridis_d(option = "turbo")
     
 ```
 
@@ -79,7 +82,8 @@ rel_abund %>%
     pool_taxa(n_taxa = 8,
               keep_metadata = TRUE) %>%
     arrange_taxa(pooled = "top", order = "bottom") %>% # arrange by abundance
-    bar_plot(position = "fill", x_var = "body_site")
+    bar_plot(position = "fill", x_var = "body_site") +  
+       scale_fill_viridis_d(option = "turbo")
 ```
 
 
@@ -94,7 +98,8 @@ rel_abund %>%
               keep_metadata = TRUE) %>%
     arrange_taxa(pooled = "top", order = "bottom") %>% # arrange by abundance
     arrange_variable(variable = "sample_id", levels = "body_site") %>%
-    bar_plot(position = "fill")
+    bar_plot(position = "fill") + 
+        scale_fill_viridis_d(option = "turbo")
 ```
 
 
@@ -107,7 +112,8 @@ rel_abund %>%
     pool_taxa(n_taxa = 16) %>%
     arrange_taxa() %>% 
     arrange_sample_by_taxa() %>%
-    bar_plot(position = "fill")
+    bar_plot(position = "fill") + 
+    scale_fill_viridis_d(option = "turbo")
 ```
 
 <!-- TODO: variable by abundance  -->
