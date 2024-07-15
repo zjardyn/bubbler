@@ -153,9 +153,9 @@ variable, the sum of relative abundance equals one.
 If you want the best of both worlds, you can create a scaled bargraph, and superimpose the proportional abundances. To do this, we create two relative abundance tables. The code becomes a little involved because we are also splitting by antibiotic usage.  
 
 ```{r, message=FALSE, warning=FALSE}
+# order by sample read abundance, plot as line
 library(dplyr)
 
-# order by sample read abundance, plot as line
 counts_q <- system.file("extdata", "qiime", "table-dada2.qza", package = "bubbler")
 taxa_q <- system.file("extdata", "qiime", "taxonomy.qza", package = "bubbler")
 metadata_q <- system.file("extdata", "qiime", "sample-metadata.tsv", package = "bubbler")
@@ -168,36 +168,32 @@ q <- rel_abund_qiime(
     pool_taxa(n_taxa = 8, keep_metadata = TRUE) %>%
     arrange_taxa()
 
-
+# only the rows where antibiotic usage is no, same for yes
 no_unscaled <- q %>%
     filter(reported_antibiotic_usage == "No")
-
 yes_unscaled <- q %>%
     filter(reported_antibiotic_usage == "Yes")
 
-points <- q %>%
+# we need to generate the points by summing across the grouped variable
+points_no <- no_unscaled %>%
     group_by(body_site, reported_antibiotic_usage) %>%
     summarise(sum = sum(rel_abund), .groups = "drop" ) 
 
-points_no <- points %>%
-    filter(reported_antibiotic_usage == "No")
+points_yes <- yes_unscaled %>%
+    group_by(body_site, reported_antibiotic_usage) %>%
+    summarise(sum = sum(rel_abund), .groups = "drop" ) 
 
-points_yes <- points %>%
-    filter(reported_antibiotic_usage == "Yes")
-
+# this one is scaled
 q2 <- rel_abund_qiime(
     asv_qiime = counts_q,
     taxa_qiime = taxa_q,
     metadata_qiime = metadata_q,
     taxa_level = "Genus",
-    var = "sample_id") %>% 
+    var = "sample_id") %>% # grouping variable
     pool_taxa(n_taxa = 8, keep_metadata = TRUE) %>%
     arrange_taxa()
 
-# q2 %>%
-#     ggplot(aes(x = body_site, y = rel_abund, fill = taxon)) +
-#     geom_bar(stat = "identity", position = "fill") +
-#     facet_wrap(~reported_antibiotic_usage)
+
 
 colors <- c(" " = "black")
 

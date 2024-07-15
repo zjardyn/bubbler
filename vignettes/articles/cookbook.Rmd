@@ -16,6 +16,7 @@ library(bubbler)
 library(phyloseq)
 # library(tidyverse)
 library(dplyr)
+library(tibble)
 library(ggplot2)
 library(vegan)
 library(ape)
@@ -26,15 +27,25 @@ library(viridis)
 
 
 ```{r, message= FALSE, warning=FALSE}
-otufile = system.file("extdata", "gp_otu_table_rand_short.txt.gz", package="phyloseq")
-mapfile = system.file("extdata", "master_map.txt", package="phyloseq")
-trefile = system.file("extdata", "gp_tree_rand_short.newick.gz", package="phyloseq")
-rs_file = system.file("extdata", "qiime500-refseq.fasta", package="phyloseq")
-qiimedata = import_qiime(otufile, mapfile, trefile, rs_file, verbose = FALSE)
+# otufile = system.file("extdata", "gp_otu_table_rand_short.txt.gz", package="phyloseq")
+# mapfile = system.file("extdata", "master_map.txt", package="phyloseq")
+# trefile = system.file("extdata", "gp_tree_rand_short.newick.gz", package="phyloseq")
+# rs_file = system.file("extdata", "qiime500-refseq.fasta", package="phyloseq")
+# qiimedata = import_qiime(otufile, mapfile, trefile, rs_file, verbose = FALSE)
+
+counts_q <- system.file("extdata", "qiime", "table-dada2.qza", package = "bubbler")
+taxa_q <- system.file("extdata", "qiime", "taxonomy.qza", package = "bubbler")
+metadata_q <- system.file("extdata", "qiime", "sample-metadata.tsv", package = "bubbler")
 
 # Import the data compute bray-curtis dissimilarity matrix and cluster
-asv <- data.frame(phyloseq::otu_table(qiimedata))
-asv <- t(asv)
+# asv <- data.frame(phyloseq::otu_table(qiimedata))
+asv <- asv_data_qiime(counts_q)
+
+asv <- asv %>%
+    as.data.frame() %>%
+    column_to_rownames(var = "sample_id") %>%
+    as.matrix()
+
 bc_dist <- vegan::vegdist(asv, method = "bray")
 hc <- hclust(bc_dist, method = "average")
 
