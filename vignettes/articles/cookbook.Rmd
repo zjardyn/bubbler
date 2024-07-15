@@ -1,5 +1,5 @@
 ---
-title: "cookbook"
+title: "CookBook"
 ---
 
 ```{r, include = FALSE}
@@ -9,45 +9,62 @@ knitr::opts_chunk$set(
 )
 ```
 
-## Technique 1: Adding a Bray-Curtis tree to a bar plot
+## Technique 1: Adding a bray-curtis tree to a bar plot
 
-```{r setup}
+```{r setup, message=FALSE, warning=FALSE}
 library(bubbler)
 library(phyloseq)
 library(tidyverse)
 library(vegan)
 library(ape)
+library(patchwork)
+library(viridis)
 # library(ggtree) loading ggtree causes namespace issues
 ```
 
 
-
-```{r}
-# import from phyloseq
-otufile = system.file("extdata", "GP_otu_table_rand_short.txt.gz", package="phyloseq")
+```{r, message= FALSE, warning=FALSE}
+otufile = system.file("extdata", "gp_otu_table_rand_short.txt.gz", package="phyloseq")
 mapfile = system.file("extdata", "master_map.txt", package="phyloseq")
-trefile = system.file("extdata", "GP_tree_rand_short.newick.gz", package="phyloseq")
+trefile = system.file("extdata", "gp_tree_rand_short.newick.gz", package="phyloseq")
 rs_file = system.file("extdata", "qiime500-refseq.fasta", package="phyloseq")
+qiimedata = import_qiime(otufile, mapfile, trefile, rs_file, verbose = FALSE)
 
-qiimedata = import_qiime(otufile, mapfile, trefile, rs_file)
-
+# Import the data compute bray-curtis dissimilarity matrix and cluster
 asv <- data.frame(phyloseq::otu_table(qiimedata))
 asv <- t(asv)
 bc_dist <- vegan::vegdist(asv, method = "bray")
 hc <- hclust(bc_dist, method = "average")
 
-
+# Have to convert from a phylo to a ggtree object to get at the tip order. 
 phylo_tree <- as.phylo(hc)
-
-# Use ggtree to get the tip order
 ggtree_plot <- ggtree::ggtree(phylo_tree)
 
-
+# Get the tip order.
 tip_order <- ggtree_plot$data %>%
     filter(isTip == TRUE) %>%
     arrange(y) %>%
     select(label) %>%
     rev() %>%
     pull()
-```
 
+# Make the tree
+p1 <- ggtree::ggtree(phylo_tree) +
+    theme(plot.margin = margin(0, -5, 0, 0))
+
+# Make the relative abundance table and the sideways barplot.
+q <- rel_abund_phy(qiimedata, taxa_data = TRUE, taxa_level = "Phylum") %>%
+    pool_taxa(n_taxa = 12)
+
+p2 <- q %>%
+    arrange_variable(levels = tip_order) %>%
+    bar_plot(position = "fill") +
+    labs(x = NULL) +
+    scale_x_discrete(position = "top") +
+    scale_y_continuous(expand = c(0,0)) +
+    coord_flip() +
+    theme(plot.margin = margin(0, 0, 0, 5)) + 
+    scale_fill_viridis_d(option = "turbo")
+
+p1 | p2
+```
