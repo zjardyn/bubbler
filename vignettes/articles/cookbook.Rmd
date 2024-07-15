@@ -66,12 +66,12 @@ p1 <- ggtree::ggtree(phylo_tree) +
     theme(plot.margin = margin(0, -5, 0, 0))
 
 # Make the relative abundance table and the sideways barplot.
-q <- rel_abund_phy(qiimedata, taxa_data = TRUE, taxa_level = "Phylum") %>%
-    pool_taxa(n_taxa = 12)
+q <- rel_abund_qiime(counts_q, taxa_q, metadata_q) %>%
+    pool_taxa(n_taxa = 12, keep_metadata = TRUE)
 
 p2 <- q %>%
     arrange_variable(levels = tip_order) %>%
-    bar_plot(position = "fill") +
+    bar_plot(position = "fill", color = "body_site") +
     labs(x = NULL) +
     scale_x_discrete(position = "top") +
     scale_y_continuous(expand = c(0,0)) +

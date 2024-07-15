@@ -189,17 +189,17 @@ q2 <- rel_abund_qiime(
     taxa_qiime = taxa_q,
     metadata_qiime = metadata_q,
     taxa_level = "Genus",
-    var = "sample_id") %>% # grouping variable
+    var = "body_site") %>% # grouping variable
     pool_taxa(n_taxa = 8, keep_metadata = TRUE) %>%
     arrange_taxa()
 
-
-
 colors <- c(" " = "black")
 
-p1 <- no_unscaled %>%
-    ggplot(aes(x = body_site, y = rel_abund, fill = taxon)) +
-    geom_bar(stat = "identity", position = "fill") +
+p1 <- q2 %>%
+    filter(reported_antibiotic_usage == "No") %>%
+    bar_plot(x_var = "body_site", position = "fill") +
+    # ggplot(aes(x = body_site, y = rel_abund, fill = taxon)) +
+    # geom_bar(stat = "identity", position = "fill") +
     geom_point(data = points_no, aes(x = body_site, y = sum, color = " "),
                inherit.aes = FALSE) +
     geom_line(data = points_no, aes(x = body_site, y = sum, group = 1, color = " "),
@@ -209,7 +209,8 @@ p1 <- no_unscaled %>%
          color = "X-var relative abundance") + 
     scale_fill_viridis_d(option = "turbo")
 
-p2 <- yes_unscaled %>%
+p2 <- q2 %>%
+    filter(reported_antibiotic_usage == "Yes") %>%
     ggplot(aes(x = body_site, y = rel_abund, fill = taxon)) +
     geom_bar(stat = "identity", position = "fill") +
     geom_point(data = points_yes, aes(x = body_site, y = sum),
