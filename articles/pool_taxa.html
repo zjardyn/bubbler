@@ -71,7 +71,8 @@
 </h2>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://zjardyn.github.io/bubbler/">bubbler</a></span><span class="op">)</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a></span><span class="op">)</span></span></code></pre></div>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org" class="external-link">ggplot2</a></span><span class="op">)</span></span></code></pre></div>
 <p>The taxonomic level can be selected with the <code>taxa_level</code>
 argument, when generating the relative abundance table.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
@@ -92,7 +93,8 @@ threshold is determined automatically.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">rel_abund</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
 <span>    <span class="fu"><a href="../reference/pool_taxa.html">pool_taxa</a></span><span class="op">(</span>n_taxa <span class="op">=</span> <span class="fl">12</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> <span class="co"># threshold set to 0.0038</span></span>
-<span>    <span class="fu"><a href="../reference/bar_plot.html">bar_plot</a></span><span class="op">(</span>position <span class="op">=</span> <span class="st">"fill"</span><span class="op">)</span></span></code></pre></div>
+<span>    <span class="fu"><a href="../reference/bar_plot.html">bar_plot</a></span><span class="op">(</span>position <span class="op">=</span> <span class="st">"fill"</span><span class="op">)</span> <span class="op">+</span> </span>
+<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_viridis.html" class="external-link">scale_fill_viridis_d</a></span><span class="op">(</span>option <span class="op">=</span> <span class="st">"turbo"</span><span class="op">)</span></span></code></pre></div>
 <p><img src="pool_taxa_files/figure-html/unnamed-chunk-3-1.png" width="700"></p>
 <p>Pooling, by default will remove any meta data that was attached to
 the relative abundance table. Specify <code>keep_metadata</code> to keep
@@ -101,7 +103,8 @@ it.</p>
 <code class="sourceCode R"><span><span class="va">rel_abund</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> </span>
 <span>    <span class="fu"><a href="../reference/pool_taxa.html">pool_taxa</a></span><span class="op">(</span>n_taxa <span class="op">=</span> <span class="fl">16</span>,</span>
 <span>              keep_metadata <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
-<span>    <span class="fu"><a href="../reference/bar_plot.html">bar_plot</a></span><span class="op">(</span>position <span class="op">=</span> <span class="st">"fill"</span>, x_var <span class="op">=</span> <span class="st">"body_site"</span><span class="op">)</span></span></code></pre></div>
+<span>    <span class="fu"><a href="../reference/bar_plot.html">bar_plot</a></span><span class="op">(</span>position <span class="op">=</span> <span class="st">"fill"</span>, x_var <span class="op">=</span> <span class="st">"body_site"</span><span class="op">)</span> <span class="op">+</span> </span>
+<span>   <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_viridis.html" class="external-link">scale_fill_viridis_d</a></span><span class="op">(</span>option <span class="op">=</span> <span class="st">"turbo"</span><span class="op">)</span></span></code></pre></div>
 <p><img src="pool_taxa_files/figure-html/unnamed-chunk-4-1.png" width="700"></p>
 </div>
 <div class="section level2">
@@ -123,7 +126,8 @@ the other samples.</p>
 <span>    <span class="fu"><a href="../reference/pool_taxa.html">pool_taxa</a></span><span class="op">(</span>n_taxa <span class="op">=</span> <span class="fl">8</span>,</span>
 <span>              keep_metadata <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
 <span>    <span class="fu"><a href="../reference/arrange_taxa.html">arrange_taxa</a></span><span class="op">(</span>pooled <span class="op">=</span> <span class="st">"top"</span>, order <span class="op">=</span> <span class="st">"bottom"</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> <span class="co"># arrange by abundance</span></span>
-<span>    <span class="fu"><a href="../reference/bar_plot.html">bar_plot</a></span><span class="op">(</span>position <span class="op">=</span> <span class="st">"fill"</span>, x_var <span class="op">=</span> <span class="st">"body_site"</span><span class="op">)</span></span></code></pre></div>
+<span>    <span class="fu"><a href="../reference/bar_plot.html">bar_plot</a></span><span class="op">(</span>position <span class="op">=</span> <span class="st">"fill"</span>, x_var <span class="op">=</span> <span class="st">"body_site"</span><span class="op">)</span> <span class="op">+</span>  </span>
+<span>       <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_viridis.html" class="external-link">scale_fill_viridis_d</a></span><span class="op">(</span>option <span class="op">=</span> <span class="st">"turbo"</span><span class="op">)</span></span></code></pre></div>
 <p><img src="pool_taxa_files/figure-html/unnamed-chunk-5-1.png" width="700"></p>
 </div>
 <div class="section level3">
@@ -138,7 +142,8 @@ the above and below plots.</p>
 <span>              keep_metadata <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
 <span>    <span class="fu"><a href="../reference/arrange_taxa.html">arrange_taxa</a></span><span class="op">(</span>pooled <span class="op">=</span> <span class="st">"top"</span>, order <span class="op">=</span> <span class="st">"bottom"</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> <span class="co"># arrange by abundance</span></span>
 <span>    <span class="fu"><a href="../reference/arrange_variable.html">arrange_variable</a></span><span class="op">(</span>variable <span class="op">=</span> <span class="st">"sample_id"</span>, levels <span class="op">=</span> <span class="st">"body_site"</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
-<span>    <span class="fu"><a href="../reference/bar_plot.html">bar_plot</a></span><span class="op">(</span>position <span class="op">=</span> <span class="st">"fill"</span><span class="op">)</span></span>
+<span>    <span class="fu"><a href="../reference/bar_plot.html">bar_plot</a></span><span class="op">(</span>position <span class="op">=</span> <span class="st">"fill"</span><span class="op">)</span> <span class="op">+</span> </span>
+<span>        <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_viridis.html" class="external-link">scale_fill_viridis_d</a></span><span class="op">(</span>option <span class="op">=</span> <span class="st">"turbo"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Warning: There was 1 warning in `dplyr::mutate()`.</span></span>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> In argument: `sample_id = forcats::fct_relevel(sample_id, levels)`.</span></span>
 <span><span class="co">#&gt; Caused by warning:</span></span>
@@ -156,7 +161,8 @@ samples.</p>
 <span>    <span class="fu"><a href="../reference/pool_taxa.html">pool_taxa</a></span><span class="op">(</span>n_taxa <span class="op">=</span> <span class="fl">16</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
 <span>    <span class="fu"><a href="../reference/arrange_taxa.html">arrange_taxa</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> </span>
 <span>    <span class="fu"><a href="../reference/arrange_sample_by_taxa.html">arrange_sample_by_taxa</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
-<span>    <span class="fu"><a href="../reference/bar_plot.html">bar_plot</a></span><span class="op">(</span>position <span class="op">=</span> <span class="st">"fill"</span><span class="op">)</span></span></code></pre></div>
+<span>    <span class="fu"><a href="../reference/bar_plot.html">bar_plot</a></span><span class="op">(</span>position <span class="op">=</span> <span class="st">"fill"</span><span class="op">)</span> <span class="op">+</span> </span>
+<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_viridis.html" class="external-link">scale_fill_viridis_d</a></span><span class="op">(</span>option <span class="op">=</span> <span class="st">"turbo"</span><span class="op">)</span></span></code></pre></div>
 <p><img src="pool_taxa_files/figure-html/unnamed-chunk-7-1.png" width="700"></p>
 <!-- TODO: variable by abundance  -->
 </div>
