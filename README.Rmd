@@ -56,7 +56,7 @@ rel_abund_phy(physeq, taxa_level = "Genus") %>%
     arrange_taxa() %>%
     arrange_sample_by_taxa() %>%
     # 3. plot
-    bar_plot(position = "fill")
+    bar_plot(position = "fill") 
 
     
 ```

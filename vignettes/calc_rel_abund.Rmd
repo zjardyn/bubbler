@@ -148,4 +148,88 @@ Where $k$ is the levels of the grouping variable. Within each level of the group
 variable, the sum of relative abundance equals one. 
 
 
+## Showing both scaled and unscaled information.
+
+If you want the best of both worlds, you can create a scaled bargraph, and superimpose the proportional abundances. To do this, we create two relative abundance tables. The code becomes a little involved because we are also splitting by antibiotic usage.  
+
+```{r, message=FALSE, warning=FALSE}
+library(dplyr)
+
+# order by sample read abundance, plot as line
+counts_q <- system.file("extdata", "qiime", "table-dada2.qza", package = "bubbler")
+taxa_q <- system.file("extdata", "qiime", "taxonomy.qza", package = "bubbler")
+metadata_q <- system.file("extdata", "qiime", "sample-metadata.tsv", package = "bubbler")
+
+q <- rel_abund_qiime(
+    asv_qiime = counts_q,
+    taxa_qiime = taxa_q,
+    metadata_qiime = metadata_q,
+    taxa_level = "Genus", ) %>% 
+    pool_taxa(n_taxa = 8, keep_metadata = TRUE) %>%
+    arrange_taxa()
+
+
+no_unscaled <- q %>%
+    filter(reported_antibiotic_usage == "No")
+
+yes_unscaled <- q %>%
+    filter(reported_antibiotic_usage == "Yes")
+
+points <- q %>%
+    group_by(body_site, reported_antibiotic_usage) %>%
+    summarise(sum = sum(rel_abund), .groups = "drop" ) 
+
+points_no <- points %>%
+    filter(reported_antibiotic_usage == "No")
+
+points_yes <- points %>%
+    filter(reported_antibiotic_usage == "Yes")
+
+q2 <- rel_abund_qiime(
+    asv_qiime = counts_q,
+    taxa_qiime = taxa_q,
+    metadata_qiime = metadata_q,
+    taxa_level = "Genus",
+    var = "sample_id") %>% 
+    pool_taxa(n_taxa = 8, keep_metadata = TRUE) %>%
+    arrange_taxa()
+
+# q2 %>%
+#     ggplot(aes(x = body_site, y = rel_abund, fill = taxon)) +
+#     geom_bar(stat = "identity", position = "fill") +
+#     facet_wrap(~reported_antibiotic_usage)
+
+colors <- c(" " = "black")
+
+p1 <- no_unscaled %>%
+    ggplot(aes(x = body_site, y = rel_abund, fill = taxon)) +
+    geom_bar(stat = "identity", position = "fill") +
+    geom_point(data = points_no, aes(x = body_site, y = sum, color = " "),
+               inherit.aes = FALSE) +
+    geom_line(data = points_no, aes(x = body_site, y = sum, group = 1, color = " "),
+               inherit.aes = FALSE) + scale_color_manual(values = colors) +
+    labs(x = "Body Site",
+         y = "Mean relative abundance",
+         color = "X-var relative abundance") + 
+    scale_fill_viridis_d(option = "turbo")
+
+p2 <- yes_unscaled %>%
+    ggplot(aes(x = body_site, y = rel_abund, fill = taxon)) +
+    geom_bar(stat = "identity", position = "fill") +
+    geom_point(data = points_yes, aes(x = body_site, y = sum),
+               inherit.aes = FALSE) +
+    geom_line(data = points_yes, aes(x = body_site, y = sum, group = 1),
+               inherit.aes = FALSE) +
+    labs(x = "Body Site",
+         y = "Mean relative abundance" ) + 
+    scale_fill_viridis_d(option = "turbo")
+
+library(patchwork)
+
+p1 + p2 + plot_layout(guides = "collect", axes = "collect")
+
+```
+
+
+
 

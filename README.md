@@ -9,8 +9,8 @@
 Bubbler is a tidy approach to amplicon sequencing visualization. Bubbler
 makes relative abundance tables from amplicon-sequencing (16S/18S rRNA)
 datasets. Bubbler combines asv counts, taxonomic information, and
-optionally, meta data to create stacked barcharts, or bubble plots.
-Bubbler can import data from [dada2](https://github.com/benjjneb/dada2),
+optionally, metadata to create stacked barcharts, or bubble plots.
+Bubbler can import from [dada2](https://github.com/benjjneb/dada2),
 [qiime2](https://github.com/qiime2/qiime2),
 [phyloseq](https://joey711.github.io/phyloseq/) and
 [Bracken](https://github.com/jenniferlu717/Bracken) output. Relative
@@ -49,7 +49,7 @@ rel_abund_phy(physeq, taxa_level = "Genus") %>%
     arrange_taxa() %>%
     arrange_sample_by_taxa() %>%
     # 3. plot
-    bar_plot(position = "fill")
+    bar_plot(position = "fill") 
 ```
 
 <img src="man/figures/README-unnamed-chunk-3-1.png" width="100%" />
