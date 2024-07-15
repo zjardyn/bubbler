@@ -29,14 +29,14 @@ Imports:
     tidyr,
     viridis,
     yaml,
-    rhdf5
+    rhdf5,
+    phyloseq
 Config/testthat/edition: 3
 Suggests: 
     ggtree,
     ape,
     vegan, 
     ggnewscale,
-    phyloseq,
     ggtree,
     knitr,
     patchwork,
