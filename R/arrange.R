@@ -103,20 +103,52 @@ arrange_taxa <- function(rel_abund_tb, pooled = "top", order = "bottom") {
 #' Arrange a variable by the ordering of another variable
 #'
 #' @param rel_abund_tb A relative abundance table in tibble form.
-#' @param variable The variable to be sorted.
 #' @param levels The variable to sort with.
+#' @param var The variable to sort.
 #'
 #' @return A tibble with a sorted variable.
 #' @export
 #'
 #' @examples
 #' rel_abund_phy(phy = physeq, meta_data = TRUE) %>%
-#'     arrange_variable(levels = "Location")
-arrange_variable <- function(rel_abund_tb, variable = "sample_id", levels){
+#'     arrange_var(levels = "Location")
+arrange_var <- function(rel_abund_tb, var = "sample_id", levels){
    if(missing(rel_abund_tb)){stop("Provide a relative abundance table.")}
    if(missing(levels)){stop("levels not provided.")}
 
    rel_abund_tb %>%
-   dplyr::mutate(!!rlang::sym(variable) := as.factor(!!rlang::sym(variable)),
-                 !!rlang::sym(variable) := forcats::fct_relevel(!!rlang::sym(variable), levels))
+   dplyr::mutate(!!rlang::sym(var) := as.factor(!!rlang::sym(var)),
+                 !!rlang::sym(var) := forcats::fct_relevel(!!rlang::sym(var), levels))
 }
+
+#' Arrange a variable by its grouped relative abundance
+#'
+#' @param rel_abund_tb A relative abundance table in tibble form.
+#' @param var The variable to group by. Default is "sample_id".
+#' @param flip Logical, whether to flip the variable.
+#'
+#' @return A tibble with sorted variable.
+#' @export
+#'
+#' @examples
+#' rel_abund_phy(physeq) %>%
+#'     arrange_var_abund()
+#'
+arrange_var_abund <- function(rel_abund_tb, var = "sample_id", flip = FALSE){
+    abund <- sum_rel_abund(rel_abund_tb, !!rlang::sym(var))
+    levels <- dplyr::inner_join(rel_abund_tb, abund, by = var) %>% dplyr::pull(sum)
+
+    if(flip == TRUE) {
+    rel_abund_tb %>%
+        dplyr::mutate(!!rlang::sym(var) := as.factor(!!rlang::sym(var)),
+                      !!rlang::sym(var) := forcats::fct_reorder(!!rlang::sym(var), levels),
+                      !!rlang::sym(var) := forcats::fct_rev(!!rlang::sym(var)))
+    } else {
+
+    rel_abund_tb %>%
+        dplyr::mutate(!!rlang::sym(var) := as.factor(!!rlang::sym(var)),
+                      !!rlang::sym(var) := forcats::fct_reorder(!!rlang::sym(var), levels))
+    }
+
+}
+

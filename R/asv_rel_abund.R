@@ -305,3 +305,25 @@ rel_abund_bracken <- function(path, remove_human){
         dplyr::rename('taxon' = name) %>%
         dplyr::select(sample_id, taxon, rel_abund)
 }
+
+
+#' Sum the relative abundance across variables.
+#'
+#' @param rel_abund_tb A relative abundance table in
+#' @param ... Variables as strings.
+#'
+#' @return Summaries in tibble format.
+#' @export
+#'
+#' @examples
+#' rel_abund_phy(physeq) %>%
+#' sum_rel_abund("sample_id")
+sum_rel_abund <- function(rel_abund_tb, ...){
+
+    group_vars <- rlang::ensyms(...)
+
+    rel_abund_tb %>%
+        dplyr::group_by(dplyr::across(!!!group_vars)) %>%
+        dplyr::summarise(sum = sum(rel_abund))
+}
+

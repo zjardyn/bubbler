@@ -9,7 +9,8 @@ bar_plot(
   x_var = "sample_id",
   position = "stack",
   width = 1,
-  color = NULL
+  color = NULL,
+  true_line = FALSE
 )
 }
 \arguments{
@@ -22,6 +23,8 @@ bar_plot(
 \item{width}{The width of the bar.}
 
 \item{color}{A variable to color bars by.}
+
+\item{true_line}{Logical, whether to show a true abundance line.}
 }
 \value{
 A ggplot object.

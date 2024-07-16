@@ -97,7 +97,7 @@ rel_abund %>%
     pool_taxa(n_taxa = 8,
               keep_metadata = TRUE) %>%
     arrange_taxa(pooled = "top", order = "bottom") %>% # arrange by abundance
-    arrange_variable(variable = "sample_id", levels = "body_site") %>%
+    arrange_var(var = "sample_id", levels = "body_site") %>%
     bar_plot(position = "fill") + 
         scale_fill_viridis_d(option = "turbo")
 ```

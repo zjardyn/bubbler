@@ -270,12 +270,9 @@ generate_shades <- function(phylum, n) {
     scales::seq_gradient_pal(base_color, "white", space = "Lab")(seq(0.1, 0.7, length.out = n))
 }
 
-# order my sample read abundance, plot as line
-
-
-asv_qiime <- "extdata/qiime/table-dada2.qza"
-taxa_qiime <- "extdata/qiime/taxonomy.qza"
-metadata_qiime <- "inst/extdata/qiime/sample-metadata.tsv"
+asv_qiime <- system.file("extdata", "qiime", "table-dada2.qza", package = "bubbler")
+taxa_qiime <- system.file("extdata", "qiime", "taxonomy.qza", package = "bubbler")
+metadata_qiime <- system.file("extdata", "qiime", "sample-metadata.tsv", package = "bubbler")
 
 # sample_id, asv, rel_abund, level, taxon
 q <- rel_abund_qiime(
@@ -398,4 +395,42 @@ c %>%
 ggplot( aes(x = sample_id, y = rel_abund)) +
     geom_bar(stat = "identity", aes(fill = taxon))
 
+asv_qiime <- system.file("extdata", "qiime", "table-dada2.qza", package = "bubbler")
+taxa_qiime <- system.file("extdata", "qiime", "taxonomy.qza", package = "bubbler")
+metadata_qiime <- system.file("extdata", "qiime", "sample-metadata.tsv", package = "bubbler")
 
+# sample_id, asv, rel_abund, level, taxon
+q <- rel_abund_qiime(
+    asv_qiime = asv_qiime,
+    taxa_qiime = taxa_qiime,
+    metadata_qiime = metadata_qiime,
+    taxa_level = "Genus", ) %>%
+    pool_taxa(n_taxa = 12, keep_metadata = TRUE)
+
+variable <- "sample_id"
+levels <- sum_rel_abund(q, variable) %>%
+    inner_join(q, by = "sample_id") %>% pull(sum)
+
+q %>%
+    dplyr::mutate(!!rlang::sym(variable) := as.factor(!!rlang::sym(variable)),
+                  !!rlang::sym(variable) := forcats::fct_reorder(!!rlang::sym(variable), levels)) %>%
+    bar_plot()
+
+
+
+arrange_var_abund(q, var = "sample_id", flip = TRUE) %>% bar_plot()
+
+
+bar_plot(q, true_line = TRUE, position = "fill")
+
+
+q %>%
+ggplot(aes(x = sample_id, y = rel_abund, fill = taxon)) +
+    geom_bar(stat = "identity", position = "fill") +
+    geom_point(data = new_layer, aes(x = sample_id, y = sum ),
+               inherit.aes = FALSE) +
+    geom_line(data = new_layer, aes(x = sample_id, y = sum, group = 1),
+              inherit.aes = FALSE) +
+    labs(x = "Body Site",
+         y = "Relative abundance within samples",
+         color = "Relative abundance between samples")
