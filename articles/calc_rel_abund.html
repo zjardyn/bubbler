@@ -72,7 +72,7 @@
 <h2 id="relative-abundance">Relative abundance<a class="anchor" aria-label="anchor" href="#relative-abundance"></a>
 </h2>
 <p>For a given set of samples, relative abundance is calculated as:</p>
-<p><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext mathvariant="normal">Relative abundance</mtext><mo>=</mo><mfrac><msub><mi>x</mi><mi>i</mi></msub><mrow><mo>∑</mo><mi>x</mi></mrow></mfrac></mrow><annotation encoding="application/x-tex">\text{Relative abundance} = \frac{x_i}{\sum x}</annotation></semantics></math></p>
+<p><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext mathvariant="normal">Relative abundance</mtext><mo>=</mo><mfrac><msub><mi>x</mi><mi>i</mi></msub><mrow><mo>∑</mo><msub><mi>x</mi><mi>i</mi></msub></mrow></mfrac></mrow><annotation encoding="application/x-tex">\text{Relative abundance} = \frac{x_i}{\sum x_i}</annotation></semantics></math></p>
 <p>Where
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>x</mi><mi>i</mi></msub><annotation encoding="application/x-tex">x_i</annotation></semantics></math>
 is the count of a given asv, divided by the sum of all asv counts. This
@@ -177,7 +177,7 @@ abundance will depend on the purpose of the graphs. There are no
 hard-fast rules and you may run into both situations where you need
 scaled and unscaled relative abundances.</p>
 <p>The grouped relative abundance is calculated as:</p>
-<p><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext mathvariant="normal">Grouped relative abundance</mtext><mo>=</mo><mfrac><msub><mi>x</mi><mi>i</mi></msub><mrow><msubsup><mo>∑</mo><mrow><mi>j</mi><mo>=</mo><mn>1</mn></mrow><mi>k</mi></msubsup><msub><mi>x</mi><mi>j</mi></msub></mrow></mfrac></mrow><annotation encoding="application/x-tex">\text{Grouped relative abundance} = \frac{x_i}{\sum_{j=1}^{k} x_j}</annotation></semantics></math></p>
+<p><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext mathvariant="normal">Grouped relative abundance</mtext><mo>=</mo><mfrac><msub><mi>x</mi><mrow><mi>i</mi><mi>j</mi></mrow></msub><mrow><msubsup><mo>∑</mo><mrow><mi>j</mi><mo>=</mo><mn>1</mn></mrow><mi>k</mi></msubsup><msub><mi>x</mi><mrow><mi>i</mi><mi>j</mi></mrow></msub></mrow></mfrac></mrow><annotation encoding="application/x-tex">\text{Grouped relative abundance} = \frac{x_{ij}}{\sum_{j=1}^{k} x_{ij}}</annotation></semantics></math></p>
 <p>Where
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>k</mi><annotation encoding="application/x-tex">k</annotation></semantics></math>
 is the levels of the grouping variable. Within each level of the
