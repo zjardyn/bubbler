@@ -173,10 +173,11 @@ abundance across <code>body_site</code>, rather than
 <span>    <span class="fu"><a href="../reference/arrange_taxa.html">arrange_taxa</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
 <span>    <span class="fu"><a href="../reference/bar_plot.html">bar_plot</a></span><span class="op">(</span>position <span class="op">=</span> <span class="st">"fill"</span>, x_var <span class="op">=</span> <span class="st">"body_site"</span><span class="op">)</span> <span class="op">+</span> <span class="co"># setting position as fill</span></span>
 <span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_viridis.html" class="external-link">scale_fill_viridis_d</a></span><span class="op">(</span>option <span class="op">=</span> <span class="st">"turbo"</span><span class="op">)</span> </span></code></pre></div>
-<p>Whether you choose to scale your plots or leave them as true
-abundance will depend on the purpose of the graphs. There are no
-hard-fast rules and you may run into both situations where you need
-scaled and unscaled relative abundances.</p>
+<p>Generally, if you intend to modify your relative abundance table
+e.i., selecting columns, filtering rows, then you shouldn’t use grouped
+relative abundance because you may want to keep the true proportional
+information. In this case you will rely on <code>position</code> = “fill
+in <code><a href="../reference/bar_plot.html">bubbler::bar_plot</a></code>.</p>
 <p>The grouped relative abundance is calculated as:</p>
 <p><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext mathvariant="normal">Grouped relative abundance</mtext><mo>=</mo><mfrac><msub><mi>x</mi><mrow><mi>i</mi><mi>j</mi></mrow></msub><mrow><msubsup><mo>∑</mo><mrow><mi>j</mi><mo>=</mo><mn>1</mn></mrow><mi>k</mi></msubsup><msub><mi>x</mi><mrow><mi>i</mi><mi>j</mi></mrow></msub></mrow></mfrac></mrow><annotation encoding="application/x-tex">\text{Grouped relative abundance} = \frac{x_{ij}}{\sum_{j=1}^{k} x_{ij}}</annotation></semantics></math></p>
 <p>Where
@@ -187,8 +188,8 @@ grouping variable, the sum of relative abundance equals one.</p>
 <div class="section level3">
 <h3 id="showing-both-scaled-and-unscaled-information-">Showing both scaled and unscaled information.<a class="anchor" aria-label="anchor" href="#showing-both-scaled-and-unscaled-information-"></a>
 </h3>
-<p>If you want the best of both worlds, you can create a scaled
-bargraph, and superimpose the proportional abundances.</p>
+<p>If you want the best of both worlds, you can create a scaled bar
+plot, and superimpose the proportional abundances.</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># order by sample read abundance, plot as line</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://patchwork.data-imaginist.com" class="external-link">patchwork</a></span><span class="op">)</span></span>
