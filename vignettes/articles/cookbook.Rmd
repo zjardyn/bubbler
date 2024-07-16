@@ -75,7 +75,7 @@ q <- rel_abund_qiime(counts_q, taxa_q, metadata_q) %>%
     pool_taxa(n_taxa = 12, keep_metadata = TRUE)
 
 p2 <- q %>%
-    arrange_variable(levels = tip_order) %>%
+    arrange_var(levels = tip_order) %>%
     bar_plot(position = "fill", color = "body_site") +
     labs(x = NULL) +
     scale_x_discrete(position = "top") +
