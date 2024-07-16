@@ -24,7 +24,7 @@ library(bubbler)
 For a given set of samples, relative abundance is calculated as:
 
 
-$\text{Relative abundance} = \frac{x_i}{\sum x}$
+$\text{Relative abundance} = \frac{x_i}{\sum x_i}$
 
 
 Where $x_i$ is the count of a given asv, divided by the sum of all asv counts. This way, the sum of all relative abundances equal one. 
@@ -142,7 +142,7 @@ Whether you choose to scale your plots or leave them as true abundance will depe
 
 The grouped relative abundance is calculated as: 
 
-$\text{Grouped relative abundance} = \frac{x_i}{\sum_{j=1}^{k} x_j}$
+$\text{Grouped relative abundance} = \frac{x_{ij}}{\sum_{j=1}^{k} x_{ij}}$
 
 Where $k$ is the levels of the grouping variable. Within each level of the grouping
 variable, the sum of relative abundance equals one. 

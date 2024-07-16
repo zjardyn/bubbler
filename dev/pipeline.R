@@ -17,11 +17,27 @@ library(phyloseq)
 counts_q <- system.file("extdata", "qiime", "table-dada2.qza", package = "bubbler")
 taxa_q <- system.file("extdata", "qiime", "taxonomy.qza", package = "bubbler")
 metadata_q <- system.file("extdata", "qiime", "sample-metadata.tsv", package = "bubbler")
+counts_tsv <- system.file("extdata/tsv", "seqtab.tsv", package = "bubbler")
 
-sample_tree <- function(asv_data, method = "bray")
+asv_data = asv_data_phy(physeq)
+asv_data = asv_data_qiime(counts_q)
+asv_data = asv_data_tsv(counts_q)
+
+sample_tree <- function(asv_data , method = "bray") {
+
+        asv = asv_data %>%
+            as.data.frame() %>%
+            tibbe::column_to_rownames(var = "sample_id") %>%
+            as.matrix()
+
+        dist <- vegan::vegdist(asv, method = method)
+        hc <- hclust(dist, method = "average")
+
+}
+
+sample_tree <- function(asv_data_phy(physeq1))
 
 # Import the data compute bray-curtis dissimilarity matrix and cluster
-# asv <- data.frame(phyloseq::otu_table(qiimedata))
 asv <- asv_data_qiime(counts_q)
 
 asv <- asv %>%
