@@ -151,7 +151,7 @@ variable, the sum of relative abundance equals one.
 
 ## Showing both scaled and unscaled information.
 
-If you want the best of both worlds, you can create a scaled bar plot, and superimpose the proportional abundances.  
+If you want the best of both worlds, you can create a scaled bar plot, and superimpose the proportional abundances. Currently, this feature does not work with a faceting functions, so the only option would be to split a rel_abund table into multiple plots.
 
 ```{r, message=FALSE, warning=FALSE}
 # order by sample read abundance, plot as line
@@ -179,8 +179,15 @@ p2 <- bar_plot(no, position = "fill" ,true_line = TRUE)
 p1 + p2 + plot_layout(guides = "collect", axes = "collect") & 
     scale_fill_viridis_d(option = "turbo")
 
-
 ```
+```{r}
+rel_abund_phy(physeq, meta_data = TRUE, taxa_level = "Genus") %>%
+    pool_taxa(n_taxa = 12, keep_metadata = TRUE) %>%
+    arrange_taxa() %>%
+    arrange_var_abund(flip = TRUE) %>%
+    bar_plot(position = "fill", true_line = TRUE) + scale_fill_viridis_d(option = "turbo")
+```
+
 
 
 
