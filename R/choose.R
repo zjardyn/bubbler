@@ -3,6 +3,7 @@
 #' @param rel_abund_tb A tibble.
 #' @param var The variable to subset from.
 #' @param selection The elements to select.
+#' @param recompute Logical, whether to recompute rel_abund.
 #'
 #' @return A tibble.
 #' @export
@@ -10,10 +11,20 @@
 #' @examples
 #' smp_selection <- c("Smp1", "Smp2", "Smp3", "Smp4", "Smp5")
 #' subset_rel_abund(rel_abund_phy(physeq), var = "sample_id", selection = smp_selection)
-subset_rel_abund <- function(rel_abund_tb, var, selection) {
-    rel_abund_tb %>%
-            dplyr::filter(!!rlang::sym(var) %in% selection) %>%
-            dplyr::mutate(rel_abund = rel_abund/sum(rel_abund))
+subset_rel_abund <- function(rel_abund_tb, var, selection, recompute = FALSE) {
+
+    if(recompute == TRUE){
+
+        rel_abund_tb %>%
+                dplyr::filter(!!rlang::sym(var) %in% selection) %>%
+                dplyr::mutate(rel_abund = rel_abund/sum(rel_abund))
+
+    } else {
+
+        rel_abund_tb %>%
+                dplyr::filter(!!rlang::sym(var) %in% selection)
+    }
+
 }
 
 #' Subset the highest or lowest abundance samples from a relative abundance table.

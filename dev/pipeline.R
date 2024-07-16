@@ -407,30 +407,3 @@ q <- rel_abund_qiime(
     taxa_level = "Genus", ) %>%
     pool_taxa(n_taxa = 12, keep_metadata = TRUE)
 
-variable <- "sample_id"
-levels <- sum_rel_abund(q, variable) %>%
-    inner_join(q, by = "sample_id") %>% pull(sum)
-
-q %>%
-    dplyr::mutate(!!rlang::sym(variable) := as.factor(!!rlang::sym(variable)),
-                  !!rlang::sym(variable) := forcats::fct_reorder(!!rlang::sym(variable), levels)) %>%
-    bar_plot()
-
-
-
-arrange_var_abund(q, var = "sample_id", flip = TRUE) %>% bar_plot()
-
-
-bar_plot(q, true_line = TRUE, position = "fill")
-
-
-q %>%
-ggplot(aes(x = sample_id, y = rel_abund, fill = taxon)) +
-    geom_bar(stat = "identity", position = "fill") +
-    geom_point(data = new_layer, aes(x = sample_id, y = sum ),
-               inherit.aes = FALSE) +
-    geom_line(data = new_layer, aes(x = sample_id, y = sum, group = 1),
-              inherit.aes = FALSE) +
-    labs(x = "Body Site",
-         y = "Relative abundance within samples",
-         color = "Relative abundance between samples")

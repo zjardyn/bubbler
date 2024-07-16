@@ -168,13 +168,14 @@ q <- rel_abund_qiime(
     taxa_level = "Genus", ) %>% 
     pool_taxa(n_taxa = 8, keep_metadata = TRUE) %>%
     arrange_taxa() %>%
-    arrange_var_abund(flip = TRUE)
+    arrange_var(levels = "body_site")
+    # arrange_var_abund(flip = TRUE)
 
-yes <- dplyr::filter(q, reported_antibiotic_usage == "Yes")
-no <- dplyr::filter(q, reported_antibiotic_usage == "No")
+yes <- subset_rel_abund(q, var = "reported_antibiotic_usage", selection = "Yes")
+no <- subset_rel_abund(q, var = "reported_antibiotic_usage", selection = "No")
 
-p1 <- bar_plot(yes, position = "fill" ,true_line = TRUE)
-p2 <- bar_plot(no, position = "fill" ,true_line = TRUE)
+p1 <- bar_plot(yes, position = "fill" ,true_line = TRUE) + ggtitle("Antibiotics used")
+p2 <- bar_plot(no, position = "fill" ,true_line = TRUE) + ggtitle("Antibiotics not used")
 
 p1 + p2 + plot_layout(guides = "collect", axes = "collect") & 
     scale_fill_viridis_d(option = "turbo")
