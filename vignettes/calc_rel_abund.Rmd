@@ -139,7 +139,7 @@ rel_abund_qiime(counts_q,
     scale_fill_viridis_d(option = "turbo") 
 
 ```
-Whether you choose to scale your plots or leave them as true abundance will depend on the purpose of the graphs. There are no hard-fast rules and you may run into both situations where you need scaled and unscaled relative abundances. 
+Generally, if you intend to modify your relative abundance table e.i., selecting columns, filtering rows, then you shouldn't use grouped relative abundance because you may want to keep the true proportional information. In this case you will rely on `position` = "fill in `bubbler::bar_plot`.
 
 The grouped relative abundance is calculated as: 
 
@@ -151,7 +151,7 @@ variable, the sum of relative abundance equals one.
 
 ## Showing both scaled and unscaled information.
 
-If you want the best of both worlds, you can create a scaled bargraph, and superimpose the proportional abundances.  
+If you want the best of both worlds, you can create a scaled bar plot, and superimpose the proportional abundances.  
 
 ```{r, message=FALSE, warning=FALSE}
 # order by sample read abundance, plot as line
