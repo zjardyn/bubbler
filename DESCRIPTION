@@ -2,9 +2,9 @@ Package: bubbler
 Title: Generate relative abundance tables from amplicon-sequencing data
 Version: 0.0.0.9000
 Authors@R: 
-    person("Zjardyn", "Liera-Hood", , "zjardyn@gmail.com", role = c("aut", "cre"),
-           comment = c(ORCID = "YOUR-ORCID-ID"))
-Description: What the package does (one paragraph).
+    person("Zjardyn", "Liera-Hood", , "zlieraho@uwaterloo.ca", role = c("aut", "cre"),
+           comment = c(ORCID = "0000-0002-0857-6173"))
+Description: Bubbler constructs relative abundance tables from various amplicon sequencing inputs. The relative abundance tables can be modified, subsetted and rearranged. Finally, the tables can be plotted into stacked barcharts or bubble plots. 
 License: MIT + file LICENSE
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)

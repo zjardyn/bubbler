@@ -18,51 +18,38 @@ counts_q <- system.file("extdata", "qiime", "table-dada2.qza", package = "bubble
 taxa_q <- system.file("extdata", "qiime", "taxonomy.qza", package = "bubbler")
 metadata_q <- system.file("extdata", "qiime", "sample-metadata.tsv", package = "bubbler")
 
-asv_data = asv_data_phy(physeq)
-asv_data = asv_data_qiime(counts_q)
-asv_data = asv_data_tsv(counts_q)
+# asv_data = asv_data_phy(physeq)
+# asv_data = asv_data_qiime(counts_q)
+# asv_data = asv_data_tsv(counts_q)
 
-sample_tree <- function(asv_data , method = "bray") {
+asv_tree <- function(asv_data , method = "bray") {
 
         asv = asv_data %>%
             as.data.frame() %>%
             tibble::column_to_rownames(var = "sample_id") %>%
             as.matrix()
 
-        dist <- vegan::vegdist(asv, method = method)
-        hc <- hclust(dist, method = "average")
+        vegan::vegdist(asv, method = method) %>%
+            stats::hclust(method = "average") %>%
+            ape::as.phylo() %>%
+            ggtree::ggtree()
 
 }
 
+tip_order <- function(tree){
+        tree$data %>%
+            dplyr::filter(isTip == TRUE) %>%
+            dplyr::arrange(y) %>%
+            dplyr::select(label) %>%
+            rev() %>%
+            dplyr::pull()
+}
 
-
-
-
-# Import the data compute bray-curtis dissimilarity matrix and cluster
-asv <- asv_data_qiime(counts_q)
-
-asv <- asv %>%
-    as.data.frame() %>%
-    column_to_rownames(var = "sample_id") %>%
-    as.matrix()
-
-bc_dist <- vegan::vegdist(asv, method = "bray")
-hc <- hclust(bc_dist, method = "average")
-
-# Have to convert from a phylo to a ggtree object to get at the tip order.
-phylo_tree <- as.phylo(hc)
-ggtree_plot <- ggtree::ggtree(phylo_tree)
-
-# Get the tip order.
-tip_order <- ggtree_plot$data %>%
-    filter(isTip == TRUE) %>%
-    arrange(y) %>%
-    select(label) %>%
-    rev() %>%
-    pull()
+tree <- asv_tree(asv_data_qiime(counts_q))
+tip_ord <- tip_order(tree)
 
 # Make the tree
-p1 <- ggtree::ggtree(phylo_tree) +
+p1 <- tree +
     theme(plot.margin = margin(0, -5, 0, 0))
 
 # Make the relative abundance table and the sideways barplot.
@@ -70,16 +57,23 @@ q <- rel_abund_qiime(counts_q, taxa_q, metadata_q) %>%
     pool_taxa(n_taxa = 12, keep_metadata = TRUE)
 
 p2 <- q %>%
-    arrange_variable(levels = tip_order) %>%
+    arrange_var(levels = tip_ord) %>%
     bar_plot(position = "fill", color = "body_site") +
     labs(x = NULL) +
     scale_x_discrete(position = "top") +
-    scale_y_continuous(expand = c(0,0)) +
     coord_flip() +
-    theme(plot.margin = margin(0, 0, 0, 5)) +
-    scale_fill_viridis_d(option = "turbo")
+    theme(plot.margin = margin(0, 0, 0, 5))
+
+meta <- meta_data_qiime(metadata_q)
+tree_m <- dplyr::inner_join(tree$data, meta, by = dplyr::join_by(label == sample_id))
+tree$data <- tree_m
+
+tree$data
 
 p1 | p2
+
+
+
 
 
 

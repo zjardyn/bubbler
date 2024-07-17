@@ -63,8 +63,7 @@ rel_abund_pool <- rel_abund %>%
 rel_abund_pool %>%
     bar_plot()  + 
     # group samples by body site. free_x removes unwanted white space
-    facet_wrap(~body_site, scales = "free_x" ) +
-    scale_fill_viridis_d(option = "turbo")
+    facet_wrap(~body_site, scales = "free_x" ) 
 
 ```
 
@@ -76,8 +75,7 @@ Subject proportions on the right palm are vastly different, which would not be c
 rel_abund_pool %>%
     bar_plot(position = "fill")  + 
     # group samples by body site. free_x removes unwanted white space
-    facet_wrap(~body_site, scales = "free_x") + 
-    scale_fill_viridis_d(option = "turbo") 
+    facet_wrap(~body_site, scales = "free_x") 
 ```
 
 This is the effect of calculating rel_abund separately so that each sample sums to one. We can scale our relative abundances to one within `bar_plot` using the position argument. We can also precompute the grouped relative abundances in our table:
@@ -107,8 +105,7 @@ rel_abund_qiime(counts_q,
     pool_taxa(n_taxa = 12,
               keep_metadata = TRUE) %>%
     arrange_taxa() %>%
-    bar_plot(x_var = "body_site") + 
-    scale_fill_viridis_d(option = "turbo") 
+    bar_plot(x_var = "body_site")
 ```
 
 
@@ -135,8 +132,7 @@ rel_abund_qiime(counts_q,
     pool_taxa(n_taxa = 12,
               keep_metadata = TRUE) %>%
     arrange_taxa() %>%
-    bar_plot(position = "fill", x_var = "body_site") + # setting position as fill
-    scale_fill_viridis_d(option = "turbo") 
+    bar_plot(position = "fill", x_var = "body_site")  # setting position as fill
 
 ```
 Generally, if you intend to modify your relative abundance table e.i., selecting columns, filtering rows, then you shouldn't use grouped relative abundance because you may want to keep the true proportional information. In this case you will rely on `position` = "fill in `bubbler::bar_plot`.
@@ -177,8 +173,7 @@ no <- subset_rel_abund(q, var = "reported_antibiotic_usage", selection = "No")
 p1 <- bar_plot(yes, position = "fill" ,true_line = TRUE) + ggtitle("Antibiotics used")
 p2 <- bar_plot(no, position = "fill" ,true_line = TRUE) + ggtitle("Antibiotics not used")
 
-p1 + p2 + plot_layout(guides = "collect", axes = "collect") & 
-    scale_fill_viridis_d(option = "turbo")
+p1 + p2 + plot_layout(guides = "collect", axes = "collect")
 
 ```
 ```{r}
