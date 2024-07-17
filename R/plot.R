@@ -13,8 +13,12 @@
 #' @examples
 #' rel_abund_phy(physeq) %>% bar_plot()
 #' @importFrom ggplot2 ggplot aes geom_bar geom_point geom_line theme element_text
-bar_plot <- function(rel_abund_tb, x_var = "sample_id", position = "stack", width = 1, color = NULL, true_line = FALSE){
+bar_plot <- function(rel_abund_tb, x_var = "sample_id", position = "stack", width = 1, color = NULL, true_line = FALSE, italics = FALSE){
     if(missing(rel_abund_tb)){stop("Please provide rel_abund table.")}
+
+    if(italics == TRUE){
+        rel_abund_tb <- taxon_italics(rel_abund_tb)
+    }
 
     p <- ggplot(rel_abund_tb, aes(x = !!rlang::sym(x_var), y = rel_abund, fill = taxon))
     if (!is.null(color)) {
@@ -39,8 +43,27 @@ bar_plot <- function(rel_abund_tb, x_var = "sample_id", position = "stack", widt
             geom_line(data = new_layer, aes(x = !!rlang::sym(x_var), y = sum, group = 1),
                   inherit.aes = FALSE)
     }
+    if(italics == TRUE) {
+        p <- p + theme(legend.text = ggtext::element_markdown())
+    }
 
     p
+}
+
+
+#' Convert taxon to italics, ignoring threshold, from a relative abundance tibble.
+#'
+#' @param rel_abund_tb A relative abundance table formatted as a tibble.
+#'
+#' @return A tibble.
+#' @export
+#'
+#' @examples
+#'  rel_abund_phy(physeq) %>%
+#'     taxon_italics()
+taxon_italics <- function(rel_abund_tb){
+   rel_abund_tb %>%
+    dplyr::mutate(taxon = dplyr::if_else(taxon == detect_threshold(rel_abund_tb), taxon, glue::glue("*{taxon}*")))
 }
 
 

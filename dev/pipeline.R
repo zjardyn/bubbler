@@ -17,7 +17,6 @@ library(phyloseq)
 counts_q <- system.file("extdata", "qiime", "table-dada2.qza", package = "bubbler")
 taxa_q <- system.file("extdata", "qiime", "taxonomy.qza", package = "bubbler")
 metadata_q <- system.file("extdata", "qiime", "sample-metadata.tsv", package = "bubbler")
-counts_tsv <- system.file("extdata/tsv", "seqtab.tsv", package = "bubbler")
 
 asv_data = asv_data_phy(physeq)
 asv_data = asv_data_qiime(counts_q)
@@ -34,6 +33,9 @@ sample_tree <- function(asv_data , method = "bray") {
         hc <- hclust(dist, method = "average")
 
 }
+
+
+
 
 sample_tree <- function(asv_data_phy(physeq1))
 
@@ -406,4 +408,11 @@ q <- rel_abund_qiime(
     metadata_qiime = metadata_qiime,
     taxa_level = "Genus", ) %>%
     pool_taxa(n_taxa = 12, keep_metadata = TRUE)
+
+q %>%
+    bar_plot(italics = TRUE)
+# taxon_italics <- function(rel_abund_tb){
+#     rel_abund_tb %>%
+#         dplyr::mutate(taxon = dplyr::if_else(taxon == detect_threshold(q), taxon, glue::glue("*{taxon}*")))
+# }
 

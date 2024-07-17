@@ -28,6 +28,7 @@ Imports:
     tibble,
     tidyr,
     viridis,
+    ggtext,
     yaml,
     rhdf5
 Config/testthat/edition: 3
