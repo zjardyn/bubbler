@@ -26,7 +26,7 @@ sample_tree <- function(asv_data , method = "bray") {
 
         asv = asv_data %>%
             as.data.frame() %>%
-            tibbe::column_to_rownames(var = "sample_id") %>%
+            tibble::column_to_rownames(var = "sample_id") %>%
             as.matrix()
 
         dist <- vegan::vegdist(asv, method = method)
@@ -37,7 +37,6 @@ sample_tree <- function(asv_data , method = "bray") {
 
 
 
-sample_tree <- function(asv_data_phy(physeq1))
 
 # Import the data compute bray-curtis dissimilarity matrix and cluster
 asv <- asv_data_qiime(counts_q)
@@ -410,7 +409,8 @@ q <- rel_abund_qiime(
 q %>%
     taxon_italics() %>%
     arrange_taxa() %>%
-    bar_plot(italics = TRUE)
+    arrange_sample_by_taxa() %>%
+    bubble_plot(color =  "reported_antibiotic_usage", italics = TRUE)
 
 # taxon_italics <- function(rel_abund_tb){
 #     rel_abund_tb %>%

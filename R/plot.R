@@ -12,7 +12,7 @@
 #'
 #' @examples
 #' rel_abund_phy(physeq) %>% bar_plot()
-#' @importFrom ggplot2 ggplot aes geom_bar geom_point geom_line theme element_text theme
+#' @importFrom ggplot2 ggplot aes geom_bar geom_point geom_line theme element_text theme scale_y_continuous element_blank
 bar_plot <- function(rel_abund_tb, x_var = "sample_id", position = "stack", width = 1, color = NULL, true_line = FALSE, italics = FALSE){
     if(missing(rel_abund_tb)){stop("Please provide rel_abund table.")}
 
@@ -43,7 +43,42 @@ bar_plot <- function(rel_abund_tb, x_var = "sample_id", position = "stack", widt
         p <- p + theme(legend.text = ggtext::element_markdown())
     }
 
-    p + scale_fill_viridis_d(option = "turbo")
+    p + scale_y_continuous(expand = c(0, 0)) +
+        ggplot2::scale_fill_viridis_d(option = "turbo") +
+        theme(panel.grid = element_blank(),
+              panel.border = element_blank())
+}
+
+#' Generate a ggplot2 bubble plot
+#'
+#' @param rel_abund_tb A relative abundance table in tibble format.
+#' @param x_var The variable to used on the x-axis.
+#' @param color The color.
+#' @param italics Logical. Whether to use italics or not.
+#'
+#' @return A ggplot
+#' @export
+#'
+#' @examples
+#' rel_abund_phy(physeq) %>% bubble_plot()
+bubble_plot <- function(rel_abund_tb, x_var = "sample_id", color = NULL, italics = FALSE){
+    if(missing(rel_abund_tb)){stop("Please provide rel_abund table.")}
+
+    p <- ggplot(rel_abund_tb, aes(x = !!rlang::sym(x_var), y = taxon, size = rel_abund))
+
+    if (!is.null(color)){
+        p <- p + geom_point(aes(color = !!rlang::sym(color)))
+
+    } else {
+        p <- p + geom_point()
+    }
+
+    if(italics == TRUE) {
+        p <- p + theme(axis.text.y = ggtext::element_markdown())
+    }
+
+    p + theme(panel.grid = element_blank(),
+             panel.border = element_blank())
 }
 
 #' Convert taxon to italics, ignoring threshold, from a relative abundance tibble.

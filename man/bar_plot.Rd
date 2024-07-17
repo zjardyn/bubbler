@@ -10,7 +10,8 @@ bar_plot(
   position = "stack",
   width = 1,
   color = NULL,
-  true_line = FALSE
+  true_line = FALSE,
+  italics = FALSE
 )
 }
 \arguments{
