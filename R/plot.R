@@ -6,6 +6,7 @@
 #' @param width The width of the bar.
 #' @param color A variable to color bars by.
 #' @param true_line Logical, whether to show a true abundance line.
+#' @param italics Logical, whether to italicize taxon.
 #'
 #' @return A ggplot object.
 #' @export

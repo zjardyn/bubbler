@@ -26,6 +26,8 @@ bar_plot(
 \item{color}{A variable to color bars by.}
 
 \item{true_line}{Logical, whether to show a true abundance line.}
+
+\item{italics}{Logical, whether to italicize taxon.}
 }
 \value{
 A ggplot object.
