@@ -133,7 +133,6 @@ arrange_var <- function(rel_abund_tb, var = "sample_id", levels){
 #' @examples
 #' rel_abund_phy(physeq) %>%
 #'     arrange_var_abund()
-#'
 arrange_var_abund <- function(rel_abund_tb, var = "sample_id", flip = FALSE){
     abund <- sum_rel_abund(rel_abund_tb, !!rlang::sym(var))
     levels <- dplyr::inner_join(rel_abund_tb, abund, by = var) %>% dplyr::pull(sum)

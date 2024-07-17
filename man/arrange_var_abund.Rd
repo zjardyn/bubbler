@@ -22,5 +22,4 @@ Arrange a variable by its grouped relative abundance
 \examples{
 rel_abund_phy(physeq) \%>\%
     arrange_var_abund()
-
 }

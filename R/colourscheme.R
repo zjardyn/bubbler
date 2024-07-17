@@ -78,7 +78,6 @@ extract_unique_taxa <- function(...) {
 #' @export
 #'
 #' @examples
-
 #' asv <- system.file("extdata/tsv", "seqtab.tsv", package = "bubbler")
 #' taxa <- system.file("extdata/tsv", "taxa.tsv", package = "bubbler")
 #' rel_abund <- rel_abund_tsv(asv, taxa) %>% add_other()
