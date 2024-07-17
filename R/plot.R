@@ -12,7 +12,7 @@
 #'
 #' @examples
 #' rel_abund_phy(physeq) %>% bar_plot()
-#' @importFrom ggplot2 ggplot aes geom_bar geom_point geom_line theme element_text
+#' @importFrom ggplot2 ggplot aes geom_bar geom_point geom_line theme element_text theme
 bar_plot <- function(rel_abund_tb, x_var = "sample_id", position = "stack", width = 1, color = NULL, true_line = FALSE, italics = FALSE){
     if(missing(rel_abund_tb)){stop("Please provide rel_abund table.")}
 
@@ -43,7 +43,7 @@ bar_plot <- function(rel_abund_tb, x_var = "sample_id", position = "stack", widt
         p <- p + theme(legend.text = ggtext::element_markdown())
     }
 
-    p
+    p + scale_fill_viridis_d(option = "turbo")
 }
 
 #' Convert taxon to italics, ignoring threshold, from a relative abundance tibble.

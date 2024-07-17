@@ -369,8 +369,6 @@ pool_taxa(q2, threshold = choose_n_taxa(q2, 8)) %>%
     bar_plot(position = "fill") + guides(fill = guide_legend(reverse = TRUE))
 
 
-
-
 # new dataset
 library(tidyverse)
 asv <- system.file("extdata/tsv", "seqtab.tsv", package = "bubbler")
