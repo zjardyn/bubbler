@@ -407,10 +407,13 @@ q <- rel_abund_qiime(
     taxa_qiime = taxa_qiime,
     metadata_qiime = metadata_qiime,
     taxa_level = "Genus", ) %>%
-    pool_taxa(n_taxa = 12, keep_metadata = TRUE)
+    pool_taxa(n_taxa = 20, keep_metadata = TRUE)
 
 q %>%
+    taxon_italics() %>%
+    arrange_taxa() %>%
     bar_plot(italics = TRUE)
+
 # taxon_italics <- function(rel_abund_tb){
 #     rel_abund_tb %>%
 #         dplyr::mutate(taxon = dplyr::if_else(taxon == detect_threshold(q), taxon, glue::glue("*{taxon}*")))

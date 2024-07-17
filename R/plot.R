@@ -16,10 +16,6 @@
 bar_plot <- function(rel_abund_tb, x_var = "sample_id", position = "stack", width = 1, color = NULL, true_line = FALSE, italics = FALSE){
     if(missing(rel_abund_tb)){stop("Please provide rel_abund table.")}
 
-    if(italics == TRUE){
-        rel_abund_tb <- taxon_italics(rel_abund_tb)
-    }
-
     p <- ggplot(rel_abund_tb, aes(x = !!rlang::sym(x_var), y = rel_abund, fill = taxon))
     if (!is.null(color)) {
         position <- match.arg(position, c("stack", "fill"))
@@ -50,7 +46,6 @@ bar_plot <- function(rel_abund_tb, x_var = "sample_id", position = "stack", widt
     p
 }
 
-
 #' Convert taxon to italics, ignoring threshold, from a relative abundance tibble.
 #'
 #' @param rel_abund_tb A relative abundance table formatted as a tibble.
@@ -63,7 +58,10 @@ bar_plot <- function(rel_abund_tb, x_var = "sample_id", position = "stack", widt
 #'     taxon_italics()
 taxon_italics <- function(rel_abund_tb){
    rel_abund_tb %>%
-    dplyr::mutate(taxon = dplyr::if_else(taxon == detect_threshold(rel_abund_tb), taxon, glue::glue("*{taxon}*")))
+    dplyr::mutate(taxon = dplyr::if_else(
+        as.character(taxon) == detect_threshold(rel_abund_tb) | as.character(taxon) == "Unclassified",
+        taxon,
+        glue::glue("*{taxon}*")))
 }
 
 
