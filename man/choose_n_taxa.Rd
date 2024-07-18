@@ -4,10 +4,10 @@
 \alias{choose_n_taxa}
 \title{Choose how many taxa to display when plotting}
 \usage{
-choose_n_taxa(rel_abund_tab, n_taxa = 8)
+choose_n_taxa(rel_abund_tb, n_taxa = 8)
 }
 \arguments{
-\item{rel_abund_tab}{A rel_abund table in tibble format.}
+\item{rel_abund_tb}{A rel_abund table in tibble format.}
 
 \item{n_taxa}{An integer vector for the number of taxa to display.}
 }

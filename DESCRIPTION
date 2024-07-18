@@ -41,6 +41,7 @@ Suggests:
     knitr,
     patchwork,
     rmarkdown,
+    withr,
     testthat (>= 3.0.0)
 URL: https://zjardyn.github.io/bubbler/
 VignetteBuilder: knitr

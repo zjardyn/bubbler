@@ -56,7 +56,6 @@ read_qza <- function(file, tmp, rm) {
 #' artifact$contents$size=sapply(paste0(tmp, "/", artifact$contents$files), file.size)
 #' artifact$version=read.table(paste0(tmp,"/",artifact$uuid, "/VERSION"))
 #' read_q2biom(paste0(tmp, "/", artifact$uui,"/data/feature-table.biom"))
-
 read_q2biom <- function(file) {
     if(missing(file)){stop("Path to biom file given")}
     if(!file.exists(file)){stop("File not found")}

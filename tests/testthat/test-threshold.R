@@ -1,16 +1,47 @@
 # devtools::load_all()
-#
-# counts_q <- system.file("extdata/qiime/table-dada2.qza", package = "bubbler")
-# taxa_q <- system.file("extdata/qiime/taxonomy.qza", package = "bubbler")
-# meta_q <- system.file("extdata/qiime/sample-metadata.tsv", package = "bubbler")
-#
-# rel_abund_q <- rel_abund_qiime(asv_qiime = counts_q,
-#                 taxa_qiime = taxa_q,
-#                 metadata_qiime = meta_q,
-#                 var = "body_site")
-#
-# rel_abund_q %>%
-#     pool_taxa() %>%
-#     bar_plot(x_var = "body_site")
-#
 
+test_that("show_top_taxa works", {
+
+    counts_q <- system.file("extdata/qiime/table-dada2.qza", package = "bubbler")
+    taxa_q <- system.file("extdata/qiime/taxonomy.qza", package = "bubbler")
+    meta_q <- system.file("extdata/qiime/sample-metadata.tsv", package = "bubbler")
+
+    expect_no_error(rel_abund_qiime(counts_q, taxa_q, meta_q) %>% show_top_taxa())
+
+})
+
+test_that("choose_n_taxa works", {
+
+    counts_q <- system.file("extdata/qiime/table-dada2.qza", package = "bubbler")
+    taxa_q <- system.file("extdata/qiime/taxonomy.qza", package = "bubbler")
+    meta_q <- system.file("extdata/qiime/sample-metadata.tsv", package = "bubbler")
+
+    expect_no_error(rel_abund_qiime(counts_q, taxa_q, meta_q) %>% choose_n_taxa())
+
+})
+
+test_that("pool_taxa works", {
+
+    counts_q <- system.file("extdata/qiime/table-dada2.qza", package = "bubbler")
+    taxa_q <- system.file("extdata/qiime/taxonomy.qza", package = "bubbler")
+    meta_q <- system.file("extdata/qiime/sample-metadata.tsv", package = "bubbler")
+
+    expect_no_error(rel_abund_qiime(counts_q, taxa_q, meta_q) %>% pool_taxa(keep_metadata = TRUE))
+    expect_no_error(rel_abund_qiime(counts_q, taxa_q, meta_q) %>% pool_taxa())
+
+})
+
+test_that("detect_threshold works", {
+
+    counts_q <- system.file("extdata/qiime/table-dada2.qza", package = "bubbler")
+    taxa_q <- system.file("extdata/qiime/taxonomy.qza", package = "bubbler")
+    meta_q <- system.file("extdata/qiime/sample-metadata.tsv", package = "bubbler")
+    tb <- rel_abund_qiime(counts_q, taxa_q, meta_q) %>% pool_taxa()
+    tb_nolabel <- rel_abund_qiime(counts_q, taxa_q, meta_q) %>% pool_taxa(label = FALSE)
+    thresh_tb <- detect_threshold(tb)
+    thresh_nolabel <- detect_threshold(tb_nolabel)
+
+    expect_match(thresh_tb, "<")
+    expect_match(thresh_nolabel, "Other")
+
+})

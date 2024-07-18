@@ -75,7 +75,7 @@ rel_abund_phy <- function(phy, taxa_data = TRUE, meta_data = FALSE, taxa_level =
 
     rel_abund %>%
         dplyr::inner_join(., taxonomy, by =  "asv") %>%
-        tidyr::pivot_longer(taxa_lvls,
+        tidyr::pivot_longer(tidyr::all_of(taxa_lvls),
                             names_to = "level",
                             values_to = "taxon") %>%
         dplyr::filter(level == taxa_level) %>%
@@ -166,7 +166,7 @@ rel_abund_tsv <- function(asv, taxa_data = NULL, meta_data = NULL, taxa_level = 
 
     rel_abund %>%
         dplyr::inner_join(., taxonomy, by =  "asv") %>%
-        tidyr::pivot_longer(taxa_lvls,
+        tidyr::pivot_longer(tidyr::all_of(taxa_lvls),
                             names_to = "level",
                             values_to = "taxon") %>%
         dplyr::filter(level == taxa_level) %>%
@@ -258,7 +258,7 @@ rel_abund_qiime <- function(asv_qiime, taxa_qiime = NULL, metadata_qiime = NULL,
 
     rel_abund %>%
         dplyr::inner_join(., taxonomy, by =  "asv") %>%
-        tidyr::pivot_longer(taxa_lvls,
+        tidyr::pivot_longer(tidyr::all_of(taxa_lvls),
                             names_to = "level",
                             values_to = "taxon") %>%
         dplyr::filter(level == taxa_level) %>%

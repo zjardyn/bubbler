@@ -5,16 +5,16 @@ utils::globalVariables(c("taxon", "pool", ":="))
 #' Finds the top taxa and arranges in descending order. Uses max() to
 #' find the maximum taxon.
 #'
-#' @param rel_abund_tab A rel_abund table in tibble format.
+#' @param rel_abund_tb A rel_abund table in tibble format.
 #'
 #' @return A tibble.
 #' @export
 #'
 #' @examples
 #' show_top_taxa(rel_abund_phy(physeq))
-show_top_taxa <- function(rel_abund_tab) {
+show_top_taxa <- function(rel_abund_tb) {
 
-    rel_abund_tab %>%
+    rel_abund_tb %>%
         dplyr::group_by(taxon) %>%
         dplyr::summarise(max = max(rel_abund)) %>%
         dplyr::arrange(dplyr::desc(max))
@@ -24,7 +24,7 @@ show_top_taxa <- function(rel_abund_tab) {
 #'
 #' Generates a numeric vector as the threshold to display n taxa.
 #'
-#' @param rel_abund_tab A rel_abund table in tibble format.
+#' @param rel_abund_tb A rel_abund table in tibble format.
 #' @param n_taxa An integer vector for the number of taxa to display.
 #'
 #' @return A numeric vector.
@@ -32,15 +32,15 @@ show_top_taxa <- function(rel_abund_tab) {
 #'
 #' @examples
 #' choose_n_taxa(rel_abund_phy(physeq), n_taxa = 8)
-choose_n_taxa <- function(rel_abund_tab, n_taxa = 8) {
+choose_n_taxa <- function(rel_abund_tb, n_taxa = 8) {
 
-    unique_taxa <- show_top_taxa(rel_abund_tab) %>% nrow()
+    unique_taxa <- show_top_taxa(rel_abund_tb) %>% nrow()
 
     if(n_taxa > unique_taxa)  {
         n_taxa = unique_taxa
     }
 
-    rel_abund_tab %>%
+    rel_abund_tb %>%
     dplyr::group_by(taxon) %>%
     dplyr::summarise(max = max(rel_abund)) %>%
     dplyr::arrange(dplyr::desc(max)) %>%
@@ -53,7 +53,7 @@ choose_n_taxa <- function(rel_abund_tab, n_taxa = 8) {
 #' Applies a threshold and pools any taxa below this threshold, across samples
 #' and optionally, across a variable.
 #'
-#' @param rel_abund_tab A rel_abund table in tibble format.
+#' @param rel_abund_tb A rel_abund table in tibble format.
 #' @param threshold A numeric vector for the threshold.
 #' @param n_taxa The number of taxa to display.
 #' @param keep_metadata Logical. Whether to keep metadata or not.
@@ -64,23 +64,23 @@ choose_n_taxa <- function(rel_abund_tab, n_taxa = 8) {
 #'
 #' @examples
 #' rel_abund_phy(physeq) %>% pool_taxa()
-pool_taxa <- function(rel_abund_tab, threshold, n_taxa = 12, keep_metadata = FALSE, label = TRUE) {
-    if(missing(rel_abund_tab)){stop("Provide a relative abundance table.")}
-    if(!("taxon" %in% colnames(rel_abund_tab))){stop('variable taxon not found in colnames' )}
-    if(missing(threshold)){threshold = choose_n_taxa(rel_abund_tab, n_taxa)}
+pool_taxa <- function(rel_abund_tb, threshold, n_taxa = 12, keep_metadata = FALSE, label = TRUE) {
+    if(missing(rel_abund_tb)){stop("Provide a relative abundance table.")}
+    if(!("taxon" %in% colnames(rel_abund_tb))){stop('variable taxon not found in colnames' )}
+    if(missing(threshold)){threshold = choose_n_taxa(rel_abund_tb, n_taxa)}
 
-    taxon_pool <- rel_abund_tab %>%
+    taxon_pool <- rel_abund_tb %>%
         dplyr::group_by(taxon) %>%
         dplyr::summarise(pool = max(rel_abund) <= threshold,
                          .groups = "drop")
 
     if(label == TRUE){
-        pooled <- dplyr::inner_join(rel_abund_tab, taxon_pool, by = "taxon") %>%
+        pooled <- dplyr::inner_join(rel_abund_tb, taxon_pool, by = "taxon") %>%
             dplyr::mutate(taxon = dplyr::if_else(pool, glue::glue("< {round(threshold, 4)}%"), taxon),
                           taxon = tidyr::replace_na(taxon, "Unclassified"))
     } else {
 
-        pooled <- dplyr::inner_join(rel_abund_tab, taxon_pool, by = "taxon") %>%
+        pooled <- dplyr::inner_join(rel_abund_tb, taxon_pool, by = "taxon") %>%
             dplyr::mutate(taxon = dplyr::if_else(pool, "Other", taxon),
                           taxon = tidyr::replace_na(taxon, "Unclassified"))
     }
@@ -91,7 +91,7 @@ pool_taxa <- function(rel_abund_tab, threshold, n_taxa = 12, keep_metadata = FAL
                          .groups = "drop")
 
     if(keep_metadata == TRUE) {
-        metadata <- rel_abund_tab %>%
+        metadata <- rel_abund_tb %>%
             dplyr::select(!(asv:rel_abund)) %>%
             dplyr::distinct()
 

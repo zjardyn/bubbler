@@ -1,3 +1,5 @@
+# devtools::load_all()
+
 test_that("rel_abund_phy works", {
     expect_no_error(rel_abund_phy(physeq,
                   taxa_data = FALSE,
@@ -61,8 +63,8 @@ test_that("rel_abund_bracken works", {
     expect_no_error(rel_abund_bracken(path, remove_human = FALSE))
 })
 
-
 test_that("relative abundance sums are correct", {
+    withr::local_package("dplyr")
     # qiime
     counts_q <- system.file("extdata/qiime/table-dada2.qza", package = "bubbler")
     taxa_q <- system.file("extdata/qiime/taxonomy.qza", package = "bubbler")
@@ -74,43 +76,45 @@ test_that("relative abundance sums are correct", {
     # bracken
     path <- system.file("extdata/bracken", package = "bubbler")
 
-    phy <- rel_abund_phy(physeq) %>% dplyr::summarise(sum = sum(rel_abund)) %>% dplyr::pull(sum)
-    phy_s <- rel_abund_phy(physeq, var = "sample_id") %>% dplyr::summarise(sum = sum(rel_abund)) %>% dplyr::pull(sum)
-    phy_s_v <- rel_abund_phy(physeq, meta_data = TRUE, var = "location") %>% dplyr::summarise(sum = sum(rel_abund)) %>% dplyr::pull(sum)
+    phy <- rel_abund_phy(physeq) %>% summarise(sum = sum(rel_abund)) %>% pull(sum)
+    phy_s <- rel_abund_phy(physeq, var = "sample_id") %>% summarise(sum = sum(rel_abund)) %>% pull(sum)
+    phy_s_v <- rel_abund_phy(physeq, meta_data = TRUE, var = "location") %>% summarise(sum = sum(rel_abund)) %>% pull(sum)
 
-    s <- dplyr::n_distinct(rel_abund_phy(physeq)[["sample_id"]])
-    s_v <- dplyr::n_distinct(rel_abund_phy(physeq, meta_data = T)[["location"]])
+    s <- n_distinct(rel_abund_phy(physeq)[["sample_id"]])
+    s_v <- n_distinct(rel_abund_phy(physeq, meta_data = T)[["location"]])
 
+    # sum of ungrouped rel_abund = 1
+    # sum of grouped rel_abund = k levels of grouping variable so sum(rel_abund)/k = 1
     expect_equal(phy, 1)
     expect_equal(phy_s/s, 1)
     expect_equal(phy_s_v/s_v, 1)
 
-    tsv <- rel_abund_tsv(counts) %>% dplyr::summarise(sum = sum(rel_abund)) %>% dplyr::pull(sum)
-    tsv_s <- rel_abund_tsv(counts, var = "sample_id") %>% dplyr::summarise(sum = sum(rel_abund)) %>% dplyr::pull(sum)
-    tsv_s_v<- rel_abund_tsv(counts, taxa, meta, var = "Carbon_source") %>% dplyr::summarise(sum = sum(rel_abund)) %>% dplyr::pull(sum)
+    tsv <- rel_abund_tsv(counts) %>% summarise(sum = sum(rel_abund)) %>% pull(sum)
+    tsv_s <- rel_abund_tsv(counts, var = "sample_id") %>% summarise(sum = sum(rel_abund)) %>% pull(sum)
+    tsv_s_v<- rel_abund_tsv(counts, taxa, meta, var = "Carbon_source") %>% summarise(sum = sum(rel_abund)) %>% pull(sum)
 
-    s <- dplyr::n_distinct(rel_abund_tsv(counts)[["sample_id"]])
-    s_v <- dplyr::n_distinct(rel_abund_tsv(counts, taxa, meta)[["Carbon_source"]])
+    s <- n_distinct(rel_abund_tsv(counts)[["sample_id"]])
+    s_v <- n_distinct(rel_abund_tsv(counts, taxa, meta)[["Carbon_source"]])
 
     expect_equal(tsv, 1)
     expect_equal(tsv_s/s, 1)
     expect_equal(tsv_s_v/s_v, 1)
 
 
-    qiime <- rel_abund_qiime(counts_q) %>% dplyr::summarise(sum = sum(rel_abund)) %>% dplyr::pull(sum)
+    qiime <- rel_abund_qiime(counts_q) %>% summarise(sum = sum(rel_abund)) %>% pull(sum)
     qiime_s <- rel_abund_qiime(counts_q,
                                taxa_qiime = taxa_q,
-                               var = "sample_id") %>% dplyr::summarise(sum = sum(rel_abund)) %>% dplyr::pull(sum)
+                               var = "sample_id") %>% summarise(sum = sum(rel_abund)) %>% pull(sum)
     qiime_s_v <- rel_abund_qiime(counts_q,
                                 taxa_qiime = taxa_q,
                                 metadata_qiime = meta_q,
                                 var = "body_site"
-                                ) %>% dplyr::summarise(sum = sum(rel_abund)) %>% dplyr::pull(sum)
+                                ) %>% summarise(sum = sum(rel_abund)) %>% pull(sum)
 
-    s <- dplyr::n_distinct(rel_abund_qiime(counts_q,
+    s <- n_distinct(rel_abund_qiime(counts_q,
                                            taxa_qiime = taxa_q,
                                            var = "sample_id")[["sample_id"]])
-    s_v <- dplyr::n_distinct(rel_abund_qiime(counts_q, taxa_q, meta_q)[["body_site"]])
+    s_v <- n_distinct(rel_abund_qiime(counts_q, taxa_q, meta_q)[["body_site"]])
 
     expect_equal(qiime, 1)
     expect_equal(qiime_s/s, 1)

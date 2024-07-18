@@ -5,7 +5,7 @@
 \title{Pool taxa according to threshold}
 \usage{
 pool_taxa(
-  rel_abund_tab,
+  rel_abund_tb,
   threshold,
   n_taxa = 12,
   keep_metadata = FALSE,
@@ -13,7 +13,7 @@ pool_taxa(
 )
 }
 \arguments{
-\item{rel_abund_tab}{A rel_abund table in tibble format.}
+\item{rel_abund_tb}{A rel_abund table in tibble format.}
 
 \item{threshold}{A numeric vector for the threshold.}
 

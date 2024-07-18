@@ -4,10 +4,10 @@
 \alias{show_top_taxa}
 \title{Show the top taxa of a rel_abund table}
 \usage{
-show_top_taxa(rel_abund_tab)
+show_top_taxa(rel_abund_tb)
 }
 \arguments{
-\item{rel_abund_tab}{A rel_abund table in tibble format.}
+\item{rel_abund_tb}{A rel_abund table in tibble format.}
 }
 \value{
 A tibble.
