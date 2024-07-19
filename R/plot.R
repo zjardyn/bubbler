@@ -7,6 +7,7 @@
 #' @param color A variable to color bars by.
 #' @param true_line Logical, whether to show a true abundance line.
 #' @param italics Logical, whether to italicize taxon.
+#' @param global_colours The global colour scheme as a named vector.
 #'
 #' @return A ggplot object.
 #' @export
@@ -14,7 +15,7 @@
 #' @examples
 #' rel_abund_phy(physeq) %>% bar_plot()
 #' @importFrom ggplot2 ggplot aes geom_bar geom_point geom_line theme element_text theme scale_y_continuous element_blank
-bar_plot <- function(rel_abund_tb, x_var = "sample_id", position = "stack", width = 1, color = NULL, true_line = FALSE, italics = FALSE){
+bar_plot <- function(rel_abund_tb, x_var = "sample_id", position = "stack", width = 1, color = NULL, true_line = FALSE, italics = FALSE, global_colours = NULL){
     if(missing(rel_abund_tb)){stop("Please provide rel_abund table.")}
 
     p <- ggplot(rel_abund_tb, aes(x = !!rlang::sym(x_var), y = rel_abund, fill = taxon))
@@ -43,11 +44,21 @@ bar_plot <- function(rel_abund_tb, x_var = "sample_id", position = "stack", widt
     if(italics == TRUE) {
         p <- p + theme(legend.text = ggtext::element_markdown())
     }
+    if(!is.null(global_colours)) {
+
+    p + scale_y_continuous(expand = c(0, 0)) +
+        ggplot2::scale_fill_manual(values = global_colours) +
+        theme(panel.grid = element_blank(),
+              panel.border = element_blank())
+
+    } else if(is.null(global_colours)) {
 
     p + scale_y_continuous(expand = c(0, 0)) +
         ggplot2::scale_fill_viridis_d(option = "turbo") +
         theme(panel.grid = element_blank(),
               panel.border = element_blank())
+    }
+
 }
 
 #' Generate a ggplot2 bubble plot

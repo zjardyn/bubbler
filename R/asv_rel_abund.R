@@ -79,7 +79,8 @@ rel_abund_phy <- function(phy, taxa_data = TRUE, meta_data = FALSE, taxa_level =
                             names_to = "level",
                             values_to = "taxon") %>%
         dplyr::filter(level == taxa_level) %>%
-        dplyr::relocate(sample_id, asv, level, taxon, rel_abund)
+        dplyr::relocate(sample_id, asv, level, taxon, rel_abund) %>%
+            dplyr::mutate(taxon = tidyr::replace_na(taxon, "Unclassified"))
 
     } else {
 
@@ -170,7 +171,8 @@ rel_abund_tsv <- function(asv, taxa_data = NULL, meta_data = NULL, taxa_level = 
                             names_to = "level",
                             values_to = "taxon") %>%
         dplyr::filter(level == taxa_level) %>%
-          dplyr::relocate(sample_id, asv, level, taxon, rel_abund)
+          dplyr::relocate(sample_id, asv, level, taxon, rel_abund) %>%
+            dplyr::mutate(taxon = tidyr::replace_na(taxon, "Unclassified"))
 
     } else {
 
@@ -262,7 +264,8 @@ rel_abund_qiime <- function(asv_qiime, taxa_qiime = NULL, metadata_qiime = NULL,
                             names_to = "level",
                             values_to = "taxon") %>%
         dplyr::filter(level == taxa_level) %>%
-        dplyr::relocate(sample_id, asv, level, taxon, rel_abund)
+        dplyr::relocate(sample_id, asv, level, taxon, rel_abund) %>%
+          dplyr::mutate(taxon = tidyr::replace_na(taxon, "Unclassified"))
 
     } else {
 

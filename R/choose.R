@@ -45,21 +45,20 @@ subset_high_low <- function(rel_abund_tb, subset = "low", n = 10, flip = FALSE){
 
     subset <- match.arg(subset, c("low", "high"))
 
-    subset_samples <- if (subset == "low") {
-
-    rel_abund_tb %>%
+    if (subset == "low") {
+    subset_samples <- rel_abund_tb %>%
         dplyr::group_by(sample_id) %>%
         dplyr::summarise(sum = sum(rel_abund)) %>%
         dplyr::arrange(sum) %>%
         utils::head(n = n) %>% dplyr::select(sample_id) %>% dplyr::pull()
 
-    } else {
+    } else if(subset == "high") {
 
-    rel_abund_tb %>%
+    subset_samples <- rel_abund_tb %>%
         dplyr::group_by(sample_id) %>%
         dplyr::summarise(sum = sum(rel_abund)) %>%
-        dplyr::arrange(dplyr::desc(sum)) %>%
-        utils::head(n = n) %>% dplyr::select(sample_id) %>% dplyr::pull()
+        dplyr::arrange(sum) %>%
+        utils::tail(n = n) %>% dplyr::select(sample_id) %>% dplyr::pull()
 
     }
         if(flip){

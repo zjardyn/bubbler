@@ -76,13 +76,13 @@ pool_taxa <- function(rel_abund_tb, threshold, n_taxa = 12, keep_metadata = FALS
 
     if(label == TRUE){
         pooled <- dplyr::inner_join(rel_abund_tb, taxon_pool, by = "taxon") %>%
-            dplyr::mutate(taxon = dplyr::if_else(pool, glue::glue("< {round(threshold, 4)}%"), taxon),
-                          taxon = tidyr::replace_na(taxon, "Unclassified"))
+            dplyr::mutate(taxon = dplyr::if_else(pool, glue::glue("< {round(threshold, 4)}%"), taxon))
+                          # taxon = tidyr::replace_na(taxon, "Unclassified"))
     } else {
 
         pooled <- dplyr::inner_join(rel_abund_tb, taxon_pool, by = "taxon") %>%
-            dplyr::mutate(taxon = dplyr::if_else(pool, "Other", taxon),
-                          taxon = tidyr::replace_na(taxon, "Unclassified"))
+            dplyr::mutate(taxon = dplyr::if_else(pool, "Other", taxon))
+                          # taxon = tidyr::replace_na(taxon, "Unclassified"))
     }
 
     rel_abund_pooled <- pooled %>%

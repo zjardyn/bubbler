@@ -126,3 +126,19 @@ add_other <- function(rel_abund_tb){
                       taxon = forcats::fct_expand(taxon, "Other")) %>%
         tibble::add_row(taxon = "Other")
 }
+
+#' Add an "Unclassified" observation to a relative abundance table.
+#'
+#' @param rel_abund_tb A relative abundance table in tibble format.
+#'
+#' @return A tibble.
+#' @export
+#'
+#' @examples
+#' rel_abund_phy(physeq) %>% add_unclassified()
+add_unclassified <- function(rel_abund_tb){
+    rel_abund_tb %>%
+        dplyr::mutate(taxon = as.factor(taxon),
+                      taxon = forcats::fct_expand(taxon, "Unclassified")) %>%
+        tibble::add_row(taxon = "Unclassified")
+}

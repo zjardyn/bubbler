@@ -2,6 +2,7 @@
 
 export("%>%")
 export(add_other)
+export(add_unclassified)
 export(all_taxa)
 export(arrange_sample_by_taxa)
 export(arrange_taxa)

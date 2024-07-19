@@ -411,3 +411,46 @@ q %>%
 #         dplyr::mutate(taxon = dplyr::if_else(taxon == detect_threshold(q), taxon, glue::glue("*{taxon}*")))
 # }
 
+library(ggplot2)
+counts <- system.file("extdata", "qiime", "table-dada2.qza", package = "bubbler")
+taxa <- system.file("extdata", "qiime", "taxonomy.qza", package = "bubbler")
+metadata <- system.file("extdata", "qiime", "sample-metadata.tsv", package = "bubbler")
+
+tb <- rel_abund_qiime(counts, taxa, metadata, taxa_level = "Genus") %>%
+    arrange_var_abund(flip = TRUE)
+
+unique_taxa <- tb %>%
+    add_other() %>%
+    all_taxa()
+
+# the highest ten samples
+tb_h <- tb %>%
+    subset_high_low(subset = "high", n = 10) %>%
+    pool_taxa(n_taxa = 10, label = FALSE) %>%
+    arrange_taxa()
+
+# lowest ten samples
+tb_l <- tb %>%
+    subset_high_low(subset = "low", n = 10) %>%
+    pool_taxa(n_taxa = 10, label = FALSE) %>%
+    arrange_taxa()
+
+# the middle set of samples
+tb_m <- tb %>%
+    subset_high_low(subset = "low", n = 10, flip = TRUE) %>%
+    subset_high_low(subset = "high", n = 10, flip = TRUE) %>%
+    pool_taxa(n_taxa = 10, label = FALSE) %>%
+    arrange_taxa()
+
+subset_unique_taxa <- extract_unique_taxa(tb_h, tb_l, tb_m)
+
+colourscheme <- global_colour_scheme(unique_taxa, subset_unique_taxa)
+
+tb_h %>%
+    bar_plot(global_colours = colourscheme) + ggtitle("Highest Ten")
+
+tb_l %>%
+    bar_plot(global_colours = colourscheme) + ggtitle("Lowest Ten")
+
+tb_m %>%
+    bar_plot(global_colours = colourscheme) + ggtitle("Lowest Ten")

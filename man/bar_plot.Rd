@@ -11,7 +11,8 @@ bar_plot(
   width = 1,
   color = NULL,
   true_line = FALSE,
-  italics = FALSE
+  italics = FALSE,
+  global_colours = NULL
 )
 }
 \arguments{
