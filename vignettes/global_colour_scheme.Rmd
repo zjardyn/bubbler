@@ -31,30 +31,31 @@ metadata <- system.file("extdata", "qiime", "sample-metadata.tsv", package = "bu
 
 # prearrange rel_abund samples by their abundance
 tb <- rel_abund_qiime(counts, taxa, metadata, taxa_level = "Genus") %>%
-    arrange_var_abund(flip = TRUE)
+    arrange_var_abund(flip = TRUE) %>% 
+    pool_taxa(n_taxa = 20, label = FALSE)
 
 # Ordered tibble of taxa, by abundance
 unique_taxa <- tb %>%
-    add_other() %>%
+    # add_other() %>%
     all_taxa()
 
 # the highest ten samples
 tb_h <- tb %>%
     subset_high_low(subset = "high", n = 10) %>%
-    pool_taxa(n_taxa = 10, label = FALSE) %>%
+    pool_taxa(n_taxa = 11, label = FALSE) %>%
     arrange_taxa()
 
 # lowest ten samples
 tb_l <- tb %>%
     subset_high_low(subset = "low", n = 10) %>%
-    pool_taxa(n_taxa = 10, label = FALSE) %>%
+    pool_taxa(n_taxa = 11, label = FALSE) %>%
     arrange_taxa()
 
 # the middle set of samples
 tb_m <- tb %>%
     subset_high_low(subset = "low", n = 10, flip = TRUE) %>%
     subset_high_low(subset = "high", n = 10, flip = TRUE) %>%
-    pool_taxa(n_taxa = 10, label = FALSE) %>%
+    pool_taxa(n_taxa = 11, label = FALSE) %>%
     arrange_taxa()
 
 subset_unique_taxa <- extract_unique_taxa(tb_h, tb_l, tb_m)
@@ -80,6 +81,15 @@ tb_m %>%
              true_line = TRUE, 
              global_colours = colourscheme) + 
     ggtitle("Middle Set")
+```
+```{r}
+tb %>% 
+    pool_taxa(n_taxa = 12, label = FALSE) %>%
+    arrange_taxa() %>%
+    bar_plot(position = "fill", 
+             global_colours = colourscheme,
+             true_line = TRUE)
+    
 ```
 
 
