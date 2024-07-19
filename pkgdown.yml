@@ -5,8 +5,9 @@ articles:
   calc_rel_abund: calc_rel_abund.html
   articles/cookbook: cookbook.html
   data_import: data_import.html
+  global_colour_scheme: global_colour_scheme.html
   pool_taxa: pool_taxa.html
-last_built: 2024-07-18T19:43Z
+last_built: 2024-07-19T19:19Z
 urls:
   reference: https://zjardyn.github.io/bubbler/reference
   article: https://zjardyn.github.io/bubbler/articles
