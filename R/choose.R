@@ -11,7 +11,8 @@
 #' @examples
 #' smp_selection <- c("Smp1", "Smp2", "Smp3", "Smp4", "Smp5")
 #' subset_rel_abund(rel_abund_phy(physeq), var = "sample_id", selection = smp_selection)
-subset_rel_abund <- function(rel_abund_tb, var, selection, recompute = FALSE) {
+subset_rel_abund <- function(rel_abund_tb, var = "sample_id", selection, recompute = FALSE) {
+    if(missing(selection)){stop("Please provide a selection of samples")}
 
     if(recompute == TRUE){
 

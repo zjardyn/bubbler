@@ -29,6 +29,8 @@ bar_plot(
 \item{true_line}{Logical, whether to show a true abundance line.}
 
 \item{italics}{Logical, whether to italicize taxon.}
+
+\item{global_colours}{The global colour scheme as a named vector.}
 }
 \value{
 A ggplot object.

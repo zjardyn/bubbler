@@ -40,6 +40,7 @@ unique_taxa <- tb %>%
     all_taxa()
 
 # the highest ten samples
+# since we already pooled once, we have to do n + 1, because "Other" already exists 
 tb_h <- tb %>%
     subset_high_low(subset = "high", n = 10) %>%
     pool_taxa(n_taxa = 11, label = FALSE) %>%
@@ -87,8 +88,8 @@ tb %>%
     arrange_taxa() %>%
     bar_plot(position = "fill", 
              global_colours = colourscheme,
-             true_line = TRUE)
-    
+             true_line = TRUE) + 
+    ggtitle("All Samples")
 ```
 
 

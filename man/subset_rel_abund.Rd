@@ -4,7 +4,7 @@
 \alias{subset_rel_abund}
 \title{Subset samples from a relative abundance table.}
 \usage{
-subset_rel_abund(rel_abund_tb, var, selection, recompute = FALSE)
+subset_rel_abund(rel_abund_tb, var = "sample_id", selection, recompute = FALSE)
 }
 \arguments{
 \item{rel_abund_tb}{A tibble.}

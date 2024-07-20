@@ -454,3 +454,54 @@ tb_l %>%
 
 tb_m %>%
     bar_plot(global_colours = colourscheme) + ggtitle("Lowest Ten")
+
+## new section
+tb1 <- rel_abund_phy(physeq, meta_data = TRUE, taxa_level = "Order") %>%
+    pool_taxa(n = 18, keep_metadata = TRUE) %>%
+    arrange_taxa() %>%
+    arrange_sample_by_taxa()
+
+tb2 <- rel_abund_phy(physeq, meta_data = TRUE, taxa_level = "Order",
+                     var = "sample_id") %>%
+    pool_taxa(n = 18, keep_metadata = TRUE) %>%
+    arrange_taxa()
+    # arrange_sample_by_taxa()
+library(cowplot)
+library(ggplot2)
+p1 <- bar_plot(tb1, position = "fill") +
+theme(panel.grid.major = element_blank(),
+    axis.line.x = element_blank(),
+    axis.text.x = element_blank(),
+    axis.title.x = element_blank(),
+    axis.ticks = element_blank(),
+    axis.text.y = element_blank(),
+    axis.title.y = element_blank(),
+    legend.position = "none"
+    )
+p2 <- bubble_plot(tb2, color = "date") +
+    scale_color_viridis_c(option = "turbo") +
+    theme_half_open() +
+    geom_point(pch = 21) +
+    theme(panel.grid.major = element_blank(),
+    axis.line.x = element_blank(),
+    axis.text.x = element_blank(),
+    axis.title.x = element_blank(),
+    axis.ticks = element_blank(),
+    axis.text.y = element_blank(),
+    axis.title.y = element_blank(),
+    legend.position = "none"
+    )
+p3 <- align_plots(p1, p2, align = "hv", axis = "tblr")
+sp <- ggdraw(p3[[1]]) + draw_plot(p3[[2]])
+
+library(hexSticker)
+imgurl <- system.file("figures/bubbler_hex.png", package="bubbler")
+s <- sticker(imgurl,
+             package="bubbler",
+             p_size=20, p_color = "black", p_y = 0.69,
+             s_x=1, s_y=1, s_width=0.86, s_height=0.5,
+             h_color = "white", h_size = 0.8,
+             filename="inst/figures/hex_final.png")
+
+logo <- system.file("figures/hex_final.png", package="bubbler")
+
