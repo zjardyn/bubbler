@@ -5,7 +5,8 @@
 
 <!-- badges: start -->
 
-![](inst/figures/hex_final.png) <!-- badges: end -->
+<img src="inst/figures/hex_final.png" height="150" />
+<!-- badges: end -->
 
 Bubbler is a tidy approach to amplicon sequencing visualization. Bubbler
 makes relative abundance tables from amplicon-sequencing (16S/18S rRNA)
