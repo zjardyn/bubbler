@@ -9,12 +9,12 @@ navbar:
             text: Articles
             menu:
             - text: 1. Import data
-              href: vignettes/data_import.html
+              href: data_import.html
             - text: 2. Calculate relative abundance
-              href: vignettes/calc_rel_abund.html
+              href: calc_rel_abund.html
             - text: 3. Pooling and arranging
-              href: vignettes/pool_taxa.html
+              href: pool_taxa.html
             - text: 4. Global colour scheme
-              href: vignettes/data_import.html
+              href: data_import.html
             - text: 6. Cookbook
               href: articles/cookbook.html
