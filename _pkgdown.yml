@@ -2,19 +2,3 @@ url: https://zjardyn.github.io/bubbler/
 template:
   bootstrap: 5
   light-switch: true
-
-navbar:
-    components:
-        articles:
-            text: Articles
-            menu:
-            - text: 1. Import data
-              href: data_import.html
-            - text: 2. Calculate relative abundance
-              href: calc_rel_abund.html
-            - text: 3. Pooling and arranging
-              href: pool_taxa.html
-            - text: 4. Global colour scheme
-              href: data_import.html
-            - text: 6. Cookbook
-              href: articles/cookbook.html
