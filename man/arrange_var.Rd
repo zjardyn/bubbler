@@ -21,5 +21,5 @@ Arrange a variable by the ordering of another variable
 }
 \examples{
 rel_abund_phy(phy = physeq, meta_data = TRUE) \%>\%
-    arrange_var(levels = "Location")
+    arrange_var(levels = "location")
 }

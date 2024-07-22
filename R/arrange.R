@@ -111,15 +111,28 @@ arrange_taxa <- function(rel_abund_tb, pooled = "top", order = "bottom") {
 #'
 #' @examples
 #' rel_abund_phy(phy = physeq, meta_data = TRUE) %>%
-#'     arrange_var(levels = "Location")
+#'     arrange_var(levels = "location")
 arrange_var <- function(rel_abund_tb, var = "sample_id", levels){
-   if(missing(rel_abund_tb)){stop("Provide a relative abundance table.")}
-   if(missing(levels)){stop("levels not provided.")}
+    if(missing(rel_abund_tb)){stop("Provide a relative abundance table.")}
+    if(missing(levels)){stop("levels not provided.")}
 
-   rel_abund_tb %>%
-   dplyr::mutate(!!rlang::sym(var) := as.factor(!!rlang::sym(var)),
-                 !!rlang::sym(var) := forcats::fct_relevel(!!rlang::sym(var), levels))
+    if(is.numeric(rel_abund_tb[[levels]])){
+
+        rel_abund_tb %>%
+            dplyr::mutate(!!rlang::sym(var) := as.factor(!!rlang::sym(var)),
+                          !!rlang::sym(var) := forcats::fct_reorder(!!rlang::sym(var), !!rlang::sym(levels)))
+
+    } else {
+
+       ord_levels <- rel_abund_tb %>%
+            dplyr::arrange(!!rlang::sym(levels)) %>% dplyr::distinct(!!rlang::sym(var)) %>% dplyr::pull(!!rlang::sym(var))
+
+        rel_abund_tb %>%
+                dplyr::mutate(!!rlang::sym(var) := factor(!!rlang::sym(var)),  # Convert to factor first
+                              !!rlang::sym(var) := forcats::fct_relevel(!!rlang::sym(var), ord_levels))
+    }
 }
+
 
 #' Arrange a variable by its grouped relative abundance
 #'
