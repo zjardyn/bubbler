@@ -56,7 +56,15 @@ hc <- hclust(bc_dist, method = "average")
 
 # Have to convert from a phylo to a ggtree object to get at the tip order. 
 phylo_tree <- as.phylo(hc)
-ggtree_plot <- ggtree::ggtree(phylo_tree)
+# ggtree_plot <- ggtree::ggtree(phylo_tree)
+
+tree_data <- ggtree::fortify(phylo_tree)
+tree_data <- tree_data %>%
+    left_join(meta_data_qiime(metadata_q), by = c("label" = "sample_id"))
+
+ggtree_plot <- ggtree::ggtree(tree_data) + 
+    ggtree::geom_tippoint(aes(color = body_site)) + 
+    scale_color_viridis_d()
 
 # Get the tip order.
 tip_order <- ggtree_plot$data %>%
@@ -66,25 +74,21 @@ tip_order <- ggtree_plot$data %>%
     rev() %>%
     pull()
 
-# Make the tree
-p1 <- ggtree::ggtree(phylo_tree) +
-    theme(plot.margin = margin(0, -5, 0, 0))
-
 # Make the relative abundance table and the sideways barplot.
 q <- rel_abund_qiime(counts_q, taxa_q, metadata_q) %>%
     pool_taxa(n_taxa = 12, keep_metadata = TRUE)
 
+
 p2 <- q %>%
     arrange_var(levels = tip_order) %>%
-    bar_plot(position = "fill", color = "body_site") +
+    bar_plot(position = "fill")  +
     labs(x = NULL) +
     scale_x_discrete(position = "top") +
     scale_y_continuous(expand = c(0,0)) +
     coord_flip() +
-    theme(plot.margin = margin(0, 0, 0, 5)) + 
-    scale_fill_viridis_d(option = "turbo")
+    theme(plot.margin = margin(0, 0, 0, 5)) 
 
-p1 | p2
+ggtree_plot +  p2 + patchwork::plot_layout(guides = "collect")
 ```
 
 # Technique 2: Nested legend and colourscheme within taxa
