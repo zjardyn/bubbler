@@ -59,8 +59,8 @@ arrange_taxa <- function(rel_abund_tb, pooled = "top", order = "bottom") {
             dplyr::mutate(taxon = forcats::fct_reorder(taxon, mean)) %>%
             dplyr::mutate(taxon = forcats::fct_rev(taxon)) %>% # new
             dplyr::select(-mean) %>%
-            dplyr::mutate(taxon = forcats::fct_relevel(taxon, threshold, after = 0),
-                          taxon = forcats::fct_relevel(taxon, "Unclassified", after = 1))
+                dplyr::mutate(taxon = suppressWarnings(forcats::fct_relevel(taxon, threshold, after = 0)),
+                              taxon = suppressWarnings(forcats::fct_relevel(taxon, "Unclassified", after = 1)))
         }
         if (pooled == "bottom"){
 
@@ -69,8 +69,8 @@ arrange_taxa <- function(rel_abund_tb, pooled = "top", order = "bottom") {
                 dplyr::mutate(taxon = forcats::fct_reorder(taxon, mean)) %>%
                 dplyr::mutate(taxon = forcats::fct_rev(taxon)) %>% # new
                 dplyr::select(-mean) %>%
-                dplyr::mutate(taxon = forcats::fct_relevel(taxon, "Unclassified", after = Inf),
-                              taxon = forcats::fct_relevel(taxon, threshold, after =  Inf))
+                dplyr::mutate(taxon = suppressWarnings(forcats::fct_relevel(taxon, "Unclassified", after = Inf)),
+                              taxon = suppressWarnings(forcats::fct_relevel(taxon, threshold, after =  Inf)))
         }
 
     } else if (order  == "bottom"){
@@ -144,13 +144,6 @@ arrange_var <- function(rel_abund_tb, var = "sample_id", levels){
                               !!rlang::sym(var) := forcats::fct_relevel(!!rlang::sym(var), levels))
     }
 }
-
-
-
-
-
-
-
 }
 
 
