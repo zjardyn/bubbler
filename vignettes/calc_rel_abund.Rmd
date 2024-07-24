@@ -149,7 +149,7 @@ variable, the sum of relative abundance equals one.
 
 If you want the best of both worlds, you can create a scaled bar plot, and superimpose the proportional abundances. Currently, this feature does not work with a faceting functions, so the only option would be to split a rel_abund table into multiple plots.
 
-```{r, message=FALSE, warning=FALSE}
+```{r, message=FALSE, warning=FALSE, fig.width= 9, fig.width= 9}
 # order by sample read abundance, plot as line
 library(patchwork)
 
@@ -170,10 +170,13 @@ q <- rel_abund_qiime(
 yes <- subset_rel_abund(q, var = "reported_antibiotic_usage", selection = "Yes")
 no <- subset_rel_abund(q, var = "reported_antibiotic_usage", selection = "No")
 
-p1 <- bar_plot(yes, position = "fill" ,true_line = TRUE) + ggtitle("Antibiotics used")
-p2 <- bar_plot(no, position = "fill" ,true_line = TRUE) + ggtitle("Antibiotics not used")
-
-p1 + p2 + plot_layout(guides = "collect", axes = "collect")
+p1 <- bar_plot(yes, position = "fill", true_line = TRUE ) + ggtitle("Antibiotics used") + 
+geom_text(aes(label = body_site, y = 0.9), 
+          angle = 90, color = "white", size = 3)
+p2 <- bar_plot(no, position = "fill" , true_line = TRUE) + ggtitle("Antibiotics not used") + 
+geom_text(aes(label = body_site, y = 0.9), 
+          angle = 90, color = "white", size = 3)
+ p1 + p2 + plot_layout(guides = "collect", axes = "collect")
 
 ```
 ```{r}
