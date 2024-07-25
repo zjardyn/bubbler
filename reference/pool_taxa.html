@@ -21,7 +21,7 @@ and optionally, across a variable."><meta property="og:image" content="https://z
 <li class="nav-item dropdown">
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
   <ul class="dropdown-menu" aria-labelledby="dropdown-articles"><li><a class="dropdown-item" href="../articles/calc_rel_abund.html">2. Calculate relative abundance</a></li>
-    <li><a class="dropdown-item" href="../articles/cookbook.html">CookBook</a></li>
+    <li><a class="dropdown-item" href="../articles/cookbook.html"></a></li>
     <li><a class="dropdown-item" href="../articles/data_import.html">1. Data Import</a></li>
     <li><a class="dropdown-item" href="../articles/global_colour_scheme.html">4. Global colour scheme</a></li>
     <li><a class="dropdown-item" href="../articles/pool_taxa.html">3. Pooling and arranging</a></li>
@@ -58,7 +58,7 @@ and optionally, across a variable.</p>
 <span>  <span class="va">threshold</span>,</span>
 <span>  n_taxa <span class="op">=</span> <span class="fl">12</span>,</span>
 <span>  keep_metadata <span class="op">=</span> <span class="cn">FALSE</span>,</span>
-<span>  label <span class="op">=</span> <span class="cn">TRUE</span></span>
+<span>  label <span class="op">=</span> <span class="cn">FALSE</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -96,17 +96,17 @@ and optionally, across a variable.</p>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu"><a href="rel_abund_phy.html">rel_abund_phy</a></span><span class="op">(</span><span class="va">physeq</span><span class="op">)</span> <span class="op"><a href="pipe.html">%&gt;%</a></span> <span class="fu">pool_taxa</span><span class="op">(</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 300 × 3</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    sample_id taxon           rel_abund</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;glue&gt;</span>              <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 1</span> Smp1      &lt; 0.0249%      0.003<span style="text-decoration: underline;">33</span>   </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 2</span> Smp1      Actinomycetota 0.002<span style="text-decoration: underline;">90</span>   </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 3</span> Smp1      Bacillota      0.000<span style="text-decoration: underline;">002</span>12</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 4</span> Smp1      Bacteroidota   0.000<span style="text-decoration: underline;">667</span>  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>               <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 1</span> Smp1      Actinomycetota 0.002<span style="text-decoration: underline;">90</span>   </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 2</span> Smp1      Bacillota      0.000<span style="text-decoration: underline;">002</span>12</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 3</span> Smp1      Bacteroidota   0.000<span style="text-decoration: underline;">667</span>  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 4</span> Smp1      Other          0.003<span style="text-decoration: underline;">33</span>   </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 5</span> Smp1      Pseudomonadota 0.001<span style="text-decoration: underline;">83</span>   </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 6</span> Smp1      Spirochaetota  0.000<span style="text-decoration: underline;">006</span>35</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 7</span> Smp10     &lt; 0.0249%      0.006<span style="text-decoration: underline;">26</span>   </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 8</span> Smp10     Actinomycetota 0.000<span style="text-decoration: underline;">110</span>  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span> Smp10     Bacillota      0.000<span style="text-decoration: underline;">019</span>1 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span> Smp10     Bacteroidota   0.000<span style="text-decoration: underline;">050</span>8 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 7</span> Smp10     Actinomycetota 0.000<span style="text-decoration: underline;">110</span>  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 8</span> Smp10     Bacillota      0.000<span style="text-decoration: underline;">019</span>1 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span> Smp10     Bacteroidota   0.000<span style="text-decoration: underline;">050</span>8 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span> Smp10     Other          0.006<span style="text-decoration: underline;">26</span>   </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 290 more rows</span></span>
 </code></pre></div>
     </div>
