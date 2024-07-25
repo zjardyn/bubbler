@@ -36,12 +36,14 @@ test_that("detect_threshold works", {
     counts_q <- system.file("extdata/qiime/table-dada2.qza", package = "bubbler")
     taxa_q <- system.file("extdata/qiime/taxonomy.qza", package = "bubbler")
     meta_q <- system.file("extdata/qiime/sample-metadata.tsv", package = "bubbler")
-    tb <- rel_abund_qiime(counts_q, taxa_q, meta_q) %>% pool_taxa()
+    tb <- rel_abund_qiime(counts_q, taxa_q, meta_q) %>% pool_taxa(label = TRUE)
     tb_nolabel <- rel_abund_qiime(counts_q, taxa_q, meta_q) %>% pool_taxa(label = FALSE)
     thresh_tb <- detect_threshold(tb)
     thresh_nolabel <- detect_threshold(tb_nolabel)
+    thresh_null <- detect_threshold(tb_nolabel, replace = FALSE)
 
     expect_match(thresh_tb, "<")
     expect_match(thresh_nolabel, "Other")
+    expect_null(thresh_null)
 
 })

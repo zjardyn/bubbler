@@ -12,6 +12,7 @@ test_that("arrange_sample_by_taxa works", {
 test_that("arrange_var_abund works", {
     tb <- rel_abund_phy(phy = physeq)
     expect_no_error(arrange_var_abund(tb))
+    expect_no_error(arrange_var_abund(tb, flip = TRUE))
 })
 
 test_that("arrange_var works", {

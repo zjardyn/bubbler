@@ -2,116 +2,24 @@ library(tidyverse)
 library(phyloseq)
 library(viridis)
 library(ggnewscale)
-library(vegan)
-library(ape)
-library(ggtree)
-library(phyloseq)
-# qiime importing
-# library(qiime2R)
-
-# fix pool_taxa, go through it to see if it is legit, add option to remove the threshold taxa
-# count number of asvs per taxonomic group and add as variable
-
-# add bray-curtis tree beside bargraph
-
-counts_q <- system.file("extdata", "qiime", "table-dada2.qza", package = "bubbler")
-taxa_q <- system.file("extdata", "qiime", "taxonomy.qza", package = "bubbler")
-metadata_q <- system.file("extdata", "qiime", "sample-metadata.tsv", package = "bubbler")
-
-# asv_data = asv_data_phy(physeq)
-# asv_data = asv_data_qiime(counts_q)
-# asv_data = asv_data_tsv(counts_q)
-
-asv_tree <- function(asv_data , method = "bray") {
-
-        asv = asv_data %>%
-            as.data.frame() %>%
-            tibble::column_to_rownames(var = "sample_id") %>%
-            as.matrix()
-
-        vegan::vegdist(asv, method = method) %>%
-            stats::hclust(method = "average") %>%
-            ape::as.phylo() %>%
-            ggtree::ggtree()
-
-}
-
-tip_order <- function(tree){
-        tree$data %>%
-            dplyr::filter(isTip == TRUE) %>%
-            dplyr::arrange(y) %>%
-            dplyr::select(label) %>%
-            rev() %>%
-            dplyr::pull()
-}
-
-tree <- asv_tree(asv_data_qiime(counts_q))
-tip_ord <- tip_order(tree)
-
-# Make the tree
-p1 <- tree +
-    theme(plot.margin = margin(0, -5, 0, 0))
-
-# Make the relative abundance table and the sideways barplot.
-q <- rel_abund_qiime(counts_q, taxa_q, metadata_q) %>%
-    pool_taxa(n_taxa = 12, keep_metadata = TRUE)
-
-p2 <- q %>%
-    arrange_var(levels = tip_ord) %>%
-    bar_plot(position = "fill", color = "body_site") +
-    labs(x = NULL) +
-    scale_x_discrete(position = "top") +
-    coord_flip() +
-    theme(plot.margin = margin(0, 0, 0, 5))
-
-meta <- meta_data_qiime(metadata_q)
-tree_m <- dplyr::inner_join(tree$data, meta, by = dplyr::join_by(label == sample_id))
-tree$data <- tree_m
-
-tree$data
-
-p1 | p2
 
 
+asv_qiime <- system.file("extdata", "qiime", "table-dada2.qza", package = "bubbler")
+taxa_qiime <- system.file("extdata", "qiime", "taxonomy.qza", package = "bubbler")
+metadata_qiime <- system.file("extdata", "qiime", "sample-metadata.tsv", package = "bubbler")
+
+import_rel_abund.qiime(asv_qiime, taxa_qiime, metadata_qiime)
+rel_abund(asv_qiime, taxa_qiime, metadata_qiime)
 
 
-
-
-library(viridis)
-library(ggnewscale)
-
-# Function to display a vector of colors with 10 colors per row using ggplot2
-display_colors_ggplot <- function(color_vector, colors_per_row = 10) {
-    n <- length(color_vector)
-    rows <- ceiling(n / colors_per_row)
-    data <- data.frame(
-        x = rep(1:colors_per_row, length.out = n),
-        y = rep(1:rows, each = colors_per_row)[1:n],
-        color = color_vector
-    )
-
-    ggplot(data, aes(x = factor(x), y = factor(y), fill = color)) +
-        geom_tile() +
-        scale_fill_identity() +
-        theme_void() +
-        theme(
-            axis.text.x = element_blank(),
-            axis.text.y = element_blank(),
-            axis.ticks = element_blank()
-        )
-        # geom_text(aes(label = color), angle = 90, hjust = 1, vjust = 0.5, size = 3)
-}
-
+asv_data_qiime(asv_qiime)
+taxa_data_qiime(taxa_qiime)
+meta_data_qiime(metadata_q)
 ###~%~ trying to get a nested colour scheme for phylum ~%~###
 
 taxa_qiime <- system.file("extdata", "qiime", "taxonomy.qza", package = "bubbler")
 
 tx <- taxa_data_qiime(taxa_qiime)
-tx %>%
-    select(Phylum) %>%
-    group_by(Phylum) %>%
-    summarise(sum = n()) %>%
-    arrange(desc(sum))
 
 asv_qiime <- system.file("extdata", "qiime", "table-dada2.qza", package = "bubbler")
 taxa_qiime <- system.file("extdata", "qiime", "taxonomy.qza", package = "bubbler")
@@ -125,7 +33,7 @@ q <- rel_abund_qiime(
     taxa_level = "Genus", )
 
 # pool taxa, rename taxon to Genus (its true level) and select it.
-qp <- pool_taxa(q, 0.0035)
+qp <- pool_taxa(q, n_taxa = 20, label = FALSE)
 
 taxa_pooled <- qp %>%
     rename(Genus = "taxon") %>%
@@ -134,24 +42,11 @@ taxa_pooled <- qp %>%
 
 # merge the filtered
 taxa_full <- inner_join(tx, taxa_pooled, by = "Genus" )
-    # select(Genus) %>%
-    # unique()``
-
-# taxa_unique <- taxa_full %>%
-#     select(Phylum) %>%
-#     unique() %>%
-#     pull()
-
-# Generate viridis colors for each group
-# phylum_colors <- setNames(viridis::turbo(length(taxa_unique)), taxa_unique)
-
 
 phylum_genus <- taxa_full %>%
     select(Phylum, Genus) %>%
     arrange(Phylum, Genus ) %>%
     distinct()
-
-# new way of doing it
 
 pg_nest <- phylum_genus %>%
     group_by(Phylum) %>%
@@ -173,7 +68,7 @@ for(i in 1:nrow(pg_nest)){
     phylum_shades <- phylum_shades[1:(length(phylum_shades) - cutoff)]
 
     pgc <- tibble(taxon = pull(genera),
-                 color = phylum_shades)
+                  color = phylum_shades)
 
     tb <- bind_rows(tb, pgc)
 }
@@ -213,7 +108,7 @@ groups <- qpc2 %>%
 qpc %>%
     arrange_taxa(pooled = "top") %>%
     arrange_sample_by_taxa() %>%
-ggplot() +
+    ggplot() +
     lapply(groups, function(x){
         list(
             geom_col(aes(x = sample_id, y = rel_abund, fill = taxon), position = "fill"),
@@ -226,27 +121,16 @@ ggplot() +
     }) + guides(fill=guide_legend(ncol=3)) +
     theme(
         # legend.position = "bottom"
-         plot.margin=margin(t=30),
-         legend.key.size = unit(10, "pt"),
-         # legend.position = "bottom"
-         # legend.box = "vertical"
-        )
-
-guides(fill=guide_legend(nrow=2,byrow=TRUE))
-legend.key.height = unit(0.3, "npc"),
-legend.key.width = unit(30, "pt"),
-legend.key = element_blank(),
-legend.title = element_text(margin=margin(t=-30)),
-plot.margin=margin(t=50)
-
-guides(color = guide_legend(nrow = 2))
-
-
-# old way of doing it``
+        plot.margin=margin(t=30),
+        legend.key.size = unit(10, "pt"),
+        # legend.position = "bottom"
+        # legend.box = "vertical"
+    )
 
 
 
 
+# # old way of doing it
 phylum_genus_col <- phylum_genus %>%
     mutate(color = phylum_colors[Phylum])
 
@@ -504,4 +388,94 @@ s <- sticker(imgurl,
              filename="inst/figures/hex_final.png")
 
 logo <- system.file("figures/hex_final.png", package="bubbler")
+
+library(vegan)
+library(ape)
+library(ggtree)
+library(phyloseq)
+
+# add bray-curtis tree beside bargraph
+counts_q <- system.file("extdata", "qiime", "table-dada2.qza", package = "bubbler")
+taxa_q <- system.file("extdata", "qiime", "taxonomy.qza", package = "bubbler")
+metadata_q <- system.file("extdata", "qiime", "sample-metadata.tsv", package = "bubbler")
+
+# asv_data = asv_data_phy(physeq)
+# asv_data = asv_data_qiime(counts_q)
+# asv_data = asv_data_tsv(counts_q)
+
+asv_tree <- function(asv_data , method = "bray") {
+
+        asv = asv_data %>%
+            as.data.frame() %>%
+            tibble::column_to_rownames(var = "sample_id") %>%
+            as.matrix()
+
+        vegan::vegdist(asv, method = method) %>%
+            stats::hclust(method = "average") %>%
+            ape::as.phylo() %>%
+            ggtree::ggtree()
+
+}
+
+tip_order <- function(tree){
+        tree$data %>%
+            dplyr::filter(isTip == TRUE) %>%
+            dplyr::arrange(y) %>%
+            dplyr::select(label) %>%
+            rev() %>%
+            dplyr::pull()
+}
+
+tree <- asv_tree(asv_data_qiime(counts_q))
+tip_ord <- tip_order(tree)
+
+# Make the tree
+p1 <- tree +
+    theme(plot.margin = margin(0, -5, 0, 0))
+
+# Make the relative abundance table and the sideways barplot.
+q <- rel_abund_qiime(counts_q, taxa_q, metadata_q) %>%
+    pool_taxa(n_taxa = 12, keep_metadata = TRUE)
+
+p2 <- q %>%
+    arrange_var(levels = tip_ord) %>%
+    bar_plot(position = "fill", color = "body_site") +
+    labs(x = NULL) +
+    scale_x_discrete(position = "top") +
+    coord_flip() +
+    theme(plot.margin = margin(0, 0, 0, 5))
+
+meta <- meta_data_qiime(metadata_q)
+tree_m <- dplyr::inner_join(tree$data, meta, by = dplyr::join_by(label == sample_id))
+tree$data <- tree_m
+
+tree$data
+
+p1 | p2
+
+
+
+
+
+# Function to display a vector of colors with 10 colors per row using ggplot2
+display_colors_ggplot <- function(color_vector, colors_per_row = 10) {
+    n <- length(color_vector)
+    rows <- ceiling(n / colors_per_row)
+    data <- data.frame(
+        x = rep(1:colors_per_row, length.out = n),
+        y = rep(1:rows, each = colors_per_row)[1:n],
+        color = color_vector
+    )
+
+    ggplot(data, aes(x = factor(x), y = factor(y), fill = color)) +
+        geom_tile() +
+        scale_fill_identity() +
+        theme_void() +
+        theme(
+            axis.text.x = element_blank(),
+            axis.text.y = element_blank(),
+            axis.ticks = element_blank()
+        )
+        # geom_text(aes(label = color), angle = 90, hjust = 1, vjust = 0.5, size = 3)
+}
 

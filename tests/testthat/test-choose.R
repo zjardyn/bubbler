@@ -6,5 +6,8 @@ test_that("subset_rel_abund works", {
 
 test_that("subset_high_low works", {
     tb <- rel_abund_phy(phy = physeq)
-    expect_no_error(subset_high_low(tb, n = 5))
+    expect_no_error(subset_high_low(tb, subset = "high", n = 5, flip = FALSE ))
+    expect_no_error(subset_high_low(tb, subset = "low", n = 5, flip = FALSE ))
+    expect_no_error(subset_high_low(tb, subset = "low", n = 5, flip = TRUE ))
+    expect_no_error(subset_high_low(tb, subset = "high", n = 5, flip = TRUE ))
 })

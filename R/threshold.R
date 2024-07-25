@@ -64,7 +64,7 @@ choose_n_taxa <- function(rel_abund_tb, n_taxa = 8) {
 #'
 #' @examples
 #' rel_abund_phy(physeq) %>% pool_taxa()
-pool_taxa <- function(rel_abund_tb, threshold, n_taxa = 12, keep_metadata = FALSE, label = TRUE) {
+pool_taxa <- function(rel_abund_tb, threshold, n_taxa = 12, keep_metadata = FALSE, label = FALSE) {
     if(missing(rel_abund_tb)){stop("Provide a relative abundance table.")}
     if(!("taxon" %in% colnames(rel_abund_tb))){stop('variable taxon not found in colnames' )}
     if(missing(threshold)){threshold = choose_n_taxa(rel_abund_tb, n_taxa)}
@@ -108,17 +108,22 @@ pool_taxa <- function(rel_abund_tb, threshold, n_taxa = 12, keep_metadata = FALS
 #' Detect the label used for threshold from a pooled relative_abundance table
 #'
 #' @param rel_abund_tb A relative abundance table in tibble format.
+#' @param replace Logical, whether to return "Other" or NULL.
 #'
 #' @return A character vector of length one.
 #' @export
 #'
 #' @examples
 #' rel_abund_phy(physeq) %>% detect_threshold()
-detect_threshold <- function(rel_abund_tb){
+detect_threshold <- function(rel_abund_tb, replace = TRUE){
     threshold <- grep("<", rel_abund_tb[["taxon"]], value = TRUE, fixed = TRUE, useBytes = TRUE)[1]
 
     if(is.na(threshold)){
-        threshold <- "Other"
+        if(replace == TRUE){
+            threshold <- "Other"
+        } else {
+            threshold <- NULL
+        }
     }
 
    threshold

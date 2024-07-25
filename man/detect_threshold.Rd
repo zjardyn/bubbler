@@ -4,10 +4,12 @@
 \alias{detect_threshold}
 \title{Detect the label used for threshold from a pooled relative_abundance table}
 \usage{
-detect_threshold(rel_abund_tb)
+detect_threshold(rel_abund_tb, replace = TRUE)
 }
 \arguments{
 \item{rel_abund_tb}{A relative abundance table in tibble format.}
+
+\item{replace}{Logical, whether to return "Other" or NULL.}
 }
 \value{
 A character vector of length one.

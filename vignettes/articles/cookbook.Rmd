@@ -1,5 +1,5 @@
 ---
-title: "CookBook"
+title: ""
 ---
 
 These are rough implementations of future features. They are intended to extend `bubblers` base functionality using various packages. If you want to help implement these I will accept PRs.
@@ -96,28 +96,6 @@ ggtree_plot +  p2 + patchwork::plot_layout(guides = "collect")
 
 ```{r}
 
-# Function to display a vector of colors with 10 colors per row using ggplot2
-display_colors_ggplot <- function(color_vector, colors_per_row = 10) {
-    n <- length(color_vector)
-    rows <- ceiling(n / colors_per_row)
-    data <- data.frame(
-        x = rep(1:colors_per_row, length.out = n),
-        y = rep(1:rows, each = colors_per_row)[1:n],
-        color = color_vector
-    )
-
-    ggplot(data, aes(x = factor(x), y = factor(y), fill = color)) +
-        geom_tile() +
-        scale_fill_identity() +
-        theme_void() +
-        theme(
-            axis.text.x = element_blank(),
-            axis.text.y = element_blank(),
-            axis.ticks = element_blank()
-        )
-        # geom_text(aes(label = color), angle = 90, hjust = 1, vjust = 0.5, size = 3)
-}
-
 ###~%~ trying to get a nested colour scheme for phylum ~%~###
 
 taxa_qiime <- system.file("extdata", "qiime", "taxonomy.qza", package = "bubbler")
@@ -136,7 +114,7 @@ q <- rel_abund_qiime(
     taxa_level = "Genus", )
 
 # pool taxa, rename taxon to Genus (its true level) and select it.
-qp <- pool_taxa(q, 0.0035)
+qp <- pool_taxa(q, 0.0035, label = FALSE)
 
 taxa_pooled <- qp %>%
     rename(Genus = "taxon") %>%

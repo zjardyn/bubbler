@@ -9,7 +9,7 @@ pool_taxa(
   threshold,
   n_taxa = 12,
   keep_metadata = FALSE,
-  label = TRUE
+  label = FALSE
 )
 }
 \arguments{
