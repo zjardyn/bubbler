@@ -16,24 +16,19 @@ knitr::opts_chunk$set(
 )
 ```
 
-```{r setup}
+```{r setup, echo=FALSE}
 library(bubbler)
 ```
 # Relative abundance
- 
-For a given set of samples, relative abundance is calculated as:
+
+`bubbler` takes an ASV table and converts counts to relative abundances using this simple formula:
+
+$\text{Relative abundance} = \frac{x_i}{\sum x_i} = 1$
+
+Where $x_i$ is the count of a given ASV, divided by the sum of all ASV counts. This way, the sum of all relative abundances equal one.   \n   `bubbler` then tacks on taxonomic information and optionally metadata. By default, `bubbler::bar_plot` produces stacked bar plots, which show the proportional differences of counts between samples. 
 
 
-$\text{Relative abundance} = \frac{x_i}{\sum x_i}$
-
-
-Where $x_i$ is the count of a given asv, divided by the sum of all asv counts. This way, the sum of all relative abundances equal one. 
-
-
-It is useful to visualize your data in this form to see the proportional counts between samples. 
-
-
-```{r load_qiime, message=FALSE, warning=FALSE }
+```{r load_qiime, echo = FALSE, message=FALSE, warning=FALSE }
 library(ggplot2)
 library(viridis)
 # path to qiime-formatted asv counts 
@@ -62,35 +57,28 @@ rel_abund_pool <- rel_abund %>%
 # 3. plot rel_abund
 rel_abund_pool %>%
     bar_plot()  + 
-    # group samples by body site. free_x removes unwanted white space
+    # facet samples by body site. free_x removes unwanted white space
     facet_wrap(~body_site, scales = "free_x" ) 
 
 ```
 
 
-Subject proportions on the right palm are vastly different, which would not be captured in a filled barplot. 
 
+`bubbler::bar_plot`s can also be filled in. Based on the above plot, subject proportions on the right palm are vastly different, and this information would be lost in a filled-in bar plot. By filling the plotting area, we get a better representation of the between-sample composition, at the cost of obfuscating the between-sample proportions. 
 
 ```{r}
 rel_abund_pool %>%
     bar_plot(position = "fill")  + 
-    # group samples by body site. free_x removes unwanted white space
     facet_wrap(~body_site, scales = "free_x") 
 ```
 
-This is the effect of calculating rel_abund separately so that each sample sums to one. We can scale our relative abundances to one within `bar_plot` using the position argument. We can also precompute the grouped relative abundances in our table:
 
 
-```{r, eval=FALSE}
-rel_abund_qiime(counts_q, 
-                taxa_q,
-                metadata_q,
-                taxa_level = "Genus",
-                var = "sample_id") # set the grouping variable to sample_id
-```
+One last thing about relative abundances: when setting `position` to "fill", we are effectively recomputing rel_abund, so that it sums to one within each bar on the x-axis. This transformation is equivalent to the following formula:
 
+$\text{Grouped relative abundance} = \frac{x_{ij}}{\sum_{j=1}^{k} x_{ij}} = k \text{ levels}$
 
-Our relative abundances "stack" to one. By filling the plotting area, we get a better representation of the between-sample composition, at the cost of obfuscating the between-sample proportions. 
+Where $k$ is the levels of the grouping variable (in this case `sample_id`) and $_i$ indexs through the ASVs and $_j$ indexs through the levels, Within each level of the grouping variable, the sum of relative abundance equals one, and the total sum of rel_abund is equal to the $k$ levels. This information is not very important in practice because `position` = "fill" scales the relative abundances for you.
 
 ## Visualizing variables 
 
@@ -98,10 +86,7 @@ Our relative abundances "stack" to one. By filling the plotting area, we get a b
 
 
 ```{r}
-rel_abund_qiime(counts_q,
-                taxa_q,
-                metadata_q,
-                taxa_level = "Genus") %>%
+rel_abund_qiime(counts_q, taxa_q, metadata_q, taxa_level = "Genus") %>%
     pool_taxa(n_taxa = 12,
               keep_metadata = TRUE) %>%
     arrange_taxa() %>%
@@ -109,41 +94,30 @@ rel_abund_qiime(counts_q,
 ```
 
 
-Again, this plot could be scaled in two ways: 
+
+For any given `x_var`, (`sample_id`, `body_site`, etc ), you have two options for computing the scaled rel_abund: Setting the `var` argument within the `rel_abund` function, or setting `position` = "fill" within `bubbler::bar_plot`. I prefer the latter method, which keeps the proportional differences.
 
 
 ```{r, eval=FALSE}
 # compute in rel_abund
-rel_abund_qiime(counts_q,
-                taxa_q,
-                metadata_q,
+rel_abund_qiime(counts_q, taxa_q, metadata_q,
                 taxa_level = "Genus",
                 var = "body_site") %>% #  scaling by body_site
     pool_taxa(n_taxa = 12,
               keep_metadata = TRUE) %>%
     arrange_taxa() %>%
     bar_plot(x_var = "body_site") # setting body_site as x_var
+```
 
+```{r}
 # scale in plot
-rel_abund_qiime(counts_q,
-                taxa_q,
-                metadata_q,
+rel_abund_qiime(counts_q, taxa_q, metadata_q,
                 taxa_level = "Genus") %>%
     pool_taxa(n_taxa = 12,
               keep_metadata = TRUE) %>%
     arrange_taxa() %>%
     bar_plot(position = "fill", x_var = "body_site")  # setting position as fill
-
 ```
-Generally, if you intend to modify your relative abundance table e.i., selecting columns, filtering rows, then you shouldn't use grouped relative abundance because you may want to keep the true proportional information. In this case you will rely on `position` = "fill in `bubbler::bar_plot`.
-
-The grouped relative abundance is calculated as: 
-
-$\text{Grouped relative abundance} = \frac{x_{ij}}{\sum_{j=1}^{k} x_{ij}}$
-
-Where $k$ is the levels of the grouping variable. Within each level of the grouping
-variable, the sum of relative abundance equals one. 
-
 
 ## Showing both scaled and unscaled information.
 
@@ -179,15 +153,6 @@ geom_text(aes(label = body_site, y = 0.9),
  p1 + p2 + plot_layout(guides = "collect", axes = "collect")
 
 ```
-```{r}
-rel_abund_phy(physeq, meta_data = TRUE, taxa_level = "Genus") %>%
-    pool_taxa(n_taxa = 12, keep_metadata = TRUE) %>%
-    arrange_taxa() %>%
-    arrange_var_abund(flip = TRUE) %>%
-    bar_plot(position = "fill", true_line = TRUE) + scale_fill_viridis_d(option = "turbo")
-```
-
-
 
 
 

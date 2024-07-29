@@ -15,11 +15,10 @@ knitr::opts_chunk$set(
 ```
 
 
-# Pooling 
+# Pooling taxonomy
 
 ```{r setup, message=FALSE, warning=FALSE}
 library(bubbler)
-library(dplyr)
 library(ggplot2)
 ```
 
@@ -34,10 +33,12 @@ taxa_q <- system.file("extdata", "qiime", "taxonomy.qza", package = "bubbler")
 metadata_q <- system.file("extdata", "qiime", "sample-metadata.tsv", package = "bubbler")
 ```
 
-The taxonomic level can be selected with the `taxa_level` argument, when generating 
-the relative abundance table. 
+The taxonomic level is selected with the `taxa_level` argument, when generating 
+the relative abundance table. By default it is set to "Phylum". Let's see how many different taxa are present in a table. 
 
-```{r}
+
+```{r, message=FALSE}
+library(dplyr)
 rel_abund <- rel_abund_qiime(counts_q, taxa_q, metadata_q, taxa_level = "Genus")
 
 rel_abund %>%
@@ -53,20 +54,18 @@ threshold is determined automatically.
 ```{r}
 rel_abund %>%
     pool_taxa(n_taxa = 12) %>% # threshold set to 0.0038
-    bar_plot(position = "fill") + 
-    scale_fill_viridis_d(option = "turbo")
+    bar_plot(position = "fill") 
 ```
 
 
-Pooling, by default will remove any meta data that was attached to the relative abundance table. Specify `keep_metadata` to keep it.
+Pooling, by default will remove any meta data that was attached to the relative abundance table. Specify `keep_metadata` to keep it. Setting `label` to FALSE will set the threshold label in the legend to "Other". 
 
 ```{r}
 rel_abund %>% 
-    pool_taxa(n_taxa = 16,
-              keep_metadata = TRUE) %>%
-    bar_plot(position = "fill", x_var = "body_site") + 
-   scale_fill_viridis_d(option = "turbo")
-    
+    pool_taxa(n_taxa = 8,
+              keep_metadata = TRUE,
+              label = FALSE) %>%
+    bar_plot(position = "fill", x_var = "body_site")
 ```
 
 
@@ -75,7 +74,7 @@ rel_abund %>%
 
 ## Taxa
 
-By default taxa are in alphabetical order, which can be seen in the legend of the plot.  Sorting the taxa by their abundance is a more meaningful sorting strategy. By default, taxa are arranged in ascending order but this can be switched with the `order` argument. The threshold position can also be modified with the `pooled` argument. With this ordering, it becomes clear that *Bacteroides* is the most abundant taxon in the gut, and *Streptococcus* among the other samples.
+In the legend, taxa are ordered alphabetically, which is the default for `ggplot2` when dealing with character variables.  Sorting the taxa by their abundance would be more meaningful. Using the `arrange_taxa` function, taxa can be arranged in ascending order, or flipped by setting  the `order` argument to "top" or "bottom". The threshold order can also be changed by setting the `pooled` argument to "top" or "bottom". After ordering, it becomes clear that *Bacteroides* is the most abundant taxon in the gut, and *Streptococcus* among the other samples.
 
 ```{r}
 rel_abund %>% 
@@ -83,13 +82,13 @@ rel_abund %>%
               keep_metadata = TRUE) %>%
     arrange_taxa(pooled = "top", order = "bottom") %>% # arrange by abundance
     bar_plot(position = "fill", x_var = "body_site") +  
-       scale_fill_viridis_d(option = "turbo")
+    labs(y = "mean_rel_abund")
 ```
 
 
 ## Variable
 
-Another option is to arrange the samples by a variable, which can be useful when the data includes metadata. Observe the similarities between the above and below plots. 
+Another option is to arrange the samples by a variable, which can be useful when the data includes metadata. Observe the similarities between the above and below plots. The above plot represents the mean relative abundances among the levels of `body_site`, and the bottom plot represents the relative abundance by sample, ordered by `body_site`. 
 
 
 ```{r}
@@ -98,22 +97,20 @@ rel_abund %>%
               keep_metadata = TRUE) %>%
     arrange_taxa(pooled = "top", order = "bottom") %>% # arrange by abundance
     arrange_var(var = "sample_id", levels = "body_site") %>%
-    bar_plot(position = "fill") + 
-        scale_fill_viridis_d(option = "turbo")
+    bar_plot(position = "fill") 
 ```
 
 
-## Samples by abundance
+## Samples by taxa abundance
 
-Samples can be arranged by taxa abundance. This is a good preliminary plot to generate to visualize the abundance of taxa within all the samples. 
+Samples can be arranged by taxa abundance. I first saw this technique used by Chenxin Li, in their github repo: [Friends Dont Let Friends Make Bad Graphs](https://github.com/cxli233/FriendsDontLetFriends/tree/main#13-friends-dont-let-friends-forget-to-reorder-stacked-bar-plot). Combined with `bubbler::arrange_taxa`, `bubbler::arrange_sample_by_taxa` will partition samples by their most abundant taxa. In the absence of meta data, this is a good preliminary visualization to produce. 
 
 ```{r}
 rel_abund %>% 
     pool_taxa(n_taxa = 16) %>%
     arrange_taxa() %>% 
     arrange_sample_by_taxa() %>%
-    bar_plot(position = "fill") + 
-    scale_fill_viridis_d(option = "turbo")
+    bar_plot(position = "fill") 
 ```
 
 <!-- TODO: variable by abundance  -->
