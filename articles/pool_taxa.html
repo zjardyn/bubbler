@@ -81,16 +81,18 @@
     
     
 <div class="section level2">
-<h2 id="pooling">Pooling<a class="anchor" aria-label="anchor" href="#pooling"></a>
+<h2 id="pooling-taxonomy">Pooling taxonomy<a class="anchor" aria-label="anchor" href="#pooling-taxonomy"></a>
 </h2>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://zjardyn.github.io/bubbler/">bubbler</a></span><span class="op">)</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org" class="external-link">ggplot2</a></span><span class="op">)</span></span></code></pre></div>
-<p>The taxonomic level can be selected with the <code>taxa_level</code>
-argument, when generating the relative abundance table.</p>
+<p>The taxonomic level is selected with the <code>taxa_level</code>
+argument, when generating the relative abundance table. By default it is
+set to “Phylum”. Let’s see how many different taxa are present in a
+table.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">rel_abund</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/rel_abund_qiime.html">rel_abund_qiime</a></span><span class="op">(</span><span class="va">counts_q</span>, <span class="va">taxa_q</span>, <span class="va">metadata_q</span>, taxa_level <span class="op">=</span> <span class="st">"Genus"</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a></span><span class="op">)</span></span>
+<span><span class="va">rel_abund</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/rel_abund_qiime.html">rel_abund_qiime</a></span><span class="op">(</span><span class="va">counts_q</span>, <span class="va">taxa_q</span>, <span class="va">metadata_q</span>, taxa_level <span class="op">=</span> <span class="st">"Genus"</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">rel_abund</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
 <span>    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html" class="external-link">summarise</a></span><span class="op">(</span>unique_taxa <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/n_distinct.html" class="external-link">n_distinct</a></span><span class="op">(</span><span class="va">taxon</span><span class="op">)</span><span class="op">)</span> <span class="co"># see how many unique taxa there are </span></span>
@@ -107,22 +109,18 @@ threshold is determined automatically.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">rel_abund</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
 <span>    <span class="fu"><a href="../reference/pool_taxa.html">pool_taxa</a></span><span class="op">(</span>n_taxa <span class="op">=</span> <span class="fl">12</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> <span class="co"># threshold set to 0.0038</span></span>
-<span>    <span class="fu"><a href="../reference/bar_plot.html">bar_plot</a></span><span class="op">(</span>position <span class="op">=</span> <span class="st">"fill"</span><span class="op">)</span> <span class="op">+</span> </span>
-<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_viridis.html" class="external-link">scale_fill_viridis_d</a></span><span class="op">(</span>option <span class="op">=</span> <span class="st">"turbo"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Scale for <span style="color: #00BB00;">fill</span> is already present.</span></span>
-<span><span class="co">#&gt; Adding another scale for <span style="color: #00BB00;">fill</span>, which will replace the existing scale.</span></span></code></pre></div>
+<span>    <span class="fu"><a href="../reference/bar_plot.html">bar_plot</a></span><span class="op">(</span>position <span class="op">=</span> <span class="st">"fill"</span><span class="op">)</span> </span></code></pre></div>
 <p><img src="pool_taxa_files/figure-html/unnamed-chunk-3-1.png" width="700"></p>
 <p>Pooling, by default will remove any meta data that was attached to
 the relative abundance table. Specify <code>keep_metadata</code> to keep
-it.</p>
+it. Setting <code>label</code> to FALSE will set the threshold label in
+the legend to “Other”.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">rel_abund</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> </span>
-<span>    <span class="fu"><a href="../reference/pool_taxa.html">pool_taxa</a></span><span class="op">(</span>n_taxa <span class="op">=</span> <span class="fl">16</span>,</span>
-<span>              keep_metadata <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
-<span>    <span class="fu"><a href="../reference/bar_plot.html">bar_plot</a></span><span class="op">(</span>position <span class="op">=</span> <span class="st">"fill"</span>, x_var <span class="op">=</span> <span class="st">"body_site"</span><span class="op">)</span> <span class="op">+</span> </span>
-<span>   <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_viridis.html" class="external-link">scale_fill_viridis_d</a></span><span class="op">(</span>option <span class="op">=</span> <span class="st">"turbo"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Scale for <span style="color: #00BB00;">fill</span> is already present.</span></span>
-<span><span class="co">#&gt; Adding another scale for <span style="color: #00BB00;">fill</span>, which will replace the existing scale.</span></span></code></pre></div>
+<span>    <span class="fu"><a href="../reference/pool_taxa.html">pool_taxa</a></span><span class="op">(</span>n_taxa <span class="op">=</span> <span class="fl">8</span>,</span>
+<span>              keep_metadata <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>              label <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
+<span>    <span class="fu"><a href="../reference/bar_plot.html">bar_plot</a></span><span class="op">(</span>position <span class="op">=</span> <span class="st">"fill"</span>, x_var <span class="op">=</span> <span class="st">"body_site"</span><span class="op">)</span></span></code></pre></div>
 <p><img src="pool_taxa_files/figure-html/unnamed-chunk-4-1.png" width="700"></p>
 </div>
 <div class="section level2">
@@ -131,23 +129,22 @@ it.</p>
 <div class="section level3">
 <h3 id="taxa">Taxa<a class="anchor" aria-label="anchor" href="#taxa"></a>
 </h3>
-<p>By default taxa are in alphabetical order, which can be seen in the
-legend of the plot. Sorting the taxa by their abundance is a more
-meaningful sorting strategy. By default, taxa are arranged in ascending
-order but this can be switched with the <code>order</code> argument. The
-threshold position can also be modified with the <code>pooled</code>
-argument. With this ordering, it becomes clear that <em>Bacteroides</em>
-is the most abundant taxon in the gut, and <em>Streptococcus</em> among
-the other samples.</p>
+<p>In the legend, taxa are ordered alphabetically, which is the default
+for <code>ggplot2</code> when dealing with character variables. Sorting
+the taxa by their abundance would be more meaningful. Using the
+<code>arrange_taxa</code> function, taxa can be arranged in ascending
+order, or flipped by setting the <code>order</code> argument to “top” or
+“bottom”. The threshold order can also be changed by setting the
+<code>pooled</code> argument to “top” or “bottom”. After ordering, it
+becomes clear that <em>Bacteroides</em> is the most abundant taxon in
+the gut, and <em>Streptococcus</em> among the other samples.</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">rel_abund</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> </span>
 <span>    <span class="fu"><a href="../reference/pool_taxa.html">pool_taxa</a></span><span class="op">(</span>n_taxa <span class="op">=</span> <span class="fl">8</span>,</span>
 <span>              keep_metadata <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
 <span>    <span class="fu"><a href="../reference/arrange_taxa.html">arrange_taxa</a></span><span class="op">(</span>pooled <span class="op">=</span> <span class="st">"top"</span>, order <span class="op">=</span> <span class="st">"bottom"</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> <span class="co"># arrange by abundance</span></span>
 <span>    <span class="fu"><a href="../reference/bar_plot.html">bar_plot</a></span><span class="op">(</span>position <span class="op">=</span> <span class="st">"fill"</span>, x_var <span class="op">=</span> <span class="st">"body_site"</span><span class="op">)</span> <span class="op">+</span>  </span>
-<span>       <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_viridis.html" class="external-link">scale_fill_viridis_d</a></span><span class="op">(</span>option <span class="op">=</span> <span class="st">"turbo"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Scale for <span style="color: #00BB00;">fill</span> is already present.</span></span>
-<span><span class="co">#&gt; Adding another scale for <span style="color: #00BB00;">fill</span>, which will replace the existing scale.</span></span></code></pre></div>
+<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>y <span class="op">=</span> <span class="st">"mean_rel_abund"</span><span class="op">)</span></span></code></pre></div>
 <p><img src="pool_taxa_files/figure-html/unnamed-chunk-5-1.png" width="700"></p>
 </div>
 <div class="section level3">
@@ -155,34 +152,35 @@ the other samples.</p>
 </h3>
 <p>Another option is to arrange the samples by a variable, which can be
 useful when the data includes metadata. Observe the similarities between
-the above and below plots.</p>
+the above and below plots. The above plot represents the mean relative
+abundances among the levels of <code>body_site</code>, and the bottom
+plot represents the relative abundance by sample, ordered by
+<code>body_site</code>.</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">rel_abund</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> </span>
 <span>    <span class="fu"><a href="../reference/pool_taxa.html">pool_taxa</a></span><span class="op">(</span>n_taxa <span class="op">=</span> <span class="fl">8</span>,</span>
 <span>              keep_metadata <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
 <span>    <span class="fu"><a href="../reference/arrange_taxa.html">arrange_taxa</a></span><span class="op">(</span>pooled <span class="op">=</span> <span class="st">"top"</span>, order <span class="op">=</span> <span class="st">"bottom"</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> <span class="co"># arrange by abundance</span></span>
 <span>    <span class="fu"><a href="../reference/arrange_var.html">arrange_var</a></span><span class="op">(</span>var <span class="op">=</span> <span class="st">"sample_id"</span>, levels <span class="op">=</span> <span class="st">"body_site"</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
-<span>    <span class="fu"><a href="../reference/bar_plot.html">bar_plot</a></span><span class="op">(</span>position <span class="op">=</span> <span class="st">"fill"</span><span class="op">)</span> <span class="op">+</span> </span>
-<span>        <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_viridis.html" class="external-link">scale_fill_viridis_d</a></span><span class="op">(</span>option <span class="op">=</span> <span class="st">"turbo"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Scale for <span style="color: #00BB00;">fill</span> is already present.</span></span>
-<span><span class="co">#&gt; Adding another scale for <span style="color: #00BB00;">fill</span>, which will replace the existing scale.</span></span></code></pre></div>
+<span>    <span class="fu"><a href="../reference/bar_plot.html">bar_plot</a></span><span class="op">(</span>position <span class="op">=</span> <span class="st">"fill"</span><span class="op">)</span> </span></code></pre></div>
 <p><img src="pool_taxa_files/figure-html/unnamed-chunk-6-1.png" width="700"></p>
 </div>
 <div class="section level3">
-<h3 id="samples-by-abundance">Samples by abundance<a class="anchor" aria-label="anchor" href="#samples-by-abundance"></a>
+<h3 id="samples-by-taxa-abundance">Samples by taxa abundance<a class="anchor" aria-label="anchor" href="#samples-by-taxa-abundance"></a>
 </h3>
-<p>Samples can be arranged by taxa abundance. This is a good preliminary
-plot to generate to visualize the abundance of taxa within all the
-samples.</p>
+<p>Samples can be arranged by taxa abundance. I first saw this technique
+used by Chenxin Li, in their github repo: <a href="https://github.com/cxli233/FriendsDontLetFriends/tree/main#13-friends-dont-let-friends-forget-to-reorder-stacked-bar-plot" class="external-link">Friends
+Dont Let Friends Make Bad Graphs</a>. Combined with
+<code><a href="../reference/arrange_taxa.html">bubbler::arrange_taxa</a></code>,
+<code><a href="../reference/arrange_sample_by_taxa.html">bubbler::arrange_sample_by_taxa</a></code> will partition samples by
+their most abundant taxa. In the absence of meta data, this is a good
+preliminary visualization to produce.</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">rel_abund</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> </span>
 <span>    <span class="fu"><a href="../reference/pool_taxa.html">pool_taxa</a></span><span class="op">(</span>n_taxa <span class="op">=</span> <span class="fl">16</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
 <span>    <span class="fu"><a href="../reference/arrange_taxa.html">arrange_taxa</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> </span>
 <span>    <span class="fu"><a href="../reference/arrange_sample_by_taxa.html">arrange_sample_by_taxa</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
-<span>    <span class="fu"><a href="../reference/bar_plot.html">bar_plot</a></span><span class="op">(</span>position <span class="op">=</span> <span class="st">"fill"</span><span class="op">)</span> <span class="op">+</span> </span>
-<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_viridis.html" class="external-link">scale_fill_viridis_d</a></span><span class="op">(</span>option <span class="op">=</span> <span class="st">"turbo"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Scale for <span style="color: #00BB00;">fill</span> is already present.</span></span>
-<span><span class="co">#&gt; Adding another scale for <span style="color: #00BB00;">fill</span>, which will replace the existing scale.</span></span></code></pre></div>
+<span>    <span class="fu"><a href="../reference/bar_plot.html">bar_plot</a></span><span class="op">(</span>position <span class="op">=</span> <span class="st">"fill"</span><span class="op">)</span> </span></code></pre></div>
 <p><img src="pool_taxa_files/figure-html/unnamed-chunk-7-1.png" width="700"></p>
 <!-- TODO: variable by abundance  -->
 </div>
