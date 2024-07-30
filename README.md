@@ -4,6 +4,12 @@
 # bubbler
 
 <!-- badges: start -->
+
+# Your Package Name
+
+[![R-CMD-check](https://github.com/username/repo/workflows/R-CMD-check/badge.svg)](https://github.com/zjardyn/bubbler/actions)
+[![Codecov test
+coverage](https://codecov.io/gh/zjardyn/bubbler/main/graph/badge.svg)](https://codecov.io/gh/zjardyn/bubbler?branch=main)
 <!-- badges: end -->
 
 Bubbler is a tidy approach to amplicon sequencing visualization. Bubbler
@@ -46,8 +52,7 @@ rel_abund_phy(physeq, taxa_level = "Genus") %>% # 1. import data into rel_abund.
     pool_taxa(n_taxa = 16) %>% # 2. modify  rel_abund pool to 16 most abundant taxa
     arrange_taxa() %>% # arrange plotting variables by most abundant taxa.
     arrange_sample_by_taxa() %>% # arrange samples by most abundant taxa
-    # 3. plot
-    bar_plot(position = "fill") 
+    bar_plot(position = "fill") # 3. plot
 ```
 
 <img src="man/figures/README-unnamed-chunk-3-1.png" width="100%" />
