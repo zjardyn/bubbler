@@ -5,8 +5,6 @@
 
 <!-- badges: start -->
 
-# Your Package Name
-
 [![R-CMD-check](https://github.com/zjardyn/bubbler/workflows/R-CMD-check/badge.svg)](https://github.com/zjardyn/bubbler/actions)
 [![Codecov test
 coverage](https://codecov.io/gh/zjardyn/bubbler/main/graph/badge.svg)](https://codecov.io/gh/zjardyn/bubbler?branch=main)
