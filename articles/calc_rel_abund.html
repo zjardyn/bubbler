@@ -41,7 +41,7 @@
   <ul class="dropdown-menu" aria-labelledby="dropdown-articles">
 <li><a class="dropdown-item" href="../articles/calc_rel_abund.html">2. Calculate relative abundance</a></li>
     <li><a class="dropdown-item" href="../articles/cookbook.html">5. Future features</a></li>
-    <li><a class="dropdown-item" href="../articles/data_import.html">1. Data Import</a></li>
+    <li><a class="dropdown-item" href="../articles/data_import.html">1. Data import</a></li>
     <li><a class="dropdown-item" href="../articles/global_colour_scheme.html">4. Global colour scheme</a></li>
     <li><a class="dropdown-item" href="../articles/pool_taxa.html">3. Pooling and arranging</a></li>
   </ul>
@@ -141,9 +141,10 @@ is equal to the
 levels. This information is not very important in practice because
 <code>position</code> = “fill” scales the relative abundances for
 you.</p>
-<div class="section level3">
-<h3 id="visualizing-variables">Visualizing variables<a class="anchor" aria-label="anchor" href="#visualizing-variables"></a>
-</h3>
+</div>
+<div class="section level2">
+<h2 id="visualizing-variables">Visualizing variables<a class="anchor" aria-label="anchor" href="#visualizing-variables"></a>
+</h2>
 <p><code>bubbler</code> allows you to focus on any metadata variable in
 your relative abundance table. Say you wanted to look at relative
 abundance across <code>body_site</code>, rather than
@@ -181,9 +182,9 @@ method, which keeps the proportional differences.</p>
 <span>    <span class="fu"><a href="../reference/bar_plot.html">bar_plot</a></span><span class="op">(</span>position <span class="op">=</span> <span class="st">"fill"</span>, x_var <span class="op">=</span> <span class="st">"body_site"</span><span class="op">)</span>  <span class="co"># setting position as fill</span></span></code></pre></div>
 <p><img src="calc_rel_abund_files/figure-html/unnamed-chunk-6-1.png" width="672"></p>
 </div>
-<div class="section level3">
-<h3 id="showing-both-scaled-and-unscaled-information-">Showing both scaled and unscaled information.<a class="anchor" aria-label="anchor" href="#showing-both-scaled-and-unscaled-information-"></a>
-</h3>
+<div class="section level2">
+<h2 id="showing-both-scaled-and-unscaled-information-">Showing both scaled and unscaled information.<a class="anchor" aria-label="anchor" href="#showing-both-scaled-and-unscaled-information-"></a>
+</h2>
 <p>If you want the best of both worlds, you can create a scaled bar
 plot, and superimpose the proportional abundances. Currently, this
 feature does not work with a faceting functions, so the only option
@@ -217,7 +218,6 @@ would be to split a rel_abund table into multiple plots.</p>
 <span>          angle <span class="op">=</span> <span class="fl">90</span>, color <span class="op">=</span> <span class="st">"white"</span>, size <span class="op">=</span> <span class="fl">3</span><span class="op">)</span></span>
 <span> <span class="va">p1</span> <span class="op">+</span> <span class="va">p2</span> <span class="op">+</span> <span class="fu"><a href="https://patchwork.data-imaginist.com/reference/plot_layout.html" class="external-link">plot_layout</a></span><span class="op">(</span>guides <span class="op">=</span> <span class="st">"collect"</span>, axes <span class="op">=</span> <span class="st">"collect"</span><span class="op">)</span></span></code></pre></div>
 <p><img src="calc_rel_abund_files/figure-html/unnamed-chunk-7-1.png" width="864"></p>
-</div>
 </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside>
