@@ -4,8 +4,6 @@
 # bubbler
 
 <!-- badges: start -->
-
-<img src="inst/figures/hex_final.png" height="150" />
 <!-- badges: end -->
 
 Bubbler is a tidy approach to amplicon sequencing visualization. Bubbler
@@ -30,26 +28,24 @@ if (!requireNamespace("devtools", quietly = TRUE)){
 devtools::install_github("zjardyn/bubbler")
 ```
 
-bubbler
+## bubbler
 
-A bubbler workflow has three steps:
+`bubbler` has three main steps:
 
 1.  Import data into a relative abundance table.
 2.  Modify the `rel_abund` table.
 3.  Make a `ggplot2` object, with stacked-bar or bubble plot aesthetics.
 
-Here, I am using `tidyverse` notation:
+Here, using `tidyverse` notation, I import data from a phyloseq object,
+modify the table, and plot it.
 
 ``` r
 library(bubbler)
 
-# 1. import data into rel_abund.
-rel_abund_phy(physeq, taxa_level = "Genus") %>%
-    # 2. modify  rel_abund
-    pool_taxa(n_taxa = 16) %>%
-    # arrange plotting variables by most abundant taxa.
-    arrange_taxa() %>%
-    arrange_sample_by_taxa() %>%
+rel_abund_phy(physeq, taxa_level = "Genus") %>% # 1. import data into rel_abund.
+    pool_taxa(n_taxa = 16) %>% # 2. modify  rel_abund pool to 16 most abundant taxa
+    arrange_taxa() %>% # arrange plotting variables by most abundant taxa.
+    arrange_sample_by_taxa() %>% # arrange samples by most abundant taxa
     # 3. plot
     bar_plot(position = "fill") 
 ```

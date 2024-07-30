@@ -19,7 +19,8 @@ knitr::opts_chunk$set(
 ```{r setup, echo=FALSE}
 library(bubbler)
 ```
-# Relative abundance
+
+## Relative abundance
 
 `bubbler` takes an ASV table and converts counts to relative abundances using this simple formula:
 
